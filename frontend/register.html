@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="Create your Smart Study AI student account and start learning smarter."
+  >
+
+  <title>Create Account | Smart Study AI</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Register page styles -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: #f8fafc;
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(124, 58, 237, 0.18),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 90% 85%,
+          rgba(59, 130, 246, 0.16),
+          transparent 35%
+        ),
+        #070816;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .register-navbar {
+      width: 100%;
+      padding: 20px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .register-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .register-logo-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      box-shadow: 0 8px 28px rgba(124, 58, 237, 0.3);
+    }
+
+    .register-nav-link {
+      color: #cbd5e1;
+      font-size: 16px;
+      transition: color 0.2s ease;
+    }
+
+    .register-nav-link:hover {
+      color: #a78bfa;
+    }
+
+    .register-wrapper {
+      min-height: calc(100vh - 82px);
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 65px;
+      width: min(1120px, 90%);
+      margin: 0 auto;
+      padding: 38px 0 60px;
+    }
+
+    .register-intro {
+      animation: registerFadeUp 0.7s ease both;
+    }
+
+    .register-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.1);
+      color: #c4b5fd;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .register-intro h1 {
+      margin: 0 0 20px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(34px, 4.5vw, 54px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+    }
+
+    .register-gradient-text {
+      background: linear-gradient(100deg, #c4b5fd, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .register-intro > p {
+      max-width: 460px;
+      color: #a6afc4;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .register-benefits {
+      display: grid;
+      gap: 17px;
+      margin-top: 32px;
+    }
+
+    .register-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      color: #dbe4f5;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .register-benefit-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: #c4b5fd;
+      background: rgba(139, 92, 246, 0.14);
+    }
+
+    .register-benefit strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #f8fafc;
+    }
+
+    .register-benefit span {
+      color: #98a4bb;
+    }
+
+    .register-card {
+      width: 100%;
+      max-width: 500px;
+      justify-self: end;
+      padding: 35px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 24px;
+      background: rgba(15, 18, 39, 0.84);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(20px);
+      animation: registerFadeUp 0.7s 0.12s ease both;
+    }
+
+    .register-card-header {
+      margin-bottom: 26px;
+    }
+
+    .register-card-header h2 {
+      margin: 0 0 9px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .register-card-header p {
+      margin: 0;
+      color: #9ca9bf;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .register-form {
+      display: grid;
+      gap: 17px;
+    }
+
+    .register-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .register-field label {
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .register-input-wrap {
+      position: relative;
+    }
+
+    .register-input-wrap > i:first-child {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: #8b96ad;
+      pointer-events: none;
+    }
+
+    .register-input {
+      width: 100%;
+      min-height: 49px;
+      padding: 13px 44px 13px 43px;
+      border: 1px solid #30364d;
+      border-radius: 12px;
+      outline: none;
+      color: #f8fafc;
+      background: #0b0e20;
+      font-size: 14px;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .register-input::placeholder {
+      color: #69758c;
+    }
+
+    .register-input:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.13);
+    }
+
+    .register-input:focus-visible {
+      outline: 2px solid transparent;
+    }
+
+    .register-password-toggle {
+      position: absolute;
+      top: 50%;
+      right: 13px;
+      transform: translateY(-50%);
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      color: #94a3b8;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .register-password-toggle:hover {
+      color: #c4b5fd;
+    }
+
+    .register-terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #aab5c9;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .register-terms input {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      accent-color: #8b5cf6;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .register-terms a {
+      color: #c4b5fd;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .register-submit {
+      min-height: 50px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(110deg, #7c3aed, #4f46e5, #2563eb);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.22);
+      font-weight: 700;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .register-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.32);
+    }
+
+    .register-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .register-message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .register-message.error {
+      display: block;
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .register-message.success {
+      display: block;
+      color: #bbf7d0;
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .register-login-link {
+      margin: 23px 0 0;
+      color: #9ca9bf;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .register-login-link a {
+      color: #c4b5fd;
+      font-weight: 700;
+    }
+
+    .register-login-link a:hover {
+      color: #93c5fd;
+    }
+
+    .register-footer {
+      padding: 0 20px 22px;
+      color: #69758c;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @keyframes registerFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .register-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+        gap: 35px;
+        padding-top: 28px;
+      }
+
+      .register-intro {
+        text-align: center;
+      }
+
+      .register-intro > p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .register-benefits {
+        max-width: 420px;
+        margin: 28px auto 0;
+        text-align: left;
+      }
+
+      .register-card {
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .register-navbar {
+        padding: 16px 5%;
+      }
+
+      .register-logo {
+        gap: 8px;
+        font-size: 17px;
+      }
+
+      .register-logo-icon {
+        width: 37px;
+        height: 37px;
+      }
+
+      .register-wrapper {
+        width: 92%;
+        padding-top: 24px;
+        gap: 28px;
+      }
+
+      .register-intro h1 {
+        font-size: 35px;
+        letter-spacing: -1px;
+      }
+
+      .register-intro > p {
+        font-size: 14px;
+      }
+
+      .register-card {
+        padding: 24px 19px;
+        border-radius: 18px;
+      }
+
+      .register-card-header h2 {
+        font-size: 24px;
+      }
+
+      .register-benefit {
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header class="register-navbar">
+    <a href="index.html" class="register-logo" aria-label="Smart Study AI home">
+      <span class="register-logo-icon">
+        <i class="fa-solid fa-brain" aria-hidden="true"></i>
+      </span>
+      <span>Smart Study <span class="register-gradient-text">AI</span></span>
+    </a>
+
+    <a href="login.html" class="register-nav-link">
+      Already have an account? <strong>Login</strong>
+    </a>
+  </header>
+
+  <main class="register-wrapper">
+
+    <!-- Left introduction -->
+    <section class="register-intro">
+      <div class="register-badge">
+        <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+        Your personal AI study assistant
+      </div>
+
+      <h1>
+        Start learning<br>
+        <span class="register-gradient-text">smarter today.</span>
+      </h1>
+
+      <p>
+        Turn your study PDFs into smart notes, practice quizzes and
+        flashcards. Create your account and organise your learning
+        in one place.
+      </p>
+
+      <div class="register-benefits">
+
+        <div class="register-benefit">
+          <div class="register-benefit-icon">
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+          </div>
+          <div>
+            <strong>Learn from your PDFs</strong>
+            <span>Upload your study materials and organise your learning.</span>
+          </div>
+        </div>
+
+        <div class="register-benefit">
+          <div class="register-benefit-icon">
+            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+          </div>
+          <div>
+            <strong>Study more efficiently</strong>
+            <span>Prepare notes, quizzes and flashcards from your materials.</span>
+          </div>
+        </div>
+
+        <div class="register-benefit">
+          <div class="register-benefit-icon">
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+          </div>
+          <div>
+            <strong>Stay organised</strong>
+            <span>Plan your study sessions and track your learning progress.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Registration form -->
+    <section class="register-card">
+      <div class="register-card-header">
+        <h2>Create your account</h2>
+        <p>Enter your details to get started with Smart Study AI.</p>
+      </div>
+
+      <form class="register-form" id="registerForm" novalidate>
+
+        <div class="register-field">
+          <label for="fullName">Full name</label>
+          <div class="register-input-wrap">
+            <i class="fa-regular fa-user" aria-hidden="true"></i>
+            <input
+              class="register-input"
+              type="text"
+              id="fullName"
+              name="full_name"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              minlength="2"
+              maxlength="100"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="register-field">
+          <label for="email">Email address</label>
+          <div class="register-input-wrap">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <input
+              class="register-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              maxlength="254"
+              required
+            >
+          </div>
+        </div>
+        
+<div class="register-field">
+  <label for="phoneNumber">Mobile number</label>
+  <div class="register-input-wrap">
+    <i class="fa-solid fa-phone" aria-hidden="true"></i>
+    <input
+      class="register-input"
+      type="tel"
+      id="phoneNumber"
+      name="phone_number"
+      placeholder="+91 9876543210"
+      autocomplete="tel"
+      minlength="10"
+      maxlength="20"
+      required
+    >
+  </div>
+</div>
+
+        <div class="register-field">
+          <label for="username">Username</label>
+          <div class="register-input-wrap">
+            <i class="fa-solid fa-at" aria-hidden="true"></i>
+            <input
+              class="register-input"
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Choose a username"
+              autocomplete="username"
+              minlength="3"
+              maxlength="30"
+              pattern="[A-Za-z0-9_]+"
+              title="Use letters, numbers and underscores only."
+              required
+            >
+          </div>
+        </div>
+
+        <div class="register-field">
+          <label for="password">Password</label>
+          <div class="register-input-wrap">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <input
+              class="register-input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              minlength="8"
+              maxlength="128"
+              required
+            >
+            <button
+              class="register-password-toggle"
+              type="button"
+              data-password-target="password"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              <i class="fa-regular fa-eye" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="register-field">
+          <label for="confirmPassword">Confirm password</label>
+          <div class="register-input-wrap">
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+            <input
+              class="register-input"
+              type="password"
+              id="confirmPassword"
+              name="confirm_password"
+              placeholder="Enter your password again"
+              autocomplete="new-password"
+              minlength="8"
+              maxlength="128"
+              required
+            >
+            <button
+              class="register-password-toggle"
+              type="button"
+              data-password-target="confirmPassword"
+              aria-label="Show confirm password"
+              aria-pressed="false"
+            >
+              <i class="fa-regular fa-eye" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <label class="register-terms" for="agreeTerms">
+          <input type="checkbox" id="agreeTerms" name="agree_terms" required>
+          <span>
+            I agree to the terms of use and understand that my account
+            information will be used to provide the study service.
+          </span>
+        </label>
+
+        <div
+          id="registerMessage"
+          class="register-message"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+        <button class="register-submit" type="submit" id="registerSubmit">
+          Create Account
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </button>
+
+      </form>
+      
+<div id="verificationSection" style="display: none;">
+  <div class="register-card-header">
+    <h2>Verify your account</h2>
+    <p>
+     Email OTP sent to your inbox and phone OTP sent to your mobile.</p>
+  </div>
+
+  <form class="register-form" id="verificationForm" novalidate>
+    <div class="register-field">
+      <label for="emailOtp">Email OTP</label>
+      <div class="register-input-wrap">
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        <input
+          class="register-input"
+          type="text"
+          id="emailOtp"
+          inputmode="numeric"
+          pattern="[0-9]{6}"
+          minlength="6"
+          maxlength="6"
+          placeholder="Enter 6-digit email OTP"
+          autocomplete="one-time-code"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="register-field">
+      <label for="phoneOtp">Phone OTP</label>
+      <div class="register-input-wrap">
+        <i class="fa-solid fa-mobile-screen" aria-hidden="true"></i>
+        <input
+          class="register-input"
+          type="text"
+          id="phoneOtp"
+          inputmode="numeric"
+          pattern="[0-9]{6}"
+          minlength="6"
+          maxlength="6"
+          placeholder="Enter 6-digit phone OTP"
+          required
+        >
+      </div>
+    </div>
+
+    <div
+      id="verificationMessage"
+      class="register-message"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <button
+      class="register-submit"
+      type="submit"
+      id="verifySubmit"
+    >
+      Verify Account
+      <i class="fa-solid fa-shield-check" aria-hidden="true"></i>
+    </button>
+  </form>
+</div>
+
+
+      <p class="register-login-link">
+        Already registered?
+        <a href="login.html">Sign in to your account</a>
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="register-footer">
+    &copy; <span id="registerYear"></span> Smart Study AI.
+    Learn smarter, one page at a time.
+  </footer>
+
+  <script>
+    
+    
+
+  // Set current year
+  document.getElementById("registerYear").textContent =
+    new Date().getFullYear();
+
+  // Show / hide password
+  document.querySelectorAll("[data-password-target]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const input = document.getElementById(
+        button.dataset.passwordTarget
+      );
+
+      if (!input) return;
+
+      const showPassword = input.type === "password";
+      input.type = showPassword ? "text" : "password";
+
+      button.setAttribute("aria-pressed", String(showPassword));
+      button.setAttribute(
+        "aria-label",
+        showPassword ? "Hide password" : "Show password"
+      );
+
+      const icon = button.querySelector("i");
+
+      if (icon) {
+        icon.classList.toggle("fa-eye", !showPassword);
+        icon.classList.toggle("fa-eye-slash", showPassword);
+      }
+    });
+  });
+
+  // Registration elements
+  const registerForm = document.getElementById("registerForm");
+  const registerMessage = document.getElementById("registerMessage");
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput =
+    document.getElementById("confirmPassword");
+  const registerSubmit = document.getElementById("registerSubmit");
+
+  // OTP verification elements
+  const verificationSection =
+    document.getElementById("verificationSection");
+  const verificationForm =
+    document.getElementById("verificationForm");
+  const verificationMessage =
+    document.getElementById("verificationMessage");
+  const verifySubmit = document.getElementById("verifySubmit");
+
+  const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+  let pendingVerificationEmail = "";
+
+  // Display success/error messages
+  function showMessage(element, message, type) {
+    element.textContent = message;
+    element.className = "register-message " + type;
+  }
+
+  // Register account and request OTPs
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    registerMessage.textContent = "";
+    registerMessage.className = "register-message";
+
+    if (!registerForm.checkValidity()) {
+      registerForm.reportValidity();
+      return;
+    }
+
+    const fullName =
+      document.getElementById("fullName").value.trim();
+    const email =
+      document.getElementById("email").value.trim().toLowerCase();
+    const username =
+      document.getElementById("username").value.trim();
+    const phoneNumber =
+      document.getElementById("phoneNumber").value.trim();
+    const password = passwordInput.value;
+    const password2 = confirmPasswordInput.value;
+
+    if (password.length < 8) {
+      showMessage(
+        registerMessage,
+        "Password must contain at least 8 characters.",
+        "error"
+      );
+      return;
+    }
+
+    if (password !== password2) {
+      showMessage(
+        registerMessage,
+        "Passwords do not match.",
+        "error"
+      );
+      return;
+    }
+
+    if (!document.getElementById("agreeTerms").checked) {
+      showMessage(
+        registerMessage,
+        "Please agree to the terms of use.",
+        "error"
+      );
+      return;
+    }
+
+    const nameParts = fullName.split(/\s+/);
+    const firstName = nameParts.shift() || "";
+    const lastName = nameParts.join(" ");
+
+    registerSubmit.disabled = true;
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/auth/register/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            phone_number: phoneNumber,
+            password: password,
+            password2: password2,
+            first_name: firstName,
+            last_name: lastName
+          })
+        }
+      );
+
+      
+      const contentType = response.headers.get("content-type") || "";
+
+      const data = contentType.includes("application/json")
+  ? await response.json()
+  : {
+      message: `Server returned an unexpected response (${response.status}). Check the Django terminal.`
+    };
+
+
+      if (!response.ok) {
+        const errors = Object.entries(data)
+          .map(([field, messages]) => {
+            const detail = Array.isArray(messages)
+              ? messages.join(" ")
+              : typeof messages === "string"
+                ? messages
+                : JSON.stringify(messages);
+
+            return `${field}: ${detail}`;
+          })
+          .join(" ");
+
+        throw new Error(
+          errors || "Registration failed. Please try again."
+        );
+      }
+
+      pendingVerificationEmail = email;
+
+      registerForm.style.display = "none";
+      verificationSection.style.display = "block";
+
+      showMessage(
+        verificationMessage,
+        "Registration started. Check your email inbox and mobile phone for OTPs." ,
+        "success"
+      );
+
+    } catch (error) {
+      showMessage(
+        registerMessage,
+        error.message || "Registration failed. Please try again.",
+        "error"
+      );
+    } finally {
+      registerSubmit.disabled = false;
+    }
+  });
+
+  // Verify email OTP and Twilio SMS OTP
+  verificationForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    verificationMessage.textContent = "";
+    verificationMessage.className = "register-message";
+
+    if (!verificationForm.checkValidity()) {
+      verificationForm.reportValidity();
+      return;
+    }
+
+    if (!pendingVerificationEmail) {
+      showMessage(
+        verificationMessage,
+        "Please register first to request verification OTPs.",
+        "error"
+      );
+      return;
+    }
+
+    const emailOtp =
+      document.getElementById("emailOtp").value.trim();
+    const phoneOtp =
+      document.getElementById("phoneOtp").value.trim();
+
+    if (!/^\d{6}$/.test(emailOtp) ||
+        !/^\d{6}$/.test(phoneOtp)) {
+      showMessage(
+        verificationMessage,
+        "Both OTPs must contain exactly 6 digits.",
+        "error"
+      );
+      return;
+    }
+
+    verifySubmit.disabled = true;
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/auth/verify-registration/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: pendingVerificationEmail,
+            email_otp: emailOtp,
+            phone_otp: phoneOtp
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || data.verified !== true) {
+        const details = data.errors
+          ? Object.values(data.errors).join(" ")
+          : data.message ||
+            "Verification failed. Please check your OTPs.";
+
+        throw new Error(details);
+      }
+
+      showMessage(
+        verificationMessage,
+        "Email and phone verification successful! Redirecting to login...",
+        "success"
+      );
+
+      verificationForm.reset();
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+
+    } catch (error) {
+      showMessage(
+        verificationMessage,
+        error.message || "Verification failed. Please try again.",
+        "error"
+      );
+    } finally {
+      verifySubmit.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

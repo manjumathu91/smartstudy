@@ -1,0 +1,29 @@
+# Secrets
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+backend/venv/
+
+# Local database
+backend/db.sqlite3
+backend/db.sqlite3-*
+backend/*.sqlite3
+*.sqlite3.backup
+
+# Uploaded documents
+backend/media/
+
+# Editor settings
+.vscode/
+
+/backend/qdrant_storage/
+
+/backend/ocr_output.txt
+/backend/test_page.png
+/backend/test_study_notes.pdf

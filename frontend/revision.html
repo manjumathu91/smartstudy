@@ -1,0 +1,1502 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Revision | Smart Study AI</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+:root {
+  --bg: #080b14;
+  --panel: #101626;
+  --panel2: #151d30;
+  --border: #26314a;
+  --text: #f3f5ff;
+  --muted: #929bb6;
+  --primary: #8b7cff;
+  --primary2: #6f60e8;
+  --green: #38d9a9;
+  --yellow: #ffca72;
+  --red: #ff7b8b;
+  --shadow: 0 18px 45px rgba(0,0,0,.22);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+.layout { display: block; min-height: 100vh; }
+.main { flex: 1; min-width: 0; margin-left: 260px; }
+
+.topbar {
+ 
+   position: relative;
+    min-height: 78px;
+    padding: 17px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8, 11, 20, .86);
+}
+
+.topbar-left { display: flex; align-items: center; gap: 12px;  min-width: 0; }
+.topbar h1 { font-size: 19px; margin: 0; }
+.topbar p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.page { max-width: 1450px; margin: auto; padding: 28px 30px 45px;  width: 100%; }
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.btn:hover { border-color: var(--primary); transform: translateY(-1px); }
+
+.btn-primary {
+  border: 0;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  color: white;
+}
+
+.btn-danger { color: #ff9ba7; border-color: #60303d; }
+
+
+
+
+.hero {
+  border: 1px solid #39335f;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(139,124,255,.17), transparent 35%),
+    linear-gradient(120deg, #171a32, #101626 65%);
+  border-radius: 19px;
+  padding: 27px;
+  margin-bottom: 23px;
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  color: #b7aaff;
+  font-size: 10px;
+  letter-spacing: 1.7px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.hero h2 { font-size: clamp(23px, 3vw, 31px); margin: 12px 0 9px; }
+.hero p { color: var(--muted); font-size: 13px; line-height: 1.8; max-width: 730px; margin: 0; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 23px;
+}
+
+.stat-card, .panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.stat-card { padding: 18px; }
+.stat-label { color: var(--muted); font-size: 11px; }
+.stat-value { font-size: 27px; font-weight: 850; margin: 12px 0 7px; }
+.stat-note { color: var(--muted); font-size: 10px; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.section-head h2 { margin: 0; font-size: 16px; }
+.section-head p { color: var(--muted); font-size: 11px; margin: 6px 0 0; }
+
+.panel { padding: 20px; margin-bottom: 23px; }
+
+.topic-list { display: grid; gap: 12px; }
+
+.revision-filter-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 1.5fr);
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+.revision-filter-label {
+  color: #bdc5da;
+  font-size: 11px;
+  font-weight: 700;
+}
+.revision-filter-select {
+  width: 100%;
+  min-width: 0;
+  background: #0b1120;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 12px;
+  outline: none;
+}
+.revision-filter-select:focus { border-color: var(--primary); }
+.revision-filter-select option { background: #101626; }
+@media (max-width: 560px) {
+  .revision-filter-row { grid-template-columns: 1fr; gap: 7px; }
+}
+
+.topic-card {
+  border: 1px solid var(--border);
+  background: #0d1322;
+  border-radius: 13px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 13px;
+  align-items: center;
+}
+
+.topic-title { font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
+
+.topic-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.priority {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.priority-high { color: #ff9ca8; background: #3a202b; }
+.priority-medium { color: #ffd58a; background: #3c3020; }
+.priority-low { color: #79e9c8; background: #17382f; }
+
+.accuracy-track {
+  height: 5px;
+  border-radius: 9px;
+  background: #242b3e;
+  margin-top: 12px;
+  overflow: hidden;
+  max-width: 340px;
+}
+
+.accuracy-fill { height: 100%; background: var(--primary); border-radius: inherit; }
+
+.grid-two {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.form-grid { display: grid; gap: 15px; }
+
+.field { display: grid; gap: 7px; }
+.field label { font-size: 11px; color: #bdc5da; font-weight: 700; }
+
+.field input, .field select {
+  width: 100%;
+  background: #0b1120;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 12px;
+  outline: none;
+}
+
+.field input:focus, .field select:focus { border-color: var(--primary); }
+.field select option { background: #101626; }
+
+.help { color: var(--muted); font-size: 10px; line-height: 1.6; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.message {
+  display: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.message.show { display: block; }
+.message.info { color: #c6c0ff; background: #242044; border: 1px solid #39335f; }
+.message.error { color: #ffabb4; background: #351d29; border: 1px solid #633342; }
+.message.success { color: #8eebcc; background: #143229; border: 1px solid #285d4d; }
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed #313b55;
+  border-radius: 12px;
+  padding: 28px 16px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.quiz-area { display: none; }
+.quiz-area.show { display: block; }
+
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.progress-track {
+  height: 6px;
+  background: #252d43;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 12px 0 20px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b7cff, #38d9a9);
+  transition: width .25s;
+}
+
+.question-card {
+  border: 1px solid var(--border);
+  background: #0d1322;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.question-number { color: #b7aaff; font-size: 11px; font-weight: 800; }
+.question-text { font-size: 16px; line-height: 1.75; margin: 14px 0 20px; overflow-wrap: anywhere; }
+
+.options { display: grid; gap: 10px; }
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  text-align: left;
+  padding: 13px;
+  border: 1px solid var(--border);
+  background: #121a2c;
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.option:hover { border-color: #665ab4; }
+.option.selected { border-color: var(--primary); background: #252143; }
+.option-letter {
+  width: 25px;
+  height: 25px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: #272e43;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.option.selected .option-letter { background: var(--primary2); }
+
+.quiz-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 17px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.result-box {
+  background: #0d1322;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.result-box strong { display: block; font-size: 23px; margin-bottom: 6px; }
+.result-box span { color: var(--muted); font-size: 10px; }
+
+.answer-review { display: grid; gap: 12px; margin-top: 17px; }
+
+.answer-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+  background: #0d1322;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.answer-card.correct { border-left: 3px solid var(--green); }
+.answer-card.incorrect { border-left: 3px solid var(--red); }
+
+.answer-card p { margin: 7px 0; color: #c6cde0; }
+.answer-card .muted { color: var(--muted); }
+
+.loading { opacity: .7; pointer-events: none; }
+
+footer { text-align: center; color: #626d88; font-size: 10px; padding: 10px; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+  background: rgba(0,0,0,.72);
+  padding: 18px;
+}
+
+.overlay.show { display: grid; }
+
+.modal {
+  max-width: 420px;
+  width: 100%;
+  background: #121a2c;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.modal h3 { margin-top: 0; }
+.modal p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+@media(max-width: 1050px) {
+ 
+  
+  .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .grid-two { grid-template-columns: 1fr; }
+}
+
+@media(max-width: 760px) {
+ 
+  
+  .topbar { padding: 15px; }
+  .page { padding: 19px 14px 30px; }
+  .mobile-toggle { display: inline-flex; }
+  .topbar h1 { font-size: 16px; }
+  .topbar p { display: none; }
+  .hero { padding: 21px; }
+  .topic-card { grid-template-columns: 1fr; }
+  .topic-card .btn { width: 100%; }
+  .form-row { grid-template-columns: 1fr; }
+  .result-grid { grid-template-columns: 1fr; }
+  .topbar-right .btn { padding: 9px; }
+}
+
+@media(max-width: 400px) {
+  .stats { grid-template-columns: 1fr 1fr; gap: 9px; }
+  .stat-card { padding: 13px; }
+  .stat-value { font-size: 22px; }
+}
+/* Desktop: reserve space for the common sidebar */
+@media (min-width: 1001px) {
+    .main {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+    }
+}
+
+/* Mobile and tablet: remove the empty sidebar space */
+@media (max-width: 1000px) {
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        min-width: 0;
+    }
+
+    .layout {
+        display: block;
+        width: 100%;
+    }
+
+    #sidebarMount {
+        width: 0;
+        height: 0;
+    }
+
+    .topbar {
+        padding: 15px 18px;
+    }
+
+    .page {
+        width: 100%;
+        padding: 19px 18px 30px;
+    }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+    .topbar {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .topbar-left {
+        gap: 8px;
+    }
+
+    .topbar-right .btn {
+        padding: 9px;
+    }
+
+    .page {
+        padding: 15px 12px 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+  <div id="sidebarMount"></div>
+
+<main class="main">
+    <header class="topbar">
+        <div class="topbar-left">
+
+            <button
+                type="button"
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open navigation menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+
+            <div>
+                <h1>Smart Revision</h1>
+                <p>Identify weak topics and practise again.</p>
+            </div>
+
+        </div>
+
+        <div class="topbar-right">
+            <button class="btn" id="refreshButton" type="button">
+                ↻ Refresh
+            </button>
+        </div>
+    </header>
+
+    <!-- Keep the existing .page and all revision content here -->
+
+    <div class="page">
+      <section class="hero">
+        <div class="eyebrow">Personalised learning</div>
+        <h2>Turn your mistakes into progress.</h2>
+        <p>
+          Review topics where you lost marks, practise new questions from
+          your uploaded study materials, and track your learning progress.
+        </p>
+      </section>
+
+      <div id="pageMessage" class="message" role="status" aria-live="polite"></div>
+
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Topics to revise</div>
+          <div class="stat-value" id="statTopics">—</div>
+          <div class="stat-note">Topics with incorrect answers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">High priority</div>
+          <div class="stat-value" id="statHigh">—</div>
+          <div class="stat-note">Needs earlier attention</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Medium priority</div>
+          <div class="stat-value" id="statMedium">—</div>
+          <div class="stat-note">Continue regular practice</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Low priority</div>
+          <div class="stat-value" id="statLow">—</div>
+          <div class="stat-note">Keep revising</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Topics that need attention</h2>
+            <p>Based on your recorded quiz answers.</p>
+          </div>
+          <button class="btn" id="loadTopicsButton" type="button">Load topics</button>
+        </div>
+        <div class="revision-filter-row">
+          <label class="revision-filter-label" for="revisionDocumentFilter">Filter revision topics by PDF</label>
+          <select id="revisionDocumentFilter" class="revision-filter-select" aria-label="Filter revision topics by PDF">
+            <option value="all">All PDFs</option>
+          </select>
+        </div>
+        <div id="topicList" class="topic-list">
+          <div class="empty">Loading your revision topics...</div>
+        </div>
+      </section>
+
+      <div class="grid-two">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <h2>Start a topic revision</h2>
+              <p>Create a revision quiz from your uploaded PDF.</p>
+            </div>
+          </div>
+
+          <form id="revisionForm" class="form-grid">
+            <div class="field">
+              <label for="documentSelect">Study PDF</label>
+              <select id="documentSelect" required>
+                <option value="">Loading your PDFs...</option>
+              </select>
+              <div class="help">
+                Select a document that you have already uploaded.
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="topicInput">Topic or lesson name</label>
+              <input id="topicInput" type="text" maxlength="180"
+                placeholder="e.g. Scientific Knowledge" required>
+              <div class="help">
+                Enter a topic that appears in the selected PDF.
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="languageSelect">Question language</label>
+                <select id="languageSelect">
+                  <option value="Tamil">தமிழ் (Tamil)</option>
+                  <option value="English">English</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="questionCount">Number of questions</label>
+                <select id="questionCount">
+                  <option value="5">5 questions</option>
+                  <option value="10">10 questions</option>
+                  <option value="3">3 questions</option>
+                  <option value="1">1 question</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="generateButton" type="submit">
+              ✦ Generate revision quiz
+            </button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <h2>Revision guide</h2>
+              <p>A simple way to use your results.</p>
+            </div>
+          </div>
+
+          <div class="topic-list">
+            <div class="topic-card">
+              <div>
+                <div class="topic-title">01 · Review</div>
+                <div class="topic-meta">Start with High priority topics.</div>
+              </div>
+            </div>
+            <div class="topic-card">
+              <div>
+                <div class="topic-title">02 · Practise</div>
+                <div class="topic-meta">Answer without looking at the textbook.</div>
+              </div>
+            </div>
+            <div class="topic-card">
+              <div>
+                <div class="topic-title">03 · Learn</div>
+                <div class="topic-meta">Read explanations for questions you missed.</div>
+              </div>
+            </div>
+            <div class="topic-card">
+              <div>
+                <div class="topic-title">04 · Repeat</div>
+                <div class="topic-meta">Return to weak topics in a later session.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel quiz-area" id="quizArea">
+        <div class="section-head">
+          <div>
+            <h2 id="quizHeading">Topic revision quiz</h2>
+            <p id="quizSubheading">Choose one answer for each question.</p>
+          </div>
+          <button class="btn" id="exitQuizButton" type="button">Close quiz</button>
+        </div>
+
+        <div id="quizMessage" class="message" role="status" aria-live="polite"></div>
+
+        <div id="questionView">
+          <div class="quiz-top">
+            <span class="question-number" id="questionCounter">Question 1</span>
+            <span class="help" id="answeredCounter">0 answered</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="questionProgress" style="width:0"></div>
+          </div>
+
+          <div class="question-card">
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsList"></div>
+          </div>
+
+          <div class="quiz-actions">
+            <button class="btn" id="previousQuestionButton" type="button">← Previous</button>
+            <button class="btn btn-primary" id="nextQuestionButton" type="button">Next →</button>
+            <button class="btn btn-primary" id="submitQuizButton" type="button"
+              style="display:none">Submit answers</button>
+          </div>
+        </div>
+
+        <div id="resultView" style="display:none">
+          <div class="result-grid">
+            <div class="result-box"><strong id="resultScore">—</strong><span>Score</span></div>
+            <div class="result-box"><strong id="resultAccuracy">—</strong><span>Accuracy</span></div>
+            <div class="result-box"><strong id="resultCorrect">—</strong><span>Correct answers</span></div>
+          </div>
+          <div class="section-head">
+            <div>
+              <h2>Review your answers</h2>
+              <p>Read the explanations and revisit the source pages.</p>
+            </div>
+          </div>
+          <div class="answer-review" id="answerReview"></div>
+          <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="tryAgainButton" type="button">Try another revision</button>
+            <button class="btn" id="backToTopicsButton" type="button">Back to topics</button>
+          </div>
+        </div>
+      </section>
+
+      <footer>Smart Study AI · Learn from every attempt.</footer>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="logoutOverlay" role="dialog" aria-modal="true"
+  aria-labelledby="logoutTitle">
+  <div class="modal">
+    <h3 id="logoutTitle">Log out?</h3>
+    <p>Are you sure you want to log out of Smart Study AI?</p>
+    <div class="modal-actions">
+      <button class="btn" id="cancelLogoutButton" type="button">Cancel</button>
+      <button class="btn btn-danger" id="confirmLogoutButton" type="button">Log out</button>
+    </div>
+  </div>
+</div>
+ <script src="/static/js/sidebar.js" defer></script>
+
+<script>
+"use strict";
+
+/*
+ * Change API_BASE only if your Django backend uses a different address.
+ * These endpoints match the learning/urls.py you shared, assuming the
+ * project-level route includes them under /api/learning/.
+ */
+const API_BASE = "http://127.0.0.1:8000";
+const API = {
+  profile: "/api/auth/profile/",
+  documents: "/api/documents/",
+  revisionTopics: "/api/learning/revision/",
+  revisionQuiz: "/api/learning/revision/quiz/",
+  quizSubmit: "/api/learning/quiz/submit/"
+};
+
+const $ = (id) => document.getElementById(id);
+
+let revisionTopics = [];
+let revisionDocuments = [];
+let selectedRevisionDocumentId = "all";
+let quizAttemptId = null;
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let selectedAnswers = {};
+let activeDocumentId = null;
+let activeTopic = "";
+let isSubmitting = false;
+
+function getAccessToken() {
+  return localStorage.getItem("access_token");
+}
+
+function showMessage(element, text, type = "info") {
+  element.textContent = text;
+  element.className = "message show " + type;
+}
+
+function hideMessage(element) {
+  element.textContent = "";
+  element.className = "message";
+}
+
+function safeText(value, fallback = "") {
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+async function apiRequest(path, options = {}) {
+  const token = getAccessToken();
+
+  if (!token) {
+    window.location.href = "index.html";
+    throw new Error("Your session has expired. Please log in again.");
+  }
+
+  const headers = new Headers(options.headers || {});
+  headers.set("Authorization", "Bearer " + token);
+
+  if (options.body && !(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(API_BASE + path, {
+    ...options,
+    headers
+  });
+
+  if (response.status === 401) {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    window.location.href = "index.html";
+    throw new Error("Session expired. Please log in again.");
+  }
+
+  const contentType = response.headers.get("content-type") || "";
+  let data = null;
+
+  if (contentType.includes("application/json")) {
+    data = await response.json();
+  } else {
+    const text = await response.text();
+    data = text ? { detail: text } : {};
+  }
+
+  if (!response.ok) {
+    const detail = data?.detail || data?.message || data?.error;
+    const validation = data && typeof data === "object"
+      ? Object.values(data).flat().filter(v => typeof v === "string").join(" ")
+      : "";
+    throw new Error(detail || validation || `Request failed (${response.status}).`);
+  }
+
+  return data;
+}
+
+function normalizeArray(data, keys = []) {
+  if (Array.isArray(data)) return data;
+
+  for (const key of keys) {
+    if (Array.isArray(data?.[key])) return data[key];
+  }
+
+  return [];
+}
+
+function normalizeDocument(document) {
+  return {
+    id: document.id ?? document.document_id ?? document.pk,
+    title: safeText(document.title || document.name || document.filename, "Untitled PDF")
+  };
+}
+
+function getTopicDocumentId(topic) {
+  const rawId =
+    topic.document_id ??
+    topic.documentId ??
+    topic.source_document_id ??
+    (typeof topic.document === "object" && topic.document !== null
+      ? (topic.document.id ?? topic.document.document_id ?? topic.document.pk)
+      : topic.document);
+
+  if (rawId === undefined || rawId === null || rawId === "") return null;
+  return String(rawId);
+}
+
+function populateRevisionDocumentFilter(documents) {
+  const select = $("revisionDocumentFilter");
+  const previousValue = selectedRevisionDocumentId;
+  select.innerHTML = "";
+
+  select.append(new Option("All PDFs", "all"));
+  documents.forEach((doc) => {
+    select.append(new Option(doc.title, String(doc.id)));
+  });
+
+  const stillExists = previousValue === "all" ||
+    documents.some((doc) => String(doc.id) === String(previousValue));
+
+  selectedRevisionDocumentId = stillExists ? String(previousValue) : "all";
+  select.value = selectedRevisionDocumentId;
+}
+
+function normalizeQuestion(question, index) {
+  const rawOptions = question.options;
+
+  let options = [];
+  if (Array.isArray(rawOptions)) {
+    options = rawOptions.map((option, optionIndex) => {
+      if (typeof option === "string") {
+        return { value: String.fromCharCode(65 + optionIndex), label: option };
+      }
+
+      return {
+        value: String(option.value ?? option.key ?? String.fromCharCode(65 + optionIndex)),
+        label: String(option.label ?? option.text ?? option.option ?? option.value ?? "")
+      };
+    });
+  } else if (rawOptions && typeof rawOptions === "object") {
+    options = Object.entries(rawOptions).map(([key, value]) => ({
+      value: key,
+      label: String(typeof value === "object" ? value.label ?? value.text ?? "" : value)
+    }));
+  }
+
+  return {
+    id: question.id ?? question.question_id ?? index,
+    question: safeText(question.question || question.question_text || question.text,
+      "Question text unavailable."),
+    topic: safeText(question.topic, activeTopic),
+    options: options.filter(option => option.label.trim()),
+    sourcePage: question.source_page ?? question.page_number ?? question.sourcePage ?? null,
+    answer: question.correct_answer ?? question.answer ?? question.correct_option ?? null,
+    explanation: question.explanation ?? question.feedback ?? question.solution ?? "",
+    raw: question
+  };
+}
+
+async function loadProfile() {
+  try {
+    const data = await apiRequest(API.profile);
+    const user = data.profile || data.user || data;
+
+    const name = [
+      user.first_name,
+      user.last_name
+    ].filter(Boolean).join(" ") || user.username || "Student";
+
+    $("userName").textContent = name;
+    $("userEmail").textContent = user.email || user.username || "Logged in";
+    $("userAvatar").textContent = name.trim().charAt(0).toUpperCase() || "S";
+  } catch (error) {
+    $("userName").textContent = "Student";
+    $("userEmail").textContent = "Profile unavailable";
+    $("userAvatar").textContent = "S";
+    console.warn("Profile load:", error.message);
+  }
+}
+
+async function loadDocuments() {
+  const select = $("documentSelect");
+  select.innerHTML = '<option value="">Loading PDFs...</option>';
+
+  try {
+    const data = await apiRequest(API.documents);
+    const documents = normalizeArray(data, ["documents", "results", "data"])
+      .map(normalizeDocument)
+      .filter(doc => doc.id !== undefined && doc.id !== null);
+
+    revisionDocuments = documents;
+    populateRevisionDocumentFilter(documents);
+
+    select.innerHTML = "";
+
+    if (!documents.length) {
+      select.innerHTML = '<option value="">No PDFs found</option>';
+      renderTopics();
+      return;
+    }
+
+    select.append(new Option("Choose a PDF", ""));
+    documents.forEach(doc => {
+      select.append(new Option(doc.title, String(doc.id)));
+    });
+  } catch (error) {
+    select.innerHTML = '<option value="">Unable to load PDFs</option>';
+    showMessage($("pageMessage"),
+      "Could not load your PDFs. Check the document-list API route.\n" + error.message,
+      "error");
+  }
+}
+
+function priorityClass(priority) {
+  const value = String(priority || "Low").toLowerCase();
+  if (value === "high") return "priority-high";
+  if (value === "medium") return "priority-medium";
+  return "priority-low";
+}
+
+function priorityLabel(priority) {
+  const value = String(priority || "Low");
+  const first = value.charAt(0).toUpperCase();
+  return first + value.slice(1).toLowerCase();
+}
+
+function renderTopics() {
+  const list = $("topicList");
+  list.innerHTML = "";
+
+  const visibleTopics = selectedRevisionDocumentId === "all"
+    ? revisionTopics
+    : revisionTopics.filter(topic =>
+        getTopicDocumentId(topic) === String(selectedRevisionDocumentId));
+
+  $("statTopics").textContent = visibleTopics.length;
+  $("statHigh").textContent = visibleTopics.filter(t =>
+    String(t.priority).toLowerCase() === "high").length;
+  $("statMedium").textContent = visibleTopics.filter(t =>
+    String(t.priority).toLowerCase() === "medium").length;
+  $("statLow").textContent = visibleTopics.filter(t =>
+    String(t.priority).toLowerCase() === "low").length;
+
+  if (!visibleTopics.length) {
+    list.innerHTML = selectedRevisionDocumentId === "all"
+      ? `<div class="empty">
+          No revision topics are available yet.<br>
+          Upload a PDF or complete a practice quiz to build your revision list.
+        </div>`
+      : `<div class="empty">
+          No revision topics are linked to this PDF yet.<br>
+          Try another PDF or choose “All PDFs” to see every revision topic.
+        </div>`;
+    return;
+  }
+
+  visibleTopics.forEach(topic => {
+    const name = safeText(topic.topic, "General Revision");
+    const priority = priorityLabel(topic.priority);
+    const accuracy = Math.max(0, Math.min(100, Number(topic.accuracy) || 0));
+    const incorrect = Number(topic.incorrect) || 0;
+    const total = Number(topic.total) || 0;
+    const correct = Number(topic.correct) || 0;
+
+    const card = document.createElement("div");
+    card.className = "topic-card";
+
+    const details = document.createElement("div");
+    details.innerHTML = `
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+        <div class="topic-title">${escapeHTML(name)}</div>
+        <span class="priority ${priorityClass(priority)}">${escapeHTML(priority)} priority</span>
+      </div>
+      <div class="topic-meta">
+        <span>${incorrect} incorrect</span>
+        <span>${correct}/${total} correct</span>
+        <span>${accuracy.toFixed(1)}% accuracy</span>
+      </div>
+      <div class="accuracy-track">
+        <div class="accuracy-fill" style="width:${accuracy}%"></div>
+      </div>
+      <div class="help" style="margin-top:9px">
+        ${escapeHTML(topic.recommendation || "Practise this topic again.")}
+      </div>`;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-primary";
+    button.textContent = "Revise this topic";
+    button.addEventListener("click", () => {
+      $("topicInput").value = name;
+      $("revisionForm").scrollIntoView({ behavior: "smooth", block: "center" });
+      $("topicInput").focus();
+
+      const topicDocumentId = getTopicDocumentId(topic);
+      if (topicDocumentId) {
+        $("documentSelect").value = topicDocumentId;
+      }
+
+      showMessage($("pageMessage"),
+        "Topic selected. Choose a PDF if one is required, then generate the quiz.",
+        "info");
+    });
+
+    card.append(details, button);
+    list.appendChild(card);
+  });
+}
+
+async function loadRevisionTopics() {
+  const list = $("topicList");
+  list.innerHTML = '<div class="empty">Loading revision topics...</div>';
+  hideMessage($("pageMessage"));
+
+  try {
+    const data = await apiRequest(API.revisionTopics);
+    revisionTopics = normalizeArray(data, ["revision_topics", "topics", "results"]);
+    renderTopics();
+
+    if (data.message) {
+      showMessage($("pageMessage"), data.message, "info");
+    }
+  } catch (error) {
+    revisionTopics = [];
+    renderTopics();
+    showMessage($("pageMessage"),
+      "Unable to load revision topics.\n" + error.message,
+      "error");
+  }
+}
+
+async function generateRevisionQuiz(event) {
+  event.preventDefault();
+  hideMessage($("pageMessage"));
+  hideMessage($("quizMessage"));
+
+  const documentId = $("documentSelect").value;
+  const topic = $("topicInput").value.trim();
+  const language = $("languageSelect").value;
+  const count = Number($("questionCount").value);
+
+  if (!documentId) {
+    showMessage($("pageMessage"), "Please select a study PDF.", "error");
+    return;
+  }
+
+  if (!topic) {
+    showMessage($("pageMessage"), "Please enter a topic name.", "error");
+    return;
+  }
+
+  const button = $("generateButton");
+  button.disabled = true;
+  button.textContent = "Generating questions...";
+
+  try {
+    const data = await apiRequest(API.revisionQuiz, {
+      method: "POST",
+      body: JSON.stringify({
+        document_id: Number(documentId),
+        topic,
+        language,
+        number_of_questions: count
+      })
+    });
+
+    quizAttemptId = data.attempt_id ?? data.id ?? null;
+    activeDocumentId = Number(documentId);
+    activeTopic = topic;
+
+    currentQuestions = normalizeArray(data, ["questions", "quiz_questions"])
+      .map(normalizeQuestion);
+
+    if (!currentQuestions.length) {
+      throw new Error("The API returned no questions for this topic.");
+    }
+
+    selectedAnswers = {};
+    currentQuestionIndex = 0;
+
+    $("quizHeading").textContent = topic;
+    $("quizSubheading").textContent =
+      `${currentQuestions.length} questions · ${language}`;
+    $("quizArea").classList.add("show");
+    $("questionView").style.display = "block";
+    $("resultView").style.display = "none";
+
+    renderQuestion();
+    $("quizArea").scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (data.message) {
+      showMessage($("quizMessage"), data.message, "info");
+    }
+  } catch (error) {
+    showMessage($("pageMessage"),
+      "Could not generate the revision quiz.\n" + error.message,
+      "error");
+  } finally {
+    button.disabled = false;
+    button.textContent = "✦ Generate revision quiz";
+  }
+}
+
+function renderQuestion() {
+  const question = currentQuestions[currentQuestionIndex];
+  if (!question) return;
+
+  $("questionCounter").textContent =
+    `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+  $("answeredCounter").textContent =
+    `${Object.keys(selectedAnswers).length} answered`;
+
+  $("questionProgress").style.width =
+    `${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%`;
+
+  $("questionText").textContent = question.question;
+
+  const options = $("optionsList");
+  options.innerHTML = "";
+
+  if (!question.options.length) {
+    options.innerHTML =
+      '<div class="empty">No options were returned for this question.</div>';
+  } else {
+    question.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.classList.toggle(
+        "selected",
+        selectedAnswers[currentQuestionIndex] === option.value
+      );
+
+      const letter = document.createElement("span");
+      letter.className = "option-letter";
+      letter.textContent = String.fromCharCode(65 + index);
+
+      const label = document.createElement("span");
+      label.textContent = option.label;
+
+      button.append(letter, label);
+      button.addEventListener("click", () => {
+        selectedAnswers[currentQuestionIndex] = option.value;
+        renderQuestion();
+      });
+
+      options.appendChild(button);
+    });
+  }
+
+  $("previousQuestionButton").disabled = currentQuestionIndex === 0;
+
+  const isLast = currentQuestionIndex === currentQuestions.length - 1;
+  $("nextQuestionButton").style.display = isLast ? "none" : "inline-flex";
+  $("submitQuizButton").style.display = isLast ? "inline-flex" : "none";
+  $("submitQuizButton").disabled = isSubmitting;
+}
+
+function normalizeCorrectValue(value) {
+  if (value === null || value === undefined) return null;
+
+  if (typeof value === "object") {
+    return value.value ?? value.key ?? value.label ?? value.text ?? null;
+  }
+
+  return String(value).trim();
+}
+
+function answerMatches(selected, correct, question) {
+  const selectedValue = normalizeCorrectValue(selected);
+  const correctValue = normalizeCorrectValue(correct);
+
+  if (selectedValue === null || correctValue === null) return false;
+
+  if (String(selectedValue).toLowerCase() === String(correctValue).toLowerCase()) {
+    return true;
+  }
+
+  const selectedOption = question.options.find(o => o.value === String(selectedValue));
+  if (selectedOption &&
+      selectedOption.label.toLowerCase() === String(correctValue).toLowerCase()) {
+    return true;
+  }
+
+  const correctOption = question.options.find(o => o.value === String(correctValue));
+  if (correctOption &&
+      correctOption.label.toLowerCase() === String(selectedValue).toLowerCase()) {
+    return true;
+  }
+
+  return false;
+}
+
+function getResultItems(data) {
+  return normalizeArray(data, ["results", "answers", "details", "review"]);
+}
+
+function findCorrectAnswer(result, question) {
+  return result.correct_answer ??
+    result.correct_option ??
+    result.answer ??
+    result.correct ??
+    question.answer ??
+    null;
+}
+
+function renderResults(data) {
+  const results = getResultItems(data);
+  const score = Number(data.score ?? data.correct_count ?? data.correct_answers ?? 0);
+  const total = Number(data.total_questions ?? data.total ?? currentQuestions.length);
+  const accuracy = Number(data.accuracy ??
+    (total ? (score / total) * 100 : 0));
+
+  $("resultScore").textContent = `${score}/${total}`;
+  $("resultAccuracy").textContent = `${accuracy.toFixed(1)}%`;
+  $("resultCorrect").textContent = `${score}`;
+
+  const review = $("answerReview");
+  review.innerHTML = "";
+
+  currentQuestions.forEach((question, index) => {
+    const result = results[index] || {};
+    const selected = selectedAnswers[index] ?? null;
+    const correctAnswer = findCorrectAnswer(result, question);
+
+    const isCorrect = result.is_correct !== undefined
+      ? Boolean(result.is_correct)
+      : result.correct !== undefined && typeof result.correct === "boolean"
+        ? result.correct
+        : answerMatches(selected, correctAnswer, question);
+
+    const correctLabel = correctAnswer === null
+      ? "Correct answer not included in the API response."
+      : (question.options.find(o => o.value === String(correctAnswer))?.label ||
+         String(correctAnswer));
+
+    const selectedLabel = selected === null
+      ? "Not answered"
+      : (question.options.find(o => o.value === String(selected))?.label ||
+         String(selected));
+
+    const explanation = result.explanation ??
+      result.feedback ??
+      result.solution ??
+      question.explanation ??
+      "";
+
+    const page = result.source_page ?? question.sourcePage;
+
+    const card = document.createElement("div");
+    card.className = "answer-card " + (isCorrect ? "correct" : "incorrect");
+
+    const title = document.createElement("strong");
+    title.textContent = `${index + 1}. ${question.question}`;
+
+    const selectedText = document.createElement("p");
+    selectedText.textContent = `Your answer: ${selectedLabel}`;
+
+    const correctText = document.createElement("p");
+    correctText.textContent = `Correct answer: ${correctLabel}`;
+
+    card.append(title, selectedText, correctText);
+
+    if (explanation) {
+      const explain = document.createElement("p");
+      explain.textContent = `Explanation: ${explanation}`;
+      card.appendChild(explain);
+    }
+
+    if (page !== null && page !== undefined) {
+      const source = document.createElement("p");
+      source.className = "muted";
+      source.textContent = `Source page: ${page}`;
+      card.appendChild(source);
+    }
+
+    review.appendChild(card);
+  });
+
+  $("questionView").style.display = "none";
+  $("resultView").style.display = "block";
+
+  if (!results.length) {
+    showMessage($("quizMessage"),
+      "Quiz submitted. The server did not return per-question answer details, so only the overall score is shown.",
+      "info");
+  } else {
+    hideMessage($("quizMessage"));
+  }
+
+  $("resultView").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function submitRevisionQuiz() {
+  if (isSubmitting) return;
+
+  const unanswered = currentQuestions
+    .map((_, index) => index)
+    .filter(index => selectedAnswers[index] === undefined);
+
+  if (unanswered.length) {
+    const proceed = window.confirm(
+      `${unanswered.length} question(s) are unanswered. Submit anyway?`
+    );
+    if (!proceed) {
+      currentQuestionIndex = unanswered[0];
+      renderQuestion();
+      return;
+    }
+  }
+
+  if (!quizAttemptId) {
+    showMessage($("quizMessage"),
+      "The revision API did not return an attempt_id. Please check TopicRevisionQuizView.",
+      "error");
+    return;
+  }
+
+  isSubmitting = true;
+  $("submitQuizButton").disabled = true;
+  $("submitQuizButton").textContent = "Submitting...";
+
+  try {
+    /*
+     * QuizSubmitView in the supplied project is expected to accept:
+     * { attempt_id: ..., answers: { "0": "A", "1": "C" } }
+     * If it expects question IDs instead of numeric indexes, adapt this payload
+     * to match that backend implementation.
+     */
+    const data = await apiRequest(API.quizSubmit, {
+      method: "POST",
+      body: JSON.stringify({
+        attempt_id: quizAttemptId,
+        answers: selectedAnswers
+      })
+    });
+
+    renderResults(data);
+    await loadRevisionTopics();
+  } catch (error) {
+    showMessage($("quizMessage"),
+      "Could not submit the quiz.\n" + error.message,
+      "error");
+  } finally {
+    isSubmitting = false;
+    $("submitQuizButton").disabled = false;
+    $("submitQuizButton").textContent = "Submit answers";
+  }
+}
+
+function resetQuiz() {
+  quizAttemptId = null;
+  currentQuestions = [];
+  selectedAnswers = {};
+  currentQuestionIndex = 0;
+  isSubmitting = false;
+  $("quizArea").classList.remove("show");
+  hideMessage($("quizMessage"));
+  $("topicInput").focus();
+}
+
+$("revisionForm").addEventListener("submit", generateRevisionQuiz);
+
+$("previousQuestionButton").addEventListener("click", () => {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    renderQuestion();
+  }
+});
+
+$("nextQuestionButton").addEventListener("click", () => {
+  if (currentQuestionIndex < currentQuestions.length - 1) {
+    currentQuestionIndex++;
+    renderQuestion();
+  }
+});
+
+$("submitQuizButton").addEventListener("click", submitRevisionQuiz);
+$("refreshButton").addEventListener("click", async () => {
+  await Promise.all([loadRevisionTopics(), loadDocuments()]);
+});
+$("loadTopicsButton").addEventListener("click", loadRevisionTopics);
+$("revisionDocumentFilter").addEventListener("change", (event) => {
+  selectedRevisionDocumentId = event.target.value || "all";
+  renderTopics();
+});
+$("exitQuizButton").addEventListener("click", () => {
+  if (window.confirm("Close this quiz? Your current answers will be cleared.")) {
+    resetQuiz();
+  }
+});
+$("tryAgainButton").addEventListener("click", resetQuiz);
+$("backToTopicsButton").addEventListener("click", () => {
+  $("quizArea").classList.remove("show");
+  $("topicList").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+
+
+
+
+
+async function init() {
+  if (!getAccessToken()) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  await Promise.allSettled([
+    loadProfile(),
+    loadDocuments(),
+    loadRevisionTopics()
+  ]);
+}
+
+init();
+</script>
+<script src="assets/js/study-time-tracker.js"></script>
+</body>
+</html>

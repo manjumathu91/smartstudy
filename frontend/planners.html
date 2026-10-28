@@ -1,0 +1,1397 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Study AI | Study Planner</title>
+ 
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #080b14;
+      --panel: #101626;
+      --panel2: #151e31;
+      --border: #222c42;
+      --text: #f3f5ff;
+      --muted: #929bb6;
+      --primary: #8b7cff;
+      --primary2: #6e5df2;
+      --success: #42d6a4;
+      --danger: #ff6f86;
+      --warning: #f7c66a;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .app { display: flex; min-height: 100vh; }
+
+    
+    
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      margin-bottom: 15px;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #2d2852;
+      border: 1px solid #51468d;
+      font-weight: 800;
+    }
+
+    
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      color: #b0a6ff;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      margin-bottom: 9px;
+    }
+
+    h1 { margin: 0; font-size: clamp(25px, 3vw, 34px); }
+    h2 { margin: 0; font-size: 17px; }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 9px 0 0;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border: 1px solid #2b3650;
+      border-radius: 30px;
+      color: #b7c2e4;
+      background: #10182a;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--success);
+      border-radius: 50%;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card, .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .stat-card { padding: 18px; }
+    .stat-label { color: var(--muted); font-size: 12px; }
+    .stat-value { font-size: 25px; font-weight: 800; margin-top: 10px; }
+    .stat-note { color: #7f8baa; font-size: 11px; margin-top: 5px; line-height: 1.5; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel { padding: 20px; min-width: 0; }
+
+    .panel-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 8px 0 20px;
+    }
+
+    .field { margin-bottom: 17px; }
+
+    label {
+      display: block;
+      color: #cbd2e8;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      color: var(--text);
+      background: #0a1020;
+      border: 1px solid #2b3650;
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary);
+    }
+
+    select option {
+      background: #101626;
+      color: var(--text);
+    }
+
+    select:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+
+    input[type="date"], input[type="number"] { color-scheme: dark; }
+
+    .helper {
+      color: #7885a5;
+      font-size: 11px;
+      margin-top: 7px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 11px 15px;
+      font-weight: 750;
+      font-size: 12px;
+      transition: .2s;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+    }
+
+    .btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
+    .btn-secondary { color: #d9def2; background: #1a2338; border-color: #303c57; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    .full-width { width: 100%; }
+
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .message.show { display: block; }
+    .message.info { color: #c6c1ff; background: #201d3b; border: 1px solid #3d3569; }
+    .message.error { color: #ffb3c0; background: #301a25; border: 1px solid #633047; }
+    .message.success { color: #9af0d1; background: #112b28; border: 1px solid #285b50; }
+
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .plan-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .summary-item {
+      background: #0b1120;
+      border: 1px solid #273149;
+      border-radius: 12px;
+      padding: 13px;
+      min-width: 0;
+    }
+
+    .summary-item .label { color: var(--muted); font-size: 10px; }
+    .summary-item .value { font-size: 17px; font-weight: 800; margin-top: 7px; overflow-wrap: anywhere; }
+
+    .day-list { display: grid; gap: 12px; }
+
+    .day-card {
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr);
+      gap: 14px;
+      padding: 16px;
+      background: #0b1120;
+      border: 1px solid #273149;
+      border-radius: 13px;
+    }
+
+    .day-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 70px;
+      border-radius: 10px;
+      background: #211d3e;
+      border: 1px solid #40376c;
+    }
+
+    .day-number { font-size: 22px; font-weight: 850; }
+    .day-month { color: #c0b8ff; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+    .day-top {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .day-title { font-size: 13px; font-weight: 800; }
+    .day-meta { color: var(--muted); font-size: 11px; }
+
+    .topic-chip {
+      display: inline-block;
+      color: #c9c1ff;
+      background: #211d3e;
+      border: 1px solid #3e366a;
+      padding: 7px 10px;
+      margin: 10px 5px 0 0;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .revision-note {
+      margin-top: 11px;
+      color: #9ca8c6;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .day-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 12px;
+    }
+
+    .day-check input { width: auto; accent-color: var(--primary); }
+
+    .day-card.completed {
+      border-color: #28745e;
+      background: linear-gradient(120deg, #102622, #0b1120 65%);
+    }
+
+    .day-card.completed .day-date {
+      background: #14392f;
+      border-color: #286653;
+    }
+
+    .empty-state {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 280px;
+      color: var(--muted);
+      border: 1px dashed #303a55;
+      border-radius: 15px;
+      padding: 24px;
+      line-height: 1.7;
+    }
+
+    .empty-icon { font-size: 36px; margin-bottom: 12px; }
+
+    .plan-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 17px;
+      border-top: 1px solid var(--border);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid #ffffff66;
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    /* Main content with common sidebar */
+.app {
+    min-height: 100vh;
+}
+
+.main {
+    min-width: 0;
+    width: calc(100% - 260px);
+    margin-left: 260px;
+    flex: 1;
+    padding: 25px clamp(16px, 3vw, 38px);
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    margin-bottom: 20px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.breadcrumb {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.breadcrumb span {
+    color: var(--text);
+    font-weight: 700;
+}
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0009;
+      z-index: 30;
+    }
+
+    
+
+    @media (max-width: 560px) {
+      .main { padding: 16px 12px; }
+      .stats { grid-template-columns: 1fr 1fr; gap: 9px; }
+      .stat-card { padding: 13px; }
+      .stat-value { font-size: 21px; }
+      .panel { padding: 15px; }
+      .plan-summary { grid-template-columns: 1fr; }
+      .day-card { grid-template-columns: 55px minmax(0, 1fr); gap: 10px; padding: 11px; }
+      .day-number { font-size: 19px; }
+    }
+    /* Responsive layout */
+@media (max-width: 1100px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 22px 18px;
+    }
+}
+
+@media (max-width: 560px) {
+    .main {
+        padding: 16px 12px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .stat-card {
+        padding: 13px;
+    }
+
+    .stat-value {
+        font-size: 21px;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+
+    .plan-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .day-card {
+        grid-template-columns: 55px minmax(0, 1fr);
+        gap: 10px;
+        padding: 11px;
+    }
+
+    .day-number {
+        font-size: 19px;
+    }
+
+    .breadcrumb {
+        font-size: 12px;
+    }
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- Common Sidebar -->
+    <div id="sidebarMount"></div>
+
+    <main class="main">
+
+        <!-- Responsive Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open navigation menu"
+                    aria-controls="sidebar"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+
+                <div class="breadcrumb">
+                    Workspace &nbsp;/&nbsp;
+                    <span>Study Planner</span>
+                </div>
+
+            </div>
+        </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Days in plan</div>
+        <div class="stat-value" id="statDays">—</div>
+        <div class="stat-note">From today through exam day</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Daily target</div>
+        <div class="stat-value" id="statDailyHours">—</div>
+        <div class="stat-note">Hours planned per day</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total study hours</div>
+        <div class="stat-value" id="statTotalHours">—</div>
+        <div class="stat-note">Estimated time in this plan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Completed days</div>
+        <div class="stat-value" id="statCompleted">0</div>
+        <div class="stat-note">Marked complete on this page</div>
+      </div>
+    </section>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <section class="workspace">
+      <div class="panel">
+        <h2>Create your plan</h2>
+        <p class="panel-description">
+          Choose manual topics or use lessons detected from a PDF you have already uploaded.
+        </p>
+
+        <form id="plannerForm">
+          <div class="field">
+            <label for="examDate">Exam Date</label>
+            <input type="date" id="examDate" required />
+            <div class="helper">Choose today or a future date.</div>
+          </div>
+
+          <div class="field">
+            <label for="dailyHours">Daily Study Hours</label>
+            <input
+              type="number"
+              id="dailyHours"
+              min="1"
+              max="12"
+              step="0.5"
+              value="3"
+              required
+            />
+            <div class="helper">Enter between 1 and 12 hours per day.</div>
+          </div>
+
+          <div class="field">
+            <label for="plannerMode">Choose Planning Method</label>
+            <select id="plannerMode" required>
+              <option value="manual">Manual Subjects</option>
+              <option value="pdf">Choose Existing PDF</option>
+            </select>
+          </div>
+
+          <div class="field" id="manualTopicsSection">
+            <label for="topics">Subjects / Lessons / Topics</label>
+            <textarea
+              id="topics"
+              placeholder="Enter one subject or lesson per line&#10;&#10;Example:&#10;General Tamil&#10;Indian Polity&#10;Indian Economy"
+            ></textarea>
+            <div class="helper">Enter one subject or lesson per line.</div>
+          </div>
+
+          <div class="field" id="pdfTopicsSection" hidden>
+            <label for="existingPdf">Select an Uploaded PDF</label>
+            <select id="existingPdf" required>
+              <option value="">Choose an uploaded PDF</option>
+            </select>
+            <div class="helper">
+              Select a PDF uploaded earlier. You do not need to upload it again.
+            </div>
+            <button
+              class="btn btn-secondary"
+              id="refreshDocumentsBtn"
+              type="button"
+              style="margin-top:10px"
+            >
+              ↻ Refresh PDF List
+            </button>
+          </div>
+
+          <button class="btn btn-primary full-width" id="generateBtn" type="submit">
+            ✦ Generate Study Plan
+          </button>
+        </form>
+
+        <div class="helper" style="margin-top:17px">
+          PDF mode detects lesson names first and then sends those names to the study planner.
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="plan-header">
+          <div>
+            <h2>Your daily roadmap</h2>
+            <p class="panel-description" style="margin-bottom:0">
+              Follow one day at a time. Mark days complete as you study.
+            </p>
+          </div>
+          <button class="btn btn-secondary" id="exportBtn" type="button" disabled>
+            ↓ Export CSV
+          </button>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <div>
+            <div class="empty-icon">◷</div>
+            <strong style="color:#e3e7f7">Your study roadmap starts here</strong>
+            <div>Choose your exam date and topics to generate a daily plan.</div>
+          </div>
+        </div>
+
+        <div id="planContent" hidden>
+          <div class="plan-summary">
+            <div class="summary-item">
+              <div class="label">EXAM DATE</div>
+              <div class="value" id="summaryExamDate">—</div>
+            </div>
+            <div class="summary-item">
+              <div class="label">AVAILABLE DAYS</div>
+              <div class="value" id="summaryDays">—</div>
+            </div>
+            <div class="summary-item">
+              <div class="label">TOTAL HOURS</div>
+              <div class="value" id="summaryHours">—</div>
+            </div>
+          </div>
+
+          <div class="day-list" id="dayList"></div>
+
+          <div class="plan-footer">
+            <div class="helper" id="completionInfo">0 days completed.</div>
+            <button class="btn btn-secondary" id="resetProgressBtn" type="button">
+              Reset checkmarks
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const API_BASE_URL = "http://127.0.0.1:8000/api";
+  const PROFILE_ENDPOINT = "/auth/profile/";
+  const PLANNER_ENDPOINT = "/learning/planner/";
+  const DOCUMENTS_ENDPOINT = "/documents/";
+  const DETECT_LESSONS_ENDPOINT = "/learning/detect-lessons/";
+
+  const $ = (id) => document.getElementById(id);
+
+  let currentPlan = null;
+  let completedDates = new Set();
+
+  const plannerMode = $("plannerMode");
+  const manualTopicsSection = $("manualTopicsSection");
+  const pdfTopicsSection = $("pdfTopicsSection");
+  const topicsInput = $("topics");
+  const existingPdfSelect = $("existingPdf");
+
+  function getToken() {
+    return localStorage.getItem("access_token");
+  }
+
+  async function apiFetch(path, options = {}) {
+    const headers = { ...(options.headers || {}) };
+
+    if (!(options.body instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    const token = getToken();
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
+    return fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers
+    });
+  }
+
+  async function readJson(response) {
+    try {
+      return await response.json();
+    } catch {
+      return {};
+    }
+  }
+
+  function showMessage(text, type = "info") {
+    const box = $("message");
+    box.textContent = text;
+    box.className = `message show ${type}`;
+  }
+
+  function hideMessage() {
+    $("message").className = "message";
+    $("message").textContent = "";
+  }
+
+  function redirectToLogin() {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user_id");
+    window.location.href = "index.html";
+  }
+
+  
+  async function loadProfile() {
+  if (!getToken()) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  try {
+    const response = await apiFetch(PROFILE_ENDPOINT);
+
+    if (response.status === 401) {
+      showMessage(
+        "Your session has expired. Please log in again.",
+        "error"
+      );
+      setTimeout(redirectToLogin, 1600);
+      return;
+    }
+
+    const data = await readJson(response);
+
+    if (!response.ok) {
+      throw new Error(
+        data.detail || data.error || "Profile unavailable."
+      );
+    }
+
+    const name =
+      `${data.first_name || ""} ${data.last_name || ""}`.trim() ||
+      data.username ||
+      "Student";
+
+    // Update elements only if they exist on this page.
+    if ($("userName")) {
+      $("userName").textContent = name;
+    }
+
+    if ($("userEmail")) {
+      $("userEmail").textContent =
+        data.email || data.username || "Logged in";
+    }
+
+    if ($("userAvatar")) {
+      $("userAvatar").textContent =
+        name.charAt(0).toUpperCase();
+    }
+  } catch (error) {
+    if ($("userName")) {
+      $("userName").textContent = "Student";
+    }
+
+    if ($("userEmail")) {
+      $("userEmail").textContent = "Profile unavailable";
+    }
+
+    console.error("Profile error:", error);
+  }
+}
+  function localDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function setDateMinimum() {
+    const today = localDateString(new Date());
+    $("examDate").min = today;
+
+    if (!$("examDate").value) {
+      $("examDate").value = today;
+    }
+  }
+
+  function parseTopics(value) {
+    return value
+      .split(/\n/)
+      .map(topic => topic.trim())
+      .filter(Boolean);
+  }
+
+  function formatDate(dateValue, options = {}) {
+    const parts = dateValue.split("-").map(Number);
+    const date = new Date(parts[0], parts[1] - 1, parts[2]);
+    return date.toLocaleDateString("en-IN", options);
+  }
+
+  function getDocumentTitle(doc) {
+    const rawFile = String(doc.file || "");
+    const fileName = rawFile.split("/").pop();
+    let decodedName = fileName;
+
+    try {
+      decodedName = decodeURIComponent(fileName);
+    } catch (_) {}
+
+    return doc.title || decodedName || `Document ${doc.id}`;
+  }
+
+  async function loadExistingDocuments() {
+    const previousValue = existingPdfSelect.value;
+
+    existingPdfSelect.disabled = true;
+    existingPdfSelect.replaceChildren();
+
+    const loadingOption = document.createElement("option");
+    loadingOption.value = "";
+    loadingOption.textContent = "Loading uploaded PDFs...";
+    existingPdfSelect.appendChild(loadingOption);
+
+    try {
+      const response = await apiFetch(DOCUMENTS_ENDPOINT);
+      const data = await readJson(response);
+
+      if (response.status === 401) {
+        showMessage(
+          "Your login session has expired. Please log in again.",
+          "error"
+        );
+        setTimeout(redirectToLogin, 1600);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || data.detail || "Could not load uploaded PDFs."
+        );
+      }
+
+      const documents = Array.isArray(data)
+        ? data
+        : Array.isArray(data.results)
+          ? data.results
+          : Array.isArray(data.documents)
+            ? data.documents
+            : Array.isArray(data.data)
+              ? data.data
+              : null;
+
+      if (!documents) {
+        throw new Error("Unexpected response from the documents API.");
+      }
+
+      existingPdfSelect.replaceChildren();
+
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = documents.length
+        ? "Choose an uploaded PDF"
+        : "No uploaded PDFs found";
+      existingPdfSelect.appendChild(placeholder);
+
+      documents.forEach(doc => {
+        if (doc.id === undefined || doc.id === null) return;
+
+        const option = document.createElement("option");
+        option.value = String(doc.id);
+        option.textContent = getDocumentTitle(doc);
+        existingPdfSelect.appendChild(option);
+      });
+
+      if (
+        previousValue &&
+        [...existingPdfSelect.options].some(
+          option => option.value === previousValue
+        )
+      ) {
+        existingPdfSelect.value = previousValue;
+      }
+
+      if (existingPdfSelect.options.length <= 1) {
+        showMessage(
+          "No uploaded PDFs found. Upload a PDF first, then refresh this list.",
+          "info"
+        );
+      }
+    } catch (error) {
+      console.error("Document loading error:", error);
+
+      existingPdfSelect.replaceChildren();
+
+      const errorOption = document.createElement("option");
+      errorOption.value = "";
+      errorOption.textContent = "Could not load PDFs — click refresh";
+      existingPdfSelect.appendChild(errorOption);
+
+      showMessage(error.message, "error");
+    } finally {
+      existingPdfSelect.disabled = false;
+    }
+  }
+
+  function updatePlannerMode() {
+    const isManual = plannerMode.value === "manual";
+    const isPDF = plannerMode.value === "pdf";
+
+    manualTopicsSection.hidden = !isManual;
+    pdfTopicsSection.hidden = !isPDF;
+
+    topicsInput.required = isManual;
+    existingPdfSelect.required = isPDF;
+
+    if (isPDF) {
+      loadExistingDocuments();
+    } else {
+      hideMessage();
+    }
+  }
+
+  plannerMode.addEventListener("change", updatePlannerMode);
+  $("refreshDocumentsBtn").addEventListener("click", loadExistingDocuments);
+  existingPdfSelect.addEventListener("change", hideMessage);
+
+  async function generatePlan(event) {
+    event.preventDefault();
+    hideMessage();
+
+    if (!getToken()) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    const examDate = $("examDate").value;
+    const dailyHours = Number($("dailyHours").value);
+    const mode = plannerMode.value;
+
+    if (!examDate) {
+      showMessage("Please choose your exam date.", "error");
+      return;
+    }
+
+    if (examDate < localDateString(new Date())) {
+      showMessage("Exam date cannot be in the past.", "error");
+      return;
+    }
+
+    if (!Number.isFinite(dailyHours) || dailyHours < 1 || dailyHours > 12) {
+      showMessage("Daily study hours must be between 1 and 12.", "error");
+      return;
+    }
+
+    let topics = [];
+
+    if (mode === "manual") {
+      topics = parseTopics(topicsInput.value);
+
+      if (!topics.length) {
+        showMessage("Please enter at least one subject or topic.", "error");
+        return;
+      }
+    } else if (mode === "pdf") {
+      if (!existingPdfSelect.value) {
+        showMessage("Please select an uploaded PDF.", "error");
+        return;
+      }
+    } else {
+      showMessage("Please select a valid planning method.", "error");
+      return;
+    }
+
+    const button = $("generateBtn");
+    button.disabled = true;
+
+    try {
+      if (mode === "pdf") {
+        button.innerHTML =
+          '<span class="spinner"></span> Detecting lessons...';
+
+        const lessonResponse = await apiFetch(DETECT_LESSONS_ENDPOINT, {
+          method: "POST",
+          body: JSON.stringify({
+            document_id: Number(existingPdfSelect.value)
+          })
+        });
+
+        const lessonData = await readJson(lessonResponse);
+
+        if (lessonResponse.status === 401) {
+          showMessage(
+            "Your login session has expired. Please log in again.",
+            "error"
+          );
+          setTimeout(redirectToLogin, 1600);
+          return;
+        }
+
+        if (!lessonResponse.ok) {
+          throw new Error(
+            lessonData.error ||
+            lessonData.detail ||
+            "Could not detect lessons from this PDF."
+          );
+        }
+
+        if (!Array.isArray(lessonData.lessons)) {
+          throw new Error(
+            "The lesson detection API did not return a valid lessons list."
+          );
+        }
+
+        topics = lessonData.lessons
+          .map(lesson => {
+            if (typeof lesson === "string") {
+              return lesson.trim();
+            }
+
+            if (lesson && typeof lesson === "object") {
+              const name =
+                lesson.lesson_name ||
+                lesson.lesson_title ||
+                lesson.title ||
+                lesson.name ||
+                lesson.lesson ||
+                lesson.topic ||
+                lesson.heading;
+
+              return typeof name === "string" ? name.trim() : "";
+            }
+
+            return "";
+          })
+          .filter(Boolean);
+
+        if (!topics.length) {
+          throw new Error(
+            "No lesson names were detected. Check the PDF and lesson detection output."
+          );
+        }
+
+        showMessage(
+          `Detected ${topics.length} lessons from "${lessonData.document_title || "your PDF"}". Creating your timetable...`,
+          "info"
+        );
+      }
+
+      button.innerHTML =
+        '<span class="spinner"></span> Creating plan...';
+
+      const response = await apiFetch(PLANNER_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify({
+          exam_date: examDate,
+          daily_hours: dailyHours,
+          topics: topics
+        })
+      });
+
+      const data = await readJson(response);
+
+      if (response.status === 401) {
+        showMessage(
+          "Your login session has expired. Please log in again.",
+          "error"
+        );
+        setTimeout(redirectToLogin, 1600);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+          data.detail ||
+          `Request failed (${response.status}).`
+        );
+      }
+
+      if (!Array.isArray(data.plan)) {
+        throw new Error(
+          "The server response does not contain a valid daily plan."
+        );
+      }
+
+      currentPlan = data;
+      
+      completedDates = new Set(
+  (data.plan || [])
+    .filter(day => day.completed === true)
+    .map(day => day.date)
+);
+      renderPlan(data);
+      $("exportBtn").disabled = !data.plan.length;
+
+      showMessage(
+        mode === "pdf"
+          ? `Study plan generated using ${topics.length} detected lessons and save to MyLibary`
+          : "Your study plan has been generated successfully and save to MyLibary.",
+        "success"
+      );
+    } catch (error) {
+      console.error("Planner error:", error);
+      showMessage(
+        error.message || "Could not generate the study plan.",
+        "error"
+      );
+    } finally {
+      button.disabled = false;
+      button.textContent = "✦ Generate Study Plan";
+    }
+  }
+
+  function renderPlan(data) {
+    $("emptyState").style.display = "none";
+    $("planContent").hidden = false;
+
+    $("statDays").textContent = data.days_available ?? data.plan.length;
+    $("statDailyHours").textContent = `${data.daily_hours ?? "—"}h`;
+    $("statTotalHours").textContent = `${data.total_study_hours ?? "—"}h`;
+
+    $("summaryExamDate").textContent = formatDate(data.exam_date, {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    });
+
+    $("summaryDays").textContent = data.days_available ?? data.plan.length;
+    $("summaryHours").textContent = `${data.total_study_hours ?? "—"}h`;
+
+    const list = $("dayList");
+    list.replaceChildren();
+
+    data.plan.forEach((day, index) => {
+      const dateParts = day.date.split("-").map(Number);
+      const dateObj = new Date(
+        dateParts[0],
+        dateParts[1] - 1,
+        dateParts[2]
+      );
+
+      const dayCard = document.createElement("article");
+      dayCard.className = "day-card";
+      dayCard.dataset.date = day.date;
+
+      const dateBox = document.createElement("div");
+      dateBox.className = "day-date";
+
+      const dayNumber = document.createElement("div");
+      dayNumber.className = "day-number";
+      dayNumber.textContent = String(dateObj.getDate());
+
+      const dayMonth = document.createElement("div");
+      dayMonth.className = "day-month";
+      dayMonth.textContent = dateObj.toLocaleDateString("en-IN", {
+        month: "short"
+      });
+
+      dateBox.append(dayNumber, dayMonth);
+
+      const content = document.createElement("div");
+
+      const top = document.createElement("div");
+      top.className = "day-top";
+
+      const title = document.createElement("div");
+      title.className = "day-title";
+      title.textContent =
+        `Day ${index + 1} · ${dateObj.toLocaleDateString("en-IN", {
+          weekday: "long"
+        })}`;
+
+      const meta = document.createElement("div");
+      meta.className = "day-meta";
+      meta.textContent = `${day.study_hours} study hours`;
+
+      top.append(title, meta);
+      content.append(top);
+
+      (Array.isArray(day.topics) ? day.topics : []).forEach(topic => {
+        const chip = document.createElement("span");
+        chip.className = "topic-chip";
+        chip.textContent = topic;
+        content.append(chip);
+      });
+
+      const revision = document.createElement("div");
+      revision.className = "revision-note";
+      revision.textContent =
+        `↻ Revision: ${day.revision || "Revise previously studied topics"}`;
+      content.append(revision);
+
+      const checkLabel = document.createElement("label");
+      checkLabel.className = "day-check";
+
+      
+const checkbox = document.createElement("input");
+checkbox.type = "checkbox";
+
+checkbox.checked =
+  day.completed === true || completedDates.has(day.date);
+
+dayCard.classList.toggle("completed", checkbox.checked);
+
+checkbox.addEventListener("change", async () => {
+  if (!currentPlan || !currentPlan.saved_plan_id) {
+    checkbox.checked = !checkbox.checked;
+
+    showMessage(
+      "Saved plan ID கிடைக்கவில்லை. Please generate the plan again.",
+      "error"
+    );
+    return;
+  }
+
+  const completed = checkbox.checked;
+  checkbox.disabled = true;
+
+  try {
+    const response = await apiFetch(
+      `/learning/saved-plans/${currentPlan.saved_plan_id}/progress/`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          date: day.date,
+          completed: completed
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.error || "Could not save study progress."
+      );
+    }
+
+    day.completed = completed;
+
+    if (completed) {
+      completedDates.add(day.date);
+    } else {
+      completedDates.delete(day.date);
+    }
+
+    dayCard.classList.toggle("completed", completed);
+    updateCompletionStats();
+
+  } catch (error) {
+    checkbox.checked = !completed;
+
+    showMessage(
+      error.message || "Progress save failed. Please try again.",
+      "error"
+    );
+
+    console.error("Study progress error:", error);
+  } finally {
+    checkbox.disabled = false;
+  }
+});
+
+      
+
+      const checkText = document.createElement("span");
+      checkText.textContent = "Mark this day as completed";
+
+      checkLabel.append(checkbox, checkText);
+      content.append(checkLabel);
+
+      dayCard.append(dateBox, content);
+     dayCard.classList.toggle(
+  "completed",
+  day.completed === true || completedDates.has(day.date)
+);
+      
+      list.append(dayCard);
+    });
+
+    updateCompletionStats();
+  }
+
+  function updateCompletionStats() {
+    const total = currentPlan?.plan?.length || 0;
+    const completed = completedDates.size;
+
+    $("statCompleted").textContent = completed;
+    $("completionInfo").textContent =
+      `${completed} of ${total} days completed in this session.`;
+  }
+
+  function resetProgress() {
+    if (!currentPlan) return;
+
+    if (!confirm("Reset all completed-day checkmarks for this plan?")) {
+      return;
+    }
+
+    completedDates.clear();
+    renderPlan(currentPlan);
+    showMessage("Progress checkmarks have been reset.", "info");
+  }
+
+  function exportCsv() {
+    if (!currentPlan?.plan?.length) return;
+
+    const rows = [
+      ["Date", "Day", "Topics", "Study Hours", "Revision", "Completed"]
+    ];
+
+    currentPlan.plan.forEach((day, index) => {
+      rows.push([
+        day.date,
+        `Day ${index + 1}`,
+        (day.topics || []).join("; "),
+        day.study_hours,
+        day.revision || "",
+        completedDates.has(day.date) ? "Yes" : "No"
+      ]);
+    });
+
+    const csv = rows.map(row =>
+      row.map(value =>
+        `"${String(value ?? "").replace(/"/g, '""')}"`
+      ).join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(
+      ["\uFEFF" + csv],
+      { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "smart-study-plan.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+// Set the correct validation state when the page first loads.
+updatePlannerMode();
+  $("plannerForm").addEventListener("submit", generatePlan);
+  $("resetProgressBtn").addEventListener("click", resetProgress);
+  $("exportBtn").addEventListener("click", exportCsv);
+
+  
+  
+
+
+ 
+  
+  (async function init() {
+    setDateMinimum();
+
+    if (!getToken()) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    await loadProfile();
+  })();
+  
+</script>
+<script src="/static/js/sidebar.js" defer></script>
+</body>
+</html>

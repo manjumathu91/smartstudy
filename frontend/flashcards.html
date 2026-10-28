@@ -1,0 +1,1598 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generate and study AI-powered flashcards from your PDFs.">
+  <title>Smart Study AI | Flashcards</title>
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+    :root {
+        --bg: #080b14;
+        --panel: #101626;
+        --panel2: #151e31;
+        --border: #222c42;
+        --text: #f3f5ff;
+        --muted: #929bb6;
+        --primary: #8b7cff;
+        --primary2: #6e5df2;
+        --success: #42d6a4;
+        --danger: #ff6f86;
+        --warning: #f7c66a;
+        --radius: 16px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    button,
+    input,
+    select {
+        font: inherit;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    /* Main layout */
+    .app {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    .layout {
+        flex: 1;
+        min-width: 0;
+        min-height: 100vh;
+    }
+
+    .main-content {
+        flex: 1;
+        min-width: 0;
+        margin-left: 260px;
+        padding: 25px clamp(16px, 3vw, 38px);
+    }
+
+    /* Mobile/tablet menu toggle */
+    .menu-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        border: 1px solid #343d55;
+        border-radius: 10px;
+        background: #151e31;
+        color: #f3f5ff;
+        cursor: pointer;
+        position: relative;
+        z-index: 10001;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 2px;
+        background: #f3f5ff;
+    }
+
+    .menu-toggle:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 3px;
+    }
+
+    /* Topbar (if used on this page) */
+    .topbar {
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    .breadcrumb span {
+        color: var(--text);
+        font-weight: 700;
+    }
+
+    /* Page header */
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .eyebrow {
+        margin-bottom: 9px;
+        color: #b0a6ff;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.7px;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: clamp(25px, 3vw, 34px);
+        overflow-wrap: anywhere;
+    }
+
+    .subtitle {
+        margin: 9px 0 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 11px;
+        border: 1px solid #2b3650;
+        border-radius: 30px;
+        color: #b7c2e4;
+        background: #10182a;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .dot {
+        width: 7px;
+        height: 7px;
+        flex-shrink: 0;
+        background: var(--success);
+        border-radius: 50%;
+    }
+
+    /* Statistics */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .stat-card,
+    .panel {
+        min-width: 0;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+
+    .stat-label {
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    .stat-value {
+        margin-top: 10px;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .stat-note {
+        margin-top: 5px;
+        color: #7f8baa;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .progress-track {
+        height: 5px;
+        margin-top: 10px;
+        overflow: hidden;
+        background: #222c42;
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #8b7cff, #e37cff);
+        transition: width 0.25s;
+    }
+
+    /* Main workspace */
+    .workspace {
+        display: grid;
+        grid-template-columns: 330px minmax(0, 1fr);
+        align-items: start;
+        gap: 20px;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .panel-heading {
+        margin: 0 0 6px;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .panel-description {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    /* Form */
+    .field {
+        margin-bottom: 16px;
+    }
+
+    .field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #cbd2e8;
+        font-size: 12px;
+    }
+
+    select,
+    input[type="number"] {
+        width: 100%;
+        min-width: 0;
+        padding: 12px;
+        outline: none;
+        color: var(--text);
+        background: #0a1020;
+        border: 1px solid #2b3650;
+        border-radius: 10px;
+    }
+
+    select:focus,
+    input:focus {
+        border-color: var(--primary);
+    }
+
+    .helper {
+        margin-top: 7px;
+        color: #7885a5;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 40px;
+        padding: 11px 15px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 750;
+        transition: filter 0.2s, transform 0.2s;
+    }
+
+    .btn-primary {
+        color: white;
+        background: linear-gradient(135deg, var(--primary), var(--primary2));
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        filter: brightness(1.12);
+        transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+        color: #d9def2;
+        background: #1a2338;
+        border-color: #303c57;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+        background: #242e47;
+    }
+
+    .btn-danger {
+        color: #ffb5c0;
+        background: #291922;
+        border-color: #4a2939;
+    }
+
+    .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 15px;
+    }
+
+    /* Flashcard toolbar */
+    .study-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .counter {
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    /* Flashcard stage */
+    .flashcard-stage {
+        perspective: 1200px;
+    }
+
+    .flashcard {
+        position: relative;
+        min-height: 300px;
+        cursor: pointer;
+        outline: none;
+        perspective: 1200px;
+    }
+
+    .flashcard:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 4px;
+        border-radius: 18px;
+    }
+
+    .flashcard-inner {
+        position: relative;
+        width: 100%;
+        min-height: 300px;
+        transform-style: preserve-3d;
+        transition: transform 0.55s cubic-bezier(0.2, 0.75, 0.2, 1);
+    }
+
+    .flashcard.flipped .flashcard-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 300px;
+        padding: clamp(22px, 4vw, 38px);
+        overflow-wrap: anywhere;
+        text-align: center;
+        border: 1px solid #34335c;
+        border-radius: 18px;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .flashcard-front {
+        background:
+            radial-gradient(circle at top right, #30265c 0, transparent 42%),
+            linear-gradient(140deg, #171a32, #101626 65%);
+    }
+
+    .flashcard-back {
+        transform: rotateY(180deg);
+        background:
+            radial-gradient(circle at bottom left, #1c4a48 0, transparent 42%),
+            linear-gradient(140deg, #112c31, #101626 70%);
+        border-color: #28625b;
+    }
+
+    .card-label {
+        margin-bottom: 20px;
+        color: #b4aaff;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .flashcard-back .card-label {
+        color: #79e8c5;
+    }
+
+    .card-content {
+        max-width: 680px;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        line-height: 1.8;
+        font-size: clamp(18px, 2.4vw, 25px);
+        font-weight: 650;
+    }
+
+    .flip-hint {
+        margin-top: 25px;
+        color: #7f8baa;
+        font-size: 11px;
+    }
+
+    /* Empty state */
+    .empty-state {
+        display: grid;
+        place-items: center;
+        min-height: 300px;
+        padding: 25px;
+        color: var(--muted);
+        text-align: center;
+        line-height: 1.7;
+        border: 1px dashed #303a55;
+        border-radius: 16px;
+    }
+
+    .empty-icon {
+        margin-bottom: 12px;
+        font-size: 36px;
+    }
+
+    /* Study controls */
+    .study-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 17px;
+    }
+
+    .rating-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 20px;
+    }
+
+    .rating-btn {
+        padding: 9px 12px;
+        color: #d5dcf4;
+        background: #151d30;
+        border: 1px solid #303a55;
+        border-radius: 9px;
+        font-size: 11px;
+    }
+
+    .rating-btn.known {
+        border-color: #28745e;
+        color: #7ee5c3;
+    }
+
+    .rating-btn.review {
+        border-color: #87632b;
+        color: #ffd88a;
+    }
+
+    /* Page batches */
+    .page-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+    }
+
+    /* Messages */
+    .message {
+        display: none;
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .message.show {
+        display: block;
+    }
+
+    .message.info {
+        color: #c6c1ff;
+        background: #201d3b;
+        border: 1px solid #3d3569;
+    }
+
+    .message.error {
+        color: #ffb3c0;
+        background: #301a25;
+        border: 1px solid #633047;
+    }
+
+    .message.success {
+        color: #9af0d1;
+        background: #112b28;
+        border: 1px solid #285b50;
+    }
+
+    .spinner {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border: 2px solid #ffffff66;
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+    }
+ 
+    /* Keep generated flashcard close to the heading */
+#cardStage {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+
+#cardStage .flashcard {
+    margin-top: 0 !important;
+}
+
+.study-toolbar {
+    margin-bottom: 8px !important;
+}
+.empty-state[hidden] {
+    display: none !important;
+}
+/* Fix flashcard stage spacing */
+#cardStage[hidden] {
+    display: none !important;
+}
+
+#cardStage:not([hidden]) {
+    display: block !important;
+    margin-block: 0 !important;
+    padding-block: 0 !important;
+}
+
+#cardStage:not([hidden]) .flashcard {
+    margin-block-start: 0 !important;
+}
+/* Flashcard viewer: remove excess vertical spacing */
+.workspace > .panel:last-child {
+    display: block;
+}
+
+.workspace > .panel:last-child > #cardStage:not([hidden]) {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.workspace > .panel:last-child > .study-toolbar {
+    margin-bottom: 12px !important;
+}
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Tablet and mobile */
+    @media (max-width: 1000px) {
+        
+      
+
+        .main-content {
+            width: 100%;
+            margin-left: 0;
+            padding-top: 10px;
+        }
+
+        .topbar {
+            display: flex;
+        }
+
+        .workspace {
+            grid-template-columns: 1fr;
+        }
+
+        .page-header {
+            flex-direction: column;
+            padding-bottom: 30px;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .main-content {
+            padding: 20px 16px;
+        }
+
+        .stats {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 15px;
+        }
+
+        .stat-value {
+            font-size: 23px;
+        }
+
+        .panel {
+            padding: 16px;
+        }
+
+        .study-controls {
+            justify-content: center;
+        }
+
+        .study-controls .toolbar-left,
+        .study-controls .toolbar-right {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .page-navigation {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .page-navigation .toolbar-right {
+            width: 100%;
+        }
+
+        .page-navigation .btn {
+            flex: 1;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .main-content {
+            padding: 16px 12px;
+        }
+
+        .panel {
+            padding: 13px;
+        }
+
+        .flashcard,
+        .flashcard-inner,
+        .flashcard-face {
+            min-height: 270px;
+        }
+
+        .study-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .action-row .btn {
+            flex: 1;
+        }
+
+        .page-navigation .toolbar-right {
+            flex-direction: column;
+        }
+
+        .page-navigation .btn {
+            width: 100%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            scroll-behavior: auto !important;
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+        /* Mobile & Tablet sidebar toggle */
+
+        
+    }
+    @media (max-width: 1000px) {
+    /* Hide toggle while sidebar is open */
+    body:has(#sidebar.open) .menu-toggle {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+
+    /* Show toggle only while sidebar is closed */
+    body:not(:has(#sidebar.open)) .menu-toggle {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        z-index: 1200 !important;
+    }
+}
+
+@media (max-width: 760px) {
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 20px 16px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        margin-bottom: 24px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-footer {
+        flex-direction: column;
+    }
+
+    .hero,
+    .panel {
+        padding: 18px;
+    }
+
+    .form-actions .btn {
+        max-width: 100%;
+    }
+}
+</style>
+
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- Common sidebar -->
+<div id="sidebarMount"></div>
+
+
+
+
+<div class="layout">
+
+    <main class="main-content">
+      <header class="topbar">
+    <div style="display:flex; align-items:center; gap:12px;">
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation menu"
+            aria-controls="sidebar"
+            aria-expanded="false"
+        >
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+
+        <div class="breadcrumb">
+            Workspace &nbsp;/&nbsp; <span>Flash Cards</span>
+        </div>
+        
+    </div>
+</header>
+
+        <header class="page-header">
+            <div>
+               
+              
+                <h1>Flashcards Studio</h1>
+                <p class="subtitle">
+                    Learn from your uploaded PDFs, flip cards to reveal answers,
+                    and track your revision.
+                </p>
+            </div>
+
+            <div class="badge">
+                <span class="dot"></span>
+                AI-powered learning
+            </div>
+        </header>
+
+      <!-- Statistics -->
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Cards in this batch</div>
+          <div class="stat-value" id="totalCards">0</div>
+          <div class="stat-note">
+            Generated from your selected PDF pages
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Marked as known</div>
+          <div class="stat-value" id="knownCards">0</div>
+          <div class="stat-note">
+            Cards you marked as understood in this session
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Current progress</div>
+          <div class="stat-value" id="progressText">0%</div>
+          <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+      </section>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <section class="workspace">
+
+        <!-- Create flashcards -->
+        <div class="panel">
+          <h2 class="panel-heading">Create a study deck</h2>
+          <p class="panel-description">
+            Choose a PDF, language, and card count to generate a batch
+            of study cards.
+          </p>
+
+          <form id="flashcardForm">
+            <div class="field">
+              <label for="documentSelect">Uploaded PDF</label>
+              <select id="documentSelect" required>
+                <option value="">Loading your documents...</option>
+              </select>
+              <div class="helper">
+                Only documents available to your account should be shown.
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="languageSelect">Flashcard language</label>
+              <select id="languageSelect">
+                <option value="Tamil" selected>Tamil</option>
+                <option value="English">English</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="cardCount">Number of cards</label>
+              <select id="cardCount">
+                <option value="3">3 cards</option>
+                <option value="5" selected>5 cards</option>
+                <option value="8">8 cards</option>
+                <option value="10">10 cards</option>
+              </select>
+              <div class="helper">
+                The backend supports 1–10 cards per request.
+              </div>
+            </div>
+
+            <button class="btn btn-primary full-width" id="generateBtn" type="submit">
+              ✦ Generate Flashcards
+            </button>
+          </form>
+
+          <div class="action-row">
+            <button class="btn btn-secondary" id="shuffleBtn" type="button" disabled>
+              ⤨ Shuffle
+            </button>
+            <button class="btn btn-secondary" id="restartBtn" type="button" disabled>
+              ↺ Restart batch
+            </button>
+          </div>
+
+          <div class="helper" style="margin-top:17px">
+            Page batches use three readable PDF pages at a time.
+            Use Next Pages to continue through the document.
+          </div>
+        </div>
+
+        <!-- Flashcard viewer -->
+        <div class="panel">
+          <div class="study-toolbar">
+            <div>
+              <h2 class="panel-heading" style="margin-bottom:5px">
+                Your flashcards
+              </h2>
+              <div class="counter" id="cardCounter">
+                No cards generated yet
+              </div>
+              
+        </div>
+
+            <div class="toolbar-right">
+              <span class="badge" id="pageBadge">No page batch</span>
+            </div>
+          </div>
+
+          <div id="emptyState" class="empty-state">
+            <div>
+              <div class="empty-icon">▣</div>
+              <strong style="color:#e3e7f7">
+                Your study deck starts here
+              </strong>
+              <div>Select a PDF and generate flashcards to begin.</div>
+            </div>
+          </div>
+
+          <div id="cardStage" class="flashcard-stage" hidden>
+            <div
+              class="flashcard"
+              id="flashcard"
+              tabindex="0"
+              role="button"
+              aria-label="Flashcard. Press Enter or Space to flip."
+              aria-pressed="false"
+            >
+              <div class="flashcard-inner">
+                <div class="flashcard-face flashcard-front">
+                  <div class="card-label">Question / Front</div>
+                  <div class="card-content" id="cardQuestion"></div>
+                  <div class="flip-hint">
+                    Click or press Enter to reveal the answer ↻
+                  </div>
+                </div>
+
+                <div class="flashcard-face flashcard-back">
+                  <div class="card-label">Answer / Back</div>
+                  <div class="card-content" id="cardAnswer"></div>
+                  <div class="flip-hint">
+                    Click to return to the question ↻
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="study-controls">
+              <div class="toolbar-left">
+                <button class="btn btn-secondary" id="previousCardBtn" type="button">
+                  ← Previous
+                </button>
+                <button class="btn btn-secondary" id="nextCardBtn" type="button">
+                  Next →
+                </button>
+              </div>
+
+              <div class="toolbar-right">
+                <button class="btn btn-secondary" id="flipBtn" type="button">
+                  ↻ Flip card
+                </button>
+              </div>
+            </div>
+
+            <div class="rating-row">
+              <button class="rating-btn known" id="knownBtn" type="button">
+                ✓ I know this
+              </button>
+              <button class="rating-btn review" id="reviewBtn" type="button">
+                ↻ Review again
+              </button>
+            </div>
+
+            <div class="helper" style="text-align:center;margin-top:12px">
+              These buttons track your progress in this browser session only.
+            </div>
+          </div>
+
+          <div class="page-navigation">
+            <div>
+              <div style="font-size:12px;font-weight:750">
+                Document navigation
+              </div>
+              <div class="helper" id="pageInfo">
+                Generate your first batch to begin.
+              </div>
+            </div>
+
+            <div class="toolbar-right">
+              <button
+                class="btn btn-secondary"
+                id="previousBatchBtn"
+                type="button"
+                disabled
+              >
+                ← Previous batch
+              </button>
+
+              <button
+                class="btn btn-primary"
+                id="nextBatchBtn"
+                type="button"
+                disabled
+              >
+                Next pages →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Keep these endpoints aligned with your Django urls.py.
+    const API_BASE_URL = "http://127.0.0.1:8000/api";
+    const DOCUMENTS_ENDPOINT = "/documents/";
+    const FLASHCARD_ENDPOINT = "/learning/flashcards/";
+
+    const $ = (id) => document.getElementById(id);
+
+    let currentDocumentId = null;
+    let currentPageOffset = 0;
+    let nextPageOffset = null;
+    let previousOffsets = [];
+    let flashcards = [];
+    let currentCardIndex = 0;
+    let knownSet = new Set();
+    let reviewSet = new Set();
+    let isFlipped = false;
+    let isGenerating = false;
+    let authRedirectStarted = false;
+
+    function getToken() {
+      return localStorage.getItem("access_token");
+    }
+
+    async function apiFetch(path, options = {}) {
+      const token = getToken();
+
+      const headers = {
+        ...(options.headers || {})
+      };
+
+      if (!(options.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+      }
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      return fetch(`${API_BASE_URL}${path}`, {
+        ...options,
+        headers
+      });
+    }
+
+    function showMessage(text, type = "info") {
+      const box = $("message");
+      box.textContent = text;
+      box.className = `message show ${type}`;
+    }
+
+    function hideMessage() {
+      $("message").className = "message";
+      $("message").textContent = "";
+    }
+
+    async function readJson(response) {
+      try {
+        return await response.json();
+      } catch {
+        return {};
+      }
+    }
+
+    function showAuthError() {
+      if (authRedirectStarted) return;
+      authRedirectStarted = true;
+
+      showMessage(
+        "Your login session may have expired. Please log in again.",
+        "error"
+      );
+
+      setTimeout(() => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user_id");
+        window.location.href = "index.html";
+      }, 1800);
+    }
+
+    async function loadDocuments() {
+      const select = $("documentSelect");
+      select.innerHTML = '<option value="">Loading documents...</option>';
+
+      try {
+        const response = await apiFetch(DOCUMENTS_ENDPOINT);
+
+        if (response.status === 401) {
+          showAuthError();
+          return;
+        }
+
+        const data = await readJson(response);
+
+        if (!response.ok) {
+          throw new Error(
+            data.detail || data.error || "Could not load documents."
+          );
+        }
+
+        // Supports a DRF list or a paginated DRF response.
+        const documents = Array.isArray(data)
+          ? data
+          : (data.results || data.documents || []);
+
+        select.innerHTML = "";
+
+        if (!documents.length) {
+          select.innerHTML =
+            '<option value="">No uploaded PDFs found</option>';
+
+          showMessage(
+            "Upload a readable PDF first, then return here to create flashcards.",
+            "info"
+          );
+          return;
+        }
+
+        select.innerHTML = '<option value="">Choose a PDF</option>';
+
+        documents.forEach((doc) => {
+          const option = document.createElement("option");
+          option.value = doc.id;
+          option.textContent =
+            doc.title || doc.original_filename || `Document ${doc.id}`;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        select.innerHTML =
+          '<option value="">Unable to load documents</option>';
+
+        showMessage(
+          error.message || "Could not load your uploaded PDFs.",
+          "error"
+        );
+
+        console.error("Document loading error:", error);
+      }
+    }
+
+    function extractCardText(card, keys) {
+      for (const key of keys) {
+        if (typeof card[key] === "string" && card[key].trim()) {
+          return card[key].trim();
+        }
+      }
+
+      return "";
+    }
+
+    function normalizeCards(data) {
+      const list = Array.isArray(data)
+        ? data
+        : (data.flashcards || data.cards || []);
+
+      return list
+        .map((card) => ({
+          question: extractCardText(card, [
+            "question",
+            "front",
+            "term",
+            "prompt"
+          ]),
+          answer: extractCardText(card, [
+            "answer",
+            "back",
+            "definition",
+            "explanation"
+          ])
+        }))
+        .filter((card) => card.question && card.answer);
+    }
+
+    async function generateBatch(pageOffset, isNewDocument = false) {
+      if (isGenerating) return;
+
+      hideMessage();
+
+      const documentId = $("documentSelect").value;
+
+      if (!documentId) {
+        showMessage("Please select an uploaded PDF first.", "error");
+        return;
+      }
+
+      if (
+        isNewDocument ||
+        String(documentId) !== String(currentDocumentId)
+      ) {
+        currentDocumentId = documentId;
+        currentPageOffset = 0;
+        nextPageOffset = null;
+        previousOffsets = [];
+        knownSet = new Set();
+        reviewSet = new Set();
+        pageOffset = 0;
+      }
+
+      isGenerating = true;
+
+      const button = $("generateBtn");
+      const nextButton = $("nextBatchBtn");
+      const previousButton = $("previousBatchBtn");
+
+      button.disabled = true;
+      nextButton.disabled = true;
+      previousButton.disabled = true;
+
+      button.innerHTML = '<span class="spinner"></span> Generating...';
+
+      $("emptyState").hidden = false;
+      $("emptyState").innerHTML =
+        '<div><div class="spinner"></div><div style="margin-top:14px">Creating your flashcards...</div></div>';
+
+      $("cardStage").hidden = true;
+
+      try {
+        const response = await apiFetch(FLASHCARD_ENDPOINT, {
+          method: "POST",
+          body: JSON.stringify({
+            document_id: Number(documentId),
+            page_offset: Number(pageOffset),
+            number_of_cards: Number($("cardCount").value),
+            language: $("languageSelect").value
+          })
+        });
+
+        const data = await readJson(response);
+
+        if (response.status === 401) {
+          showAuthError();
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(
+            data.error ||
+            data.detail ||
+            `Request failed (${response.status}).`
+          );
+        }
+
+        
+        
+
+const generated = normalizeCards(data);
+
+if (!generated.length) {
+  throw new Error(
+    "The API returned no readable flashcards. Check the backend response."
+  );
+}
+
+// Remove duplicate question-answer pairs.
+const seenCards = new Set();
+
+const uniqueGenerated = generated.filter((card) => {
+  const question = String(card.question || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+  const answer = String(card.answer || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+  const key = `${question}|||${answer}`;
+
+  if (!question || !answer || seenCards.has(key)) {
+    return false;
+  }
+
+  seenCards.add(key);
+  return true;
+});
+
+if (!uniqueGenerated.length) {
+  throw new Error(
+    "No unique flashcards were generated. Please try again."
+  );
+}
+
+
+flashcards = uniqueGenerated;
+currentCardIndex = 0;
+isFlipped = false;
+currentPageOffset = Number(pageOffset);
+
+nextPageOffset = data.has_next
+  ? data.next_page_offset
+  : null;
+
+        $("totalCards").textContent = flashcards.length;
+
+        $("pageBadge").textContent =
+          data.page_start != null && data.page_end != null
+            ? `Pages ${data.page_start}–${data.page_end}`
+            : `Batch at offset ${currentPageOffset}`;
+
+        $("pageInfo").textContent =
+          data.total_pages != null
+            ? `${data.total_pages} readable pages in this PDF`
+            : "Batch generated successfully.";
+
+        $("previousBatchBtn").disabled = previousOffsets.length === 0;
+        $("nextBatchBtn").disabled = nextPageOffset == null;
+
+        $("emptyState").hidden = true;
+        $("emptyState").innerHTML = "";
+
+        $("cardStage").hidden = false;
+        $("shuffleBtn").disabled = flashcards.length < 2;
+        $("restartBtn").disabled = flashcards.length === 0;
+
+        renderCard();
+        updateStats();
+
+        if (data.saved_to_library === true || data.saved_flashcard_set_id) {
+          showMessage(
+            `Success! ${flashcards.length} flashcards generated and saved to My Library.`,
+            "success"
+          );
+        } else {
+          showMessage(
+            "Flashcards generated successfully. The API did not confirm that they were saved to My Library.",
+            "info"
+          );
+        }
+      } catch (error) {
+        $("emptyState").hidden = false;
+        $("emptyState").innerHTML =
+          '<div><div class="empty-icon">⚠</div><strong style="color:#ffb3c0">Could not generate flashcards</strong><div id="errorText"></div></div>';
+
+        $("errorText").textContent =
+          error.message || "Please try again.";
+
+        $("cardStage").hidden = true;
+
+        showMessage(
+          error.message || "Flashcard generation failed.",
+          "error"
+        );
+
+        console.error("Flashcard generation error:", error);
+      } finally {
+        isGenerating = false;
+
+        button.disabled = false;
+        button.textContent = flashcards.length > 0
+          ? "↻ Regenerate Flashcards"
+          : "✦ Generate Flashcards";
+
+        $("nextBatchBtn").disabled = nextPageOffset == null;
+        $("previousBatchBtn").disabled = previousOffsets.length === 0;
+
+        if (flashcards.length > 0) {
+          $("emptyState").hidden = true;
+          $("emptyState").innerHTML = "";
+          $("cardStage").hidden = false;
+        }
+      }
+    }
+
+    function renderCard() {
+      if (!flashcards.length) return;
+
+      const card = flashcards[currentCardIndex];
+
+      $("cardQuestion").textContent = card.question;
+      $("cardAnswer").textContent = card.answer;
+
+      $("cardCounter").textContent =
+        `Card ${currentCardIndex + 1} of ${flashcards.length}`;
+
+      $("previousCardBtn").disabled = currentCardIndex === 0;
+      $("nextCardBtn").disabled =
+        currentCardIndex === flashcards.length - 1;
+
+      $("flashcard").classList.toggle("flipped", isFlipped);
+      $("flashcard").setAttribute("aria-pressed", String(isFlipped));
+
+      const key = `${currentPageOffset}:${currentCardIndex}`;
+
+      $("knownBtn").style.opacity = knownSet.has(key) ? "1" : ".8";
+      $("reviewBtn").style.opacity = reviewSet.has(key) ? "1" : ".8";
+    }
+
+    function flipCard() {
+      if (!flashcards.length) return;
+
+      isFlipped = !isFlipped;
+
+      $("flashcard").classList.toggle("flipped", isFlipped);
+      $("flashcard").setAttribute("aria-pressed", String(isFlipped));
+    }
+
+    function updateStats() {
+      $("knownCards").textContent = knownSet.size;
+
+      const total = knownSet.size + reviewSet.size;
+      const percentage = total
+        ? Math.round((knownSet.size / total) * 100)
+        : 0;
+
+      $("progressText").textContent = `${percentage}%`;
+      $("progressBar").style.width = `${percentage}%`;
+    }
+
+    // Generate flashcards.
+    $("flashcardForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      generateBatch(0, true);
+    });
+
+    // Flip the current card.
+    $("flashcard").addEventListener("click", flipCard);
+
+    $("flashcard").addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        flipCard();
+      }
+    });
+
+    $("flipBtn").addEventListener("click", flipCard);
+
+    // Previous card.
+    $("previousCardBtn").addEventListener("click", () => {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        isFlipped = false;
+        renderCard();
+      }
+    });
+
+    // Next card.
+    $("nextCardBtn").addEventListener("click", () => {
+      if (currentCardIndex < flashcards.length - 1) {
+        currentCardIndex++;
+        isFlipped = false;
+        renderCard();
+      }
+    });
+
+    // Mark the current card as known.
+    $("knownBtn").addEventListener("click", () => {
+      if (!flashcards.length) return;
+
+      const key = `${currentPageOffset}:${currentCardIndex}`;
+
+      knownSet.add(key);
+      reviewSet.delete(key);
+
+      updateStats();
+      renderCard();
+
+      showMessage("Marked as known for this session.", "success");
+    });
+
+    // Mark the current card for review.
+    $("reviewBtn").addEventListener("click", () => {
+      if (!flashcards.length) return;
+
+      const key = `${currentPageOffset}:${currentCardIndex}`;
+
+      reviewSet.add(key);
+      knownSet.delete(key);
+
+      updateStats();
+      renderCard();
+
+      showMessage("Added to your review list for this session.", "info");
+    });
+
+    // Shuffle the current batch.
+    $("shuffleBtn").addEventListener("click", () => {
+      if (flashcards.length < 2) return;
+
+      for (let i = flashcards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [flashcards[i], flashcards[j]] =
+          [flashcards[j], flashcards[i]];
+      }
+
+      currentCardIndex = 0;
+      isFlipped = false;
+
+      renderCard();
+      showMessage("Flashcards shuffled.", "success");
+    });
+
+    // Restart the current batch.
+    $("restartBtn").addEventListener("click", () => {
+      if (!flashcards.length) return;
+
+      currentCardIndex = 0;
+      isFlipped = false;
+
+      renderCard();
+      showMessage("Started this batch again.", "info");
+    });
+
+    // Continue to the next three-page batch.
+    $("nextBatchBtn").addEventListener("click", () => {
+      if (nextPageOffset == null || isGenerating) return;
+
+      previousOffsets.push(currentPageOffset);
+      generateBatch(nextPageOffset);
+    });
+
+    // Return to the previous batch.
+    $("previousBatchBtn").addEventListener("click", () => {
+      if (!previousOffsets.length || isGenerating) return;
+
+      const offset = previousOffsets.pop();
+      generateBatch(offset);
+    });
+
+    // Initial page setup.
+    (async function init() {
+      if (!getToken()) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      await loadDocuments();
+    })();
+  </script>
+
+  <!-- Shared sidebar handles mobile toggle, navigation, profile and logout. -->
+  <script src="/static/js/sidebar.js" defer></script>
+
+  <!-- Existing study-time tracker -->
+  
+</body>
+</html>

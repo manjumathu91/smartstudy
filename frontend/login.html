@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Log in to Smart Study AI to access your personal study workspace.">
+
+  <title>Login | Smart Study AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: #f8fafc;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(124, 58, 237, .18), transparent 35%),
+        radial-gradient(circle at 90% 85%, rgba(59, 130, 246, .16), transparent 35%),
+        #070816;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .login-navbar {
+      padding: 20px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .login-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .login-logo-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    }
+
+    .login-gradient {
+      color: #b8a4ff;
+      background: linear-gradient(100deg, #c4b5fd, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-nav-link {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .login-nav-link strong,
+    .login-register-link a {
+      color: #c4b5fd;
+    }
+
+    .login-wrapper {
+      min-height: calc(100vh - 125px);
+      width: min(1080px, 90%);
+      margin: auto;
+      padding: 35px 0 55px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 70px;
+    }
+
+    .login-intro {
+      animation: loginFadeUp .7s ease both;
+    }
+
+    .login-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(167, 139, 250, .25);
+      border-radius: 999px;
+      color: #c4b5fd;
+      background: rgba(139, 92, 246, .1);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .login-intro h1 {
+      margin: 0 0 20px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(35px, 4.5vw, 54px);
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+    }
+
+    .login-intro > p {
+      max-width: 450px;
+      color: #a6afc4;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .login-benefits {
+      display: grid;
+      gap: 17px;
+      margin-top: 32px;
+    }
+
+    .login-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      color: #dbe4f5;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .login-benefit-icon {
+      width: 37px;
+      height: 37px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: #c4b5fd;
+      background: rgba(139, 92, 246, .14);
+    }
+
+    .login-benefit strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .login-benefit span {
+      color: #98a4bb;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 460px;
+      justify-self: end;
+      padding: 35px;
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-radius: 24px;
+      background: rgba(15, 18, 39, .86);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(20px);
+      animation: loginFadeUp .7s .12s ease both;
+    }
+
+    .login-card-header {
+      margin-bottom: 27px;
+    }
+
+    .login-card-header h2 {
+      margin: 0 0 9px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .login-card-header p {
+      margin: 0;
+      color: #9ca9bf;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .login-form {
+      display: grid;
+      gap: 19px;
+    }
+
+    .login-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .login-field label {
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .login-input-wrap {
+      position: relative;
+    }
+
+    .login-input-wrap > i:first-child {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: #8b96ad;
+      pointer-events: none;
+    }
+
+    .login-input {
+      width: 100%;
+      min-height: 50px;
+      padding: 13px 45px;
+      border: 1px solid #30364d;
+      border-radius: 12px;
+      outline: none;
+      color: #f8fafc;
+      background: #0b0e20;
+      font-size: 14px;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .login-input::placeholder {
+      color: #69758c;
+    }
+
+    .login-input:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, .13);
+    }
+
+    .login-password-toggle {
+      position: absolute;
+      top: 50%;
+      right: 13px;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      color: #94a3b8;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .login-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .login-remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #aab5c9;
+      cursor: pointer;
+    }
+
+    .login-remember input {
+      width: 15px;
+      height: 15px;
+      accent-color: #8b5cf6;
+    }
+
+    .login-forgot {
+      color: #c4b5fd;
+    }
+
+    .login-forgot:hover,
+    .login-register-link a:hover {
+      color: #93c5fd;
+    }
+
+    .login-submit {
+      width: 100%;
+      min-height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(110deg, #7c3aed, #4f46e5, #2563eb);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, .22);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .login-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(99, 102, 241, .32);
+    }
+
+    .login-submit:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .login-message.error {
+      display: block;
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, .25);
+      background: rgba(239, 68, 68, .1);
+    }
+
+    .login-message.success {
+      display: block;
+      color: #bbf7d0;
+      border: 1px solid rgba(74, 222, 128, .25);
+      background: rgba(34, 197, 94, .1);
+    }
+
+    .login-register-link {
+      margin: 24px 0 0;
+      color: #9ca9bf;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .login-register-link a {
+      font-weight: 700;
+    }
+
+    .login-footer {
+      padding: 0 20px 22px;
+      color: #69758c;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @keyframes loginFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .login-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 530px;
+        gap: 35px;
+      }
+
+      .login-intro {
+        text-align: center;
+      }
+
+      .login-intro > p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .login-benefits {
+        max-width: 420px;
+        margin: 28px auto 0;
+        text-align: left;
+      }
+
+      .login-card {
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .login-navbar {
+        padding: 16px 5%;
+      }
+
+      .login-logo {
+        gap: 8px;
+        font-size: 16px;
+      }
+
+      .login-logo-icon {
+        width: 37px;
+        height: 37px;
+      }
+
+      .login-nav-link {
+        font-size: 12px;
+      }
+
+      .login-wrapper {
+        width: 92%;
+        padding-top: 24px;
+        gap: 28px;
+      }
+
+      .login-intro h1 {
+        font-size: 35px;
+        letter-spacing: -1px;
+      }
+
+      .login-intro > p {
+        font-size: 14px;
+      }
+
+      .login-card {
+        padding: 24px 19px;
+        border-radius: 18px;
+      }
+
+      .login-card-header h2 {
+        font-size: 24px;
+      }
+
+      .login-benefit {
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header class="login-navbar">
+    <a href="index.html" class="login-logo" aria-label="Smart Study AI home">
+      <span class="login-logo-icon">
+        <i class="fa-solid fa-brain" aria-hidden="true"></i>
+      </span>
+      <span>Smart Study <span class="login-gradient">AI</span></span>
+    </a>
+
+    <a href="register.html" class="login-nav-link">
+      New here? <strong>Create account</strong>
+    </a>
+  </header>
+
+  <main class="login-wrapper">
+
+    <!-- Introduction -->
+    <section class="login-intro">
+      <div class="login-badge">
+        <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+        Welcome back, learner
+      </div>
+
+      <h1>
+        Your learning<br>
+        <span class="login-gradient">journey continues.</span>
+      </h1>
+
+      <p>
+        Sign in to return to your personal study workspace.
+        Your learning materials, notes, quizzes and study plans
+        will be available after successful login.
+      </p>
+
+      <div class="login-benefits">
+
+        <div class="login-benefit">
+          <div class="login-benefit-icon">
+            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+          </div>
+          <div>
+            <strong>Your study materials</strong>
+            <span>Access your uploaded PDFs and learning resources.</span>
+          </div>
+        </div>
+
+        <div class="login-benefit">
+          <div class="login-benefit-icon">
+            <i class="fa-solid fa-brain" aria-hidden="true"></i>
+          </div>
+          <div>
+            <strong>Continue learning</strong>
+            <span>Review notes, quizzes and flashcards.</span>
+          </div>
+        </div>
+
+        <div class="login-benefit">
+          <div class="login-benefit-icon">
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+          </div>
+          <div>
+            <strong>Stay on track</strong>
+            <span>Continue following your study plan.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Login form -->
+    <section class="login-card">
+      <div class="login-card-header">
+        <h2>Welcome back!</h2>
+        <p>Enter your account details to sign in.</p>
+      </div>
+
+      <form class="login-form" id="loginForm" novalidate>
+
+        <div class="login-field">
+          <label for="loginEmail">Email address or username</label>
+          <div class="login-input-wrap">
+            <i class="fa-regular fa-user" aria-hidden="true"></i>
+            <input
+              class="login-input"
+              type="text"
+              id="loginEmail"
+              name="username"
+              placeholder="Enter email or username"
+              autocomplete="username"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="login-field">
+          <label for="loginPassword">Password</label>
+          <div class="login-input-wrap">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <input
+              class="login-input"
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+            <button
+              class="login-password-toggle"
+              type="button"
+              id="toggleLoginPassword"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              <i class="fa-regular fa-eye" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="login-options">
+          <label class="login-remember" for="rememberMe">
+            <input type="checkbox" id="rememberMe" name="remember_me">
+            Remember me
+          </label>
+
+          <a class="login-forgot" href="forgotpassword.html">
+            Forgot password?
+          </a>
+        </div>
+
+        <div
+          class="login-message"
+          id="loginMessage"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+        <button class="login-submit" type="submit" id="loginSubmit">
+          Sign In
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </button>
+
+      </form>
+
+      <p class="login-register-link">
+        Don't have an account?
+        <a href="register.html">Create an account</a>
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="login-footer">
+    &copy; <span id="loginYear"></span> Smart Study AI.
+    Learn smarter, one page at a time.
+  </footer>
+
+  <script>
+    // Current year
+    document.getElementById("loginYear").textContent =
+      new Date().getFullYear();
+
+    // Show / hide password
+    const passwordInput = document.getElementById("loginPassword");
+    const togglePasswordButton =
+      document.getElementById("toggleLoginPassword");
+
+    togglePasswordButton.addEventListener("click", () => {
+      const showPassword = passwordInput.type === "password";
+
+      passwordInput.type = showPassword ? "text" : "password";
+      togglePasswordButton.setAttribute(
+        "aria-pressed",
+        String(showPassword)
+      );
+      togglePasswordButton.setAttribute(
+        "aria-label",
+        showPassword ? "Hide password" : "Show password"
+      );
+
+      const icon = togglePasswordButton.querySelector("i");
+
+      icon.classList.toggle("fa-eye", !showPassword);
+      icon.classList.toggle("fa-eye-slash", showPassword);
+    });
+
+    // Frontend validation only.
+    // Actual authentication will be connected to Django next.
+    
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+const loginSubmit = document.getElementById("loginSubmit");
+
+const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  loginMessage.textContent = "";
+  loginMessage.className = "login-message";
+
+  if (!loginForm.checkValidity()) {
+    loginForm.reportValidity();
+    return;
+  }
+
+  const username = document.getElementById("loginEmail").value.trim();
+  console.log("Login value:", username);
+  const password = document.getElementById("loginPassword").value;
+
+  loginSubmit.disabled = true;
+  loginSubmit.textContent = "Signing in...";
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/auth/login/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      }
+    );
+
+    const data = await response.json();
+   console.log("Login response:", data);
+    if (!response.ok) {
+      throw new Error(
+        data.detail || data.username?.[0] ||
+        "Login failed. Check your username and password."
+      );
+    }
+
+    if (!data.access || !data.refresh) {
+      throw new Error("Login response did not contain both tokens.");
+    }
+
+    
+  
+localStorage.setItem("access_token", data.access);
+localStorage.setItem("refresh_token", data.refresh);
+
+try {
+  const profileResponse = await fetch(
+    `${API_BASE_URL}/auth/profile/`,
+    {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${data.access}`,
+        "Content-Type": "application/json"
+      }
+    }
+  );
+
+  if (!profileResponse.ok) {
+    throw new Error("Could not load user profile after login.");
+  }
+
+  const profile = await profileResponse.json();
+
+  const userId = profile.id ?? profile.user_id ?? profile.pk;
+
+  if (userId == null) {
+    throw new Error("User ID was not returned by the profile API.");
+  }
+
+  localStorage.setItem("user_id", String(userId));
+
+} catch (profileError) {
+  console.error("Profile loading error:", profileError);
+  throw profileError;
+}
+
+loginMessage.textContent = "Login successful! Redirecting...";
+loginMessage.className = "login-message success";
+
+window.location.href = "dashboard.html";
+
+
+  } catch (error) {
+    loginMessage.textContent =
+      error.message === "Failed to fetch"
+        ? "Cannot connect to Django. Check that the backend server is running."
+        : error.message;
+
+    loginMessage.className = "login-message error";
+
+  } finally {
+    loginSubmit.disabled = false;
+    loginSubmit.textContent = "Sign In";
+  }
+});
+
+  </script>
+
+</body>
+</html>

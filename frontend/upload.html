@@ -1,0 +1,1599 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Materials | Smart Study AI</title>
+
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #080b14;
+            --panel: #101626;
+            --border: #222c42;
+            --text: #f3f5ff;
+            --muted: #929bb6;
+            --primary: #8b7cff;
+            --primary2: #6578ff;
+            --green: #4ade80;
+            --red: #fb7185;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "DM Sans", sans-serif;
+        }
+
+        button, input, select { font: inherit; }
+        a { color: inherit; }
+        button, a, select, input {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Main layout: sidebar is managed by sidebar.css */
+        .main-content {
+            min-width: 0;
+            width: calc(100% - 260px);
+            margin-left: 260px;
+            padding: 30px 34px 45px;
+        }
+
+        .page-container {
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 32px;
+        }
+        
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.mobile-menu-toggle:hover {
+    border-color: var(--primary);
+    color: #b9b0ff;
+}
+
+
+
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .breadcrumb i { color: var(--primary); }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--panel);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .topbar-link:hover { border-color: var(--primary); }
+
+        .page-heading { margin-bottom: 27px; }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #302b55;
+            border-radius: 30px;
+            background: #15132a;
+            color: #b9b0ff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        h1, h2, h3 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 10px;
+            font-size: clamp(27px, 4vw, 36px);
+            letter-spacing: -1px;
+        }
+
+        .page-description {
+            max-width: 680px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .upload-card {
+            padding: 26px;
+            margin-bottom: 22px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+        }
+
+        .section-heading { margin-bottom: 20px; }
+
+        .section-heading h2 {
+            margin: 0 0 7px;
+            font-size: 18px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .drop-zone {
+            position: relative;
+            padding: 35px 18px;
+            border: 2px dashed #49416f;
+            border-radius: 15px;
+            background: #111528;
+            text-align: center;
+            transition: background .2s, border-color .2s;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            border-color: var(--primary);
+            background: #191932;
+        }
+
+        .upload-icon {
+            display: grid;
+            place-items: center;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 17px;
+            background: #252044;
+            color: #b9b0ff;
+            font-size: 27px;
+        }
+
+        .drop-zone h3 {
+            margin: 0 0 8px;
+            font-size: 19px;
+        }
+
+        .drop-zone p {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .choose-btn,
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 10px;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .choose-btn:hover,
+        .upload-btn:not(:disabled):hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .file-limit {
+            display: block;
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .file-info {
+            display: none;
+            align-items: center;
+            gap: 13px;
+            padding: 14px;
+            margin-top: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #0c1120;
+        }
+
+        .file-info.visible { display: flex; }
+
+        .pdf-icon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
+            background: #3b1d2b;
+            color: var(--red);
+            font-size: 21px;
+        }
+
+        .file-details,
+        .document-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name,
+        .document-title {
+            display: block;
+            margin: 0;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .file-size {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .remove-btn {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border: 1px solid #4a2937;
+            border-radius: 9px;
+            color: var(--red);
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .details-section { margin-top: 28px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 22px;
+        }
+
+        .form-group { min-width: 0; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .optional-label {
+            margin-left: 5px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .required { color: #fda4af; }
+
+        .form-group input,
+        .form-group select,
+        .library-controls input,
+        .library-controls select {
+            width: 100%;
+            min-height: 46px;
+            padding: 11px 12px;
+            border: 1px solid #303952;
+            border-radius: 9px;
+            outline: none;
+            background: #0c1120;
+            color: var(--text);
+        }
+
+        .form-group input::placeholder,
+        .library-controls input::placeholder {
+            color: #6f7893;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .library-controls input:focus,
+        .library-controls select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px #8b7cff1c;
+        }
+
+        .form-group select option,
+        .library-controls select option {
+            background: #101626;
+            color: white;
+        }
+
+        .field-help {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .type-description {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            margin-top: 18px;
+            padding: 14px;
+            border: 1px solid #302b55;
+            border-radius: 11px;
+            background: #15132a;
+        }
+
+        .type-description i {
+            margin-top: 3px;
+            color: #b9b0ff;
+        }
+
+        .type-description p {
+            margin: 0;
+            color: #c1c0da;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .type-description strong { color: var(--text); }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 25px;
+            padding-top: 22px;
+            border-top: 1px solid var(--border);
+        }
+
+        .submit-hint {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .upload-btn {
+            min-height: 46px;
+            padding: 12px 20px;
+            transition: .2s;
+        }
+
+        .upload-btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 13px 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .message.visible { display: block; }
+
+        .message.error {
+            border: 1px solid #5b2938;
+            background: #321722;
+            color: #fecdd3;
+        }
+
+        .message.success {
+            border: 1px solid #24523c;
+            background: #123225;
+            color: #bbf7d0;
+        }
+
+        .library-section { margin-top: 22px; }
+
+        .library-controls {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(160px, .5fr);
+            gap: 12px;
+            margin: 20px 0 12px;
+        }
+
+        .library-count {
+            margin: 12px 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .documents-list {
+            display: grid;
+            gap: 11px;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #0c1120;
+        }
+
+        .document-title { margin-bottom: 7px; }
+
+        .document-meta {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            margin-top: 7px;
+            border: 1px solid #39315f;
+            border-radius: 20px;
+            background: #19162e;
+            color: #c7c0ff;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .document-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .document-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 34px;
+            padding: 7px 9px;
+            border: 1px solid #303952;
+            border-radius: 8px;
+            background: #151e32;
+            color: white;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .document-action:hover { border-color: var(--primary); }
+
+        .document-action.delete {
+            border-color: #5b2938;
+            color: #fda4af;
+        }
+
+        .document-action:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .empty-documents {
+            padding: 24px 10px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .bottom-tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            padding: 19px;
+            margin-top: 22px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--panel);
+        }
+
+        .tip-icon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 39px;
+            height: 39px;
+            border-radius: 11px;
+            background: #29213b;
+            color: #f0abfc;
+        }
+
+        .bottom-tip h3 {
+            margin: 0 0 7px;
+            font-size: 14px;
+        }
+
+        .bottom-tip p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .footer {
+            padding-top: 27px;
+            color: #6f7893;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        
+        /* Tablet and mobile */
+@media (max-width: 1000px) {
+    .mobile-menu-toggle {
+        display: inline-flex !important;
+    }
+
+    .topbar-left {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .topbar {
+        flex-wrap: wrap;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 26px 22px 40px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 22px 16px 35px;
+    }
+}
+        @media (max-width: 560px) {
+            .main-content { padding: 20px 12px 30px; }
+
+            .topbar {
+                align-items: flex-start;
+                margin-bottom: 24px;
+            }
+              .topbar-left {
+        align-items: flex-start;
+    }
+
+    .mobile-menu-toggle {
+        width: 40px;
+        height: 40px;
+    }
+
+            .breadcrumb {
+                flex-wrap: wrap;
+                gap: 7px;
+                font-size: 11px;
+            }
+
+            .topbar-link {
+                padding: 9px;
+                font-size: 11px;
+            }
+
+            .form-grid,
+            .library-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-card {
+                padding: 17px;
+                border-radius: 14px;
+            }
+
+            .drop-zone { padding: 28px 12px; }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .upload-btn { width: 100%; }
+            .submit-hint { text-align: center; }
+
+            .document-item {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .document-main { width: calc(100% - 60px); }
+
+            .document-actions {
+                width: 100%;
+                padding-left: 56px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Shared sidebar is loaded by sidebar.js -->
+    <div id="sidebarMount"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+        <div class="page-container">
+
+           
+            
+<header class="topbar">
+    <div class="topbar-left">
+        <button
+            type="button"
+            class="mobile-menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation menu"
+            aria-controls="sidebarMount"
+            aria-expanded="false"
+        >
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="breadcrumb">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Workspace</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Upload Materials</span>
+        </div>
+    </div>
+
+    <div class="topbar-actions">
+        <a href="/dashboard.html" class="topbar-link">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+    </div>
+</header>
+
+
+            <section class="page-heading">
+                <div class="eyebrow">
+                    <i class="fa-solid fa-sparkles"></i>
+                    YOUR PERSONAL AI STUDY ASSISTANT
+                </div>
+
+                <h1>Let's study smarter. 📚</h1>
+
+                <p class="page-description">
+                    Upload textbooks, study material or general documents.
+                    Choose the document type so Smart Study AI can provide the
+                    appropriate learning tools.
+                </p>
+            </section>
+
+            <section class="upload-card">
+                <div class="section-heading">
+                    <h2><i class="fa-solid fa-cloud-arrow-up"></i> Upload your material</h2>
+                    <p>Choose a file from your device. Maximum file size: 150 MB.</p>
+                </div>
+
+                <form id="uploadForm" novalidate>
+                    <div class="drop-zone" id="dropZone">
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                        </div>
+
+                        <h3>Drop your File here</h3>
+                        <p>Drag and drop your PDF, or choose it from your device.</p>
+
+                        <button type="button" class="choose-btn" id="chooseFile">
+                            <i class="fa-solid fa-folder-open"></i> Choose File
+                        </button>
+
+                        <input type="file" id="pdfFile" accept=".pdf,application/pdf" hidden>
+
+                        <span class="file-limit"> Maximum 150 MB</span>
+                    </div>
+
+                    <div class="file-info" id="fileInfo">
+                        <div class="pdf-icon">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+
+                        <div class="file-details">
+                            <span class="file-name" id="fileName"></span>
+                            <div class="file-size" id="fileSize"></div>
+                        </div>
+
+                        <button type="button" class="remove-btn" id="removeFile"
+                                aria-label="Remove selected file" title="Remove file">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+
+                    <div class="details-section">
+                        <div class="section-heading">
+                            <h2><i class="fa-solid fa-sliders"></i> Material details</h2>
+                            <p>Select a document type and your preferred language.</p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="documentType">
+                                    Document type <span class="required">*</span>
+                                </label>
+
+                                <select id="documentType" required>
+                                    <option value="textbook">Textbook / Study Book</option>
+                                    <option value="general" selected>General PDF / Document</option>
+                                </select>
+
+                                <p class="field-help">
+                                    This determines which study tools are available.
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="language">
+                                    Preferred language <span class="required">*</span>
+                                </label>
+
+                                <select id="language" required>
+                                    <option value="Both" selected>Tamil + English</option>
+                                    <option value="Tamil">Tamil</option>
+                                    <option value="English">English</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject">
+                                    Subject <span class="optional-label">Optional</span>
+                                </label>
+
+                                <select id="subject">
+                                    <option value="">Let AI identify it</option>
+                                    <option value="General Tamil">General Tamil</option>
+                                    <option value="Science">Science</option>
+                                    <option value="History">History</option>
+                                    <option value="Geography">Geography</option>
+                                    <option value="Indian Economy">Indian Economy</option>
+                                    <option value="General Studies">General Studies</option>
+                                    <option value="Aptitude">Aptitude &amp; Reasoning</option>
+                                    <option value="Government Notification">Government Notification</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="classLevel">
+                                    Class / Exam level <span class="optional-label">Optional</span>
+                                </label>
+
+                                <select id="classLevel">
+                                    <option value="">Not applicable</option>
+                                    <option value="Class 6">Class 6</option>
+                                    <option value="Class 7">Class 7</option>
+                                    <option value="Class 8">Class 8</option>
+                                    <option value="Class 9">Class 9</option>
+                                    <option value="Class 10">Class 10</option>
+                                    <option value="Class 11">Class 11</option>
+                                    <option value="Class 12">Class 12</option>
+                                    <option value="College">College</option>
+                                    <option value="TNPSC">TNPSC Preparation</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="materialTitle">
+                                    Material title <span class="required">*</span>
+                                </label>
+
+                                <input type="text" id="materialTitle"
+                                       placeholder="e.g. TNPSC Group 2 Notification"
+                                       maxlength="255" required>
+
+                                <p class="field-help">
+                                    The PDF filename will be suggested automatically.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="type-description" id="typeDescription">
+                            <i class="fa-solid fa-file-lines"></i>
+                            <p id="typeDescriptionText">
+                                <strong>General document:</strong> Use summaries, key points,
+                                topic analysis and document Q&amp;A where supported.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="submit-hint">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Your documents are associated with your logged-in account.
+                        </div>
+
+                        <button type="submit" class="upload-btn" id="uploadBtn" disabled>
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Material
+                        </button>
+                    </div>
+
+                    <div class="message" id="uploadMessage"
+                         role="status" aria-live="polite"></div>
+                </form>
+            </section>
+
+            <section class="upload-card library-section" id="myDocuments">
+                <div class="section-heading">
+                    <h2><i class="fa-solid fa-folder-open"></i> My Documents</h2>
+                    <p>Search, view, download or delete your uploaded documents.</p>
+                </div>
+
+                <div class="library-controls">
+                    <input type="search" id="documentSearch"
+                           placeholder="Search by title, filename or subject..."
+                           aria-label="Search documents">
+
+                    <select id="documentTypeFilter" aria-label="Filter by document type">
+                        <option value="">All document types</option>
+                        <option value="textbook">Textbooks / Study Books</option>
+                        <option value="general">General Documents</option>
+                    </select>
+                </div>
+
+                <p id="documentCount" class="library-count">Connecting to Django...</p>
+
+                <div id="documentsMessage" class="message"
+                     role="status" aria-live="polite"></div>
+
+                <div id="documentsList" class="documents-list">
+                    <p class="empty-documents">Loading your documents...</p>
+                </div>
+            </section>
+
+            <aside class="bottom-tip">
+                <div class="tip-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <h3>Make the most of your study material</h3>
+                    <p>
+                        Textbooks can be used for page-wise, lesson-wise and topic-wise
+                        study when the relevant AI features support them. General documents
+                        can be used for summaries and key-point extraction. Results depend
+                        on readable content and the available AI services.
+                    </p>
+                </div>
+            </aside>
+
+            <footer class="footer">
+                © <span id="currentYear"></span> Smart Study AI · Learn at your own pace.
+            </footer>
+
+        </div>
+        </main>
+
+
+<script>
+    document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+    const API_BASE_URL = "http://127.0.0.1:8000/api";
+    const API_ORIGIN = new URL(API_BASE_URL).origin;
+    const MAX_FILE_SIZE = 150 * 1024 * 1024;
+
+    const form = document.getElementById("uploadForm");
+    const pdfInput = document.getElementById("pdfFile");
+    const dropZone = document.getElementById("dropZone");
+    const chooseFile = document.getElementById("chooseFile");
+    const fileInfo = document.getElementById("fileInfo");
+    const fileName = document.getElementById("fileName");
+    const fileSize = document.getElementById("fileSize");
+    const removeFile = document.getElementById("removeFile");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const uploadMessage = document.getElementById("uploadMessage");
+
+    const titleInput = document.getElementById("materialTitle");
+    const documentTypeInput = document.getElementById("documentType");
+    const subjectInput = document.getElementById("subject");
+    const languageInput = document.getElementById("language");
+    const classLevelInput = document.getElementById("classLevel");
+    const typeDescriptionText = document.getElementById("typeDescriptionText");
+
+    const documentsList = document.getElementById("documentsList");
+    const documentsMessage = document.getElementById("documentsMessage");
+    const documentCount = document.getElementById("documentCount");
+    const documentSearch = document.getElementById("documentSearch");
+    const documentTypeFilter = document.getElementById("documentTypeFilter");
+
+    let selectedFile = null;
+    let titleWasAutoFilled = false;
+    let allDocuments = [];
+    let isUploading = false;
+
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+    function showMessage(element, message, type) {
+        element.textContent = message;
+        element.className = `message visible ${type}`;
+    }
+
+    function clearMessage(element) {
+        element.textContent = "";
+        element.className = "message";
+    }
+
+    function getAccessToken() {
+        return localStorage.getItem("access_token");
+    }
+
+    function handleUnauthorized() {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user_id");
+        window.location.href = "login.html";
+    }
+
+    async function apiRequest(url, options = {}) {
+        const token = getAccessToken();
+
+        if (!token) {
+            throw new Error("Login required. Please log in again.");
+        }
+
+        const headers = new Headers(options.headers || {});
+        headers.set("Authorization", `Bearer ${token}`);
+
+        const response = await fetch(url, {
+            ...options,
+            headers
+        });
+
+        if (response.status === 401) {
+            handleUnauthorized();
+            throw new Error("Your login session has expired. Please log in again.");
+        }
+
+        return response;
+    }
+
+    async function readResponse(response) {
+        const contentType = response.headers.get("content-type") || "";
+
+        if (contentType.includes("application/json")) {
+            return await response.json();
+        }
+
+        const text = await response.text();
+        return text ? { detail: text } : {};
+    }
+
+    function getErrorText(data, fallback) {
+        if (typeof data?.detail === "string") return data.detail;
+        if (typeof data?.error === "string") return data.error;
+        if (typeof data?.message === "string") return data.message;
+
+        if (data && typeof data === "object") {
+            return Object.entries(data)
+                .map(([key, value]) => {
+                    const message = Array.isArray(value)
+                        ? value.join(", ")
+                        : typeof value === "string"
+                            ? value
+                            : JSON.stringify(value);
+                    return `${key}: ${message}`;
+                })
+                .join(" | ") || fallback;
+        }
+
+        return fallback;
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+
+    function updateButtonState() {
+        uploadBtn.disabled = Boolean(
+            isUploading ||
+            !selectedFile ||
+            !titleInput.value.trim() ||
+            !languageInput.value ||
+            !documentTypeInput.value
+        );
+    }
+
+    function resetSelectedFile() {
+        selectedFile = null;
+        pdfInput.value = "";
+        fileInfo.classList.remove("visible");
+
+        if (titleWasAutoFilled) {
+            titleInput.value = "";
+            titleWasAutoFilled = false;
+        }
+
+        updateButtonState();
+    }
+
+    function selectPDF(file) {
+        clearMessage(uploadMessage);
+        if (!file) return;
+
+        const validExtension = file.name.toLowerCase().endsWith(".pdf");
+        const validMime = !file.type || file.type === "application/pdf";
+
+        if (!validExtension || !validMime) {
+            resetSelectedFile();
+            showMessage(uploadMessage, "Please select a valid PDF file.", "error");
+            return;
+        }
+
+        if (file.size === 0) {
+            resetSelectedFile();
+            showMessage(uploadMessage, "The selected PDF is empty.", "error");
+            return;
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            resetSelectedFile();
+            showMessage(uploadMessage, "This PDF is larger than 150 MB.", "error");
+            return;
+        }
+
+        selectedFile = file;
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.classList.add("visible");
+
+        if (!titleInput.value.trim() || titleWasAutoFilled) {
+            titleInput.value = file.name.replace(/\.pdf$/i, "");
+            titleWasAutoFilled = true;
+        }
+
+        updateButtonState();
+    }
+
+    function updateDocumentTypeDescription() {
+        if (documentTypeInput.value === "textbook") {
+            typeDescriptionText.innerHTML =
+                "<strong>Textbook / Study Book:</strong> Intended for page-wise, lesson-wise and topic-wise analysis, plus study notes where supported. Class and subject can help organise your material.";
+        } else {
+            typeDescriptionText.innerHTML =
+                "<strong>General document:</strong> Intended for document summaries, key points and topic analysis. Subject and class level are optional and can be left blank.";
+        }
+    }
+
+    chooseFile.addEventListener("click", () => pdfInput.click());
+
+    pdfInput.addEventListener("change", () => {
+        if (pdfInput.files.length) selectPDF(pdfInput.files[0]);
+    });
+
+    dropZone.addEventListener("dragover", event => {
+        event.preventDefault();
+        dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", event => {
+        event.preventDefault();
+        dropZone.classList.remove("dragover");
+
+        if (event.dataTransfer.files.length) {
+            selectPDF(event.dataTransfer.files[0]);
+        }
+    });
+
+    removeFile.addEventListener("click", () => {
+        resetSelectedFile();
+        clearMessage(uploadMessage);
+    });
+
+    titleInput.addEventListener("input", () => {
+        titleWasAutoFilled = false;
+        updateButtonState();
+        clearMessage(uploadMessage);
+    });
+
+    [languageInput, documentTypeInput].forEach(input => {
+        input.addEventListener("change", () => {
+            updateButtonState();
+            clearMessage(uploadMessage);
+            updateDocumentTypeDescription();
+        });
+    });
+
+    subjectInput.addEventListener("change", () => clearMessage(uploadMessage));
+    classLevelInput.addEventListener("change", () => clearMessage(uploadMessage));
+
+    function getDocumentTitle(doc) {
+        const fileNameFromURL = (doc.file || "").split("/").pop();
+        let decodedFileName = fileNameFromURL;
+
+        try {
+            decodedFileName = decodeURIComponent(fileNameFromURL);
+        } catch (_) {}
+
+        return doc.title || decodedFileName || "Untitled document";
+    }
+
+    function getSubject(doc) {
+        return doc.subject || "";
+    }
+
+    function getDocumentType(doc) {
+        // Old records may not have this field in older API responses.
+        return doc.document_type === "textbook" ? "textbook" : "general";
+    }
+
+    function getDocumentTypeLabel(type) {
+        return type === "textbook"
+            ? "Textbook / Study Book"
+            : "General PDF / Document";
+    }
+
+    function getDocumentArray(data) {
+        if (Array.isArray(data)) return data;
+        if (Array.isArray(data?.results)) return data.results;
+        if (Array.isArray(data?.documents)) return data.documents;
+        if (Array.isArray(data?.data)) return data.data;
+        return null;
+    }
+
+    function createActionButton(label, iconName, callback) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "document-action";
+        button.innerHTML = `<i class="fa-solid ${iconName}"></i>`;
+
+        const text = document.createElement("span");
+        text.textContent = label;
+        button.appendChild(text);
+        button.addEventListener("click", callback);
+
+        return button;
+    }
+
+    function renderDocuments() {
+        const query = documentSearch.value.trim().toLowerCase();
+        const selectedType = documentTypeFilter.value;
+
+        const filtered = allDocuments.filter(doc => {
+            const searchable = [
+                getDocumentTitle(doc),
+                doc.file || "",
+                getSubject(doc),
+                doc.class_level || "",
+                getDocumentTypeLabel(getDocumentType(doc))
+            ].join(" ").toLowerCase();
+
+            return searchable.includes(query) &&
+                (!selectedType || getDocumentType(doc) === selectedType);
+        });
+
+        documentCount.textContent =
+            `${filtered.length} document${filtered.length === 1 ? "" : "s"} shown · ${allDocuments.length} total`;
+
+        documentsList.replaceChildren();
+
+        if (!filtered.length) {
+            const empty = document.createElement("p");
+            empty.className = "empty-documents";
+            empty.textContent = allDocuments.length
+                ? "No documents match your search or filter."
+                : "No documents found for this account.";
+            documentsList.appendChild(empty);
+            return;
+        }
+
+        filtered.forEach(doc => {
+            const item = document.createElement("article");
+            item.className = "document-item";
+
+            const icon = document.createElement("div");
+            icon.className = "pdf-icon";
+            icon.innerHTML = '<i class="fa-solid fa-file-pdf"></i>';
+
+            const main = document.createElement("div");
+            main.className = "document-main";
+
+            const title = document.createElement("h3");
+            title.className = "document-title";
+            title.textContent = getDocumentTitle(doc);
+
+            const meta = document.createElement("div");
+            meta.className = "document-meta";
+
+            const date = doc.uploaded_at
+                ? new Date(doc.uploaded_at).toLocaleDateString()
+                : "Date unavailable";
+
+            meta.textContent = [
+                getSubject(doc) || "Subject not set",
+                doc.language || "",
+                doc.class_level || "",
+                date
+            ].filter(Boolean).join(" · ");
+
+            const badge = document.createElement("span");
+            badge.className = "type-badge";
+            badge.innerHTML = getDocumentType(doc) === "textbook"
+                ? '<i class="fa-solid fa-book-open"></i>'
+                : '<i class="fa-solid fa-file-lines"></i>';
+
+            const badgeText = document.createElement("span");
+            badgeText.textContent = getDocumentTypeLabel(getDocumentType(doc));
+            badge.appendChild(badgeText);
+
+            main.append(title, meta, badge);
+
+            const actions = document.createElement("div");
+            actions.className = "document-actions";
+
+            const viewButton = createActionButton(
+                "View", "fa-eye", () => openPDF(doc, false)
+            );
+
+            const downloadButton = createActionButton(
+                "Download", "fa-download", () => openPDF(doc, true)
+            );
+
+            const deleteButton = createActionButton(
+                "Delete", "fa-trash", () => deleteDocument(doc, deleteButton)
+            );
+            deleteButton.classList.add("delete");
+
+            actions.append(viewButton, downloadButton, deleteButton);
+            item.append(icon, main, actions);
+            documentsList.appendChild(item);
+        });
+    }
+
+    async function loadDocuments() {
+        documentCount.textContent = "Loading documents...";
+        documentsList.replaceChildren();
+
+        const loading = document.createElement("p");
+        loading.className = "empty-documents";
+        loading.textContent = "Loading your documents...";
+        documentsList.appendChild(loading);
+
+        clearMessage(documentsMessage);
+
+        try {
+            if (!getAccessToken()) {
+                throw new Error("No login token found. Please log in again.");
+            }
+
+            const response = await apiRequest(`${API_BASE_URL}/documents/`);
+            const data = await readResponse(response);
+
+            if (!response.ok) {
+                throw new Error(
+                    getErrorText(data, `Request failed (${response.status}).`)
+                );
+            }
+
+            const result = getDocumentArray(data);
+
+            if (!result) {
+                console.error("Unexpected documents API response:", data);
+                throw new Error("Unexpected document list response from Django.");
+            }
+
+            allDocuments = result;
+            console.log("Documents loaded from Django:", allDocuments);
+            renderDocuments();
+
+        } catch (error) {
+            allDocuments = [];
+            documentCount.textContent = "Could not load documents";
+            documentsList.replaceChildren();
+
+            const message = document.createElement("p");
+            message.className = "empty-documents";
+            message.textContent = error.message === "Failed to fetch"
+                ? "Cannot connect to Django. Start the backend and refresh this page."
+                : error.message;
+
+            documentsList.appendChild(message);
+            console.error("Document list error:", error);
+        }
+    }
+
+    function isDuplicateResponse(data) {
+        const text = [
+            data?.message,
+            data?.detail,
+            data?.error
+        ].filter(Boolean).join(" ").toLowerCase();
+
+        return Boolean(
+            data?.duplicate ||
+            data?.is_duplicate ||
+            text.includes("duplicate") ||
+            text.includes("already uploaded") ||
+            text.includes("already exists")
+        );
+    }
+
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+        clearMessage(uploadMessage);
+
+        if (!getAccessToken()) {
+            showMessage(uploadMessage, "Please log in again before uploading.", "error");
+            return;
+        }
+
+        if (!selectedFile) {
+            showMessage(uploadMessage, "Please choose a PDF file first.", "error");
+            return;
+        }
+
+        if (!titleInput.value.trim()) {
+            titleInput.focus();
+            showMessage(uploadMessage, "Please enter a material title.", "error");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("title", titleInput.value.trim());
+        formData.append("document_type", documentTypeInput.value);
+        formData.append("subject", subjectInput.value);
+        formData.append("language", languageInput.value);
+        formData.append("class_level", classLevelInput.value);
+
+        isUploading = true;
+        uploadBtn.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> Uploading PDF...';
+        updateButtonState();
+
+        try {
+            const response = await apiRequest(`${API_BASE_URL}/documents/upload/`, {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await readResponse(response);
+
+            if (!response.ok) {
+                throw new Error(getErrorText(data, "PDF upload failed."));
+            }
+
+            if (isDuplicateResponse(data)) {
+                showMessage(
+                    uploadMessage,
+                    data.message || "This PDF has already been uploaded.",
+                    "error"
+                );
+            } else {
+                const pages = Number(data.pages_processed);
+                const pageMessage = Number.isFinite(pages) && pages > 0
+                    ? ` ${pages} pages processed.`
+                    : "";
+
+                showMessage(
+                    uploadMessage,
+                    `Material uploaded successfully as ${getDocumentTypeLabel(documentTypeInput.value)}.${pageMessage}`,
+                    "success"
+                );
+            }
+
+            resetSelectedFile();
+            titleInput.value = "";
+            titleWasAutoFilled = false;
+
+            await loadDocuments();
+
+        } catch (error) {
+            showMessage(
+                uploadMessage,
+                error.message === "Failed to fetch"
+                    ? "Cannot connect to Django. Check that the backend server is running."
+                    : error.message,
+                "error"
+            );
+
+            console.error("PDF upload error:", error);
+
+        } finally {
+            isUploading = false;
+            uploadBtn.innerHTML =
+                '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Material';
+            updateButtonState();
+        }
+    });
+
+    async function openPDF(doc, download) {
+        clearMessage(documentsMessage);
+
+        if (!doc.file) {
+            showMessage(
+                documentsMessage,
+                "The API did not return a file URL. Check DocumentSerializer.",
+                "error"
+            );
+            return;
+        }
+
+        let fileURL;
+
+        try {
+            fileURL = new URL(doc.file, API_ORIGIN);
+
+            if (!["http:", "https:"].includes(fileURL.protocol) ||
+                fileURL.origin !== API_ORIGIN) {
+                throw new Error("The file URL is invalid or points to another server.");
+            }
+
+            const response = await apiRequest(fileURL.href);
+
+            if (!response.ok) {
+                const data = await readResponse(response);
+                throw new Error(getErrorText(data, "Could not access this PDF."));
+            }
+
+            const blob = await response.blob();
+            const blobURL = URL.createObjectURL(blob);
+
+            if (download) {
+                const link = document.createElement("a");
+                link.href = blobURL;
+
+                const title = getDocumentTitle(doc);
+                link.download = title.toLowerCase().endsWith(".pdf")
+                    ? title
+                    : `${title}.pdf`;
+
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setTimeout(() => URL.revokeObjectURL(blobURL), 60000);
+            } else {
+                const newWindow = window.open(blobURL, "_blank");
+
+                if (!newWindow) {
+                    URL.revokeObjectURL(blobURL);
+                    showMessage(
+                        documentsMessage,
+                        "Browser blocked the PDF window. Allow pop-ups and try again.",
+                        "error"
+                    );
+                    return;
+                }
+
+                setTimeout(() => URL.revokeObjectURL(blobURL), 60000);
+            }
+
+        } catch (error) {
+            showMessage(
+                documentsMessage,
+                error.message === "Failed to fetch"
+                    ? "Cannot access the PDF. Check Django media settings."
+                    : error.message,
+                "error"
+            );
+        }
+    }
+
+    async function deleteDocument(doc, button) {
+        const title = getDocumentTitle(doc);
+
+        if (!window.confirm(
+            `Delete "${title}" permanently? This cannot be undone.`
+        )) {
+            return;
+        }
+
+        clearMessage(documentsMessage);
+        button.disabled = true;
+
+        try {
+            const response = await apiRequest(
+                `${API_BASE_URL}/documents/${doc.id}/`,
+                { method: "DELETE" }
+            );
+
+            const data = await readResponse(response);
+
+            if (!response.ok) {
+                throw new Error(
+                    getErrorText(data, "Could not delete this document.")
+                );
+            }
+
+            showMessage(
+                documentsMessage,
+                data.message || "Document deleted successfully.",
+                "success"
+            );
+
+            await loadDocuments();
+
+        } catch (error) {
+            showMessage(documentsMessage, error.message, "error");
+            button.disabled = false;
+        }
+    }
+
+    documentSearch.addEventListener("input", renderDocuments);
+    documentTypeFilter.addEventListener("change", renderDocuments);
+
+    updateDocumentTypeDescription();
+    updateButtonState();
+    loadDocuments();
+</script>
+<script src="/static/js/sidebar.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+backend/venv/
+
+# Local database
+*.sqlite3
+*.sqlite3-*
+*.sqlite3.backup
+
+# Uploaded documents
+backend/media/
+
+# Local AI search data
+/backend/qdrant_storage/
+
+# Local test outputs
+/backend/ocr_output.txt
+/backend/test_page.png
+/backend/test_study_notes.pdf
+
+# Logs
+*.log
+
+# Editor settings
+.vscode/

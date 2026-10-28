@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library | Smart Study AI</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #080b14;
+            --sidebar: #0d1120;
+            --card: #111727;
+            --card-hover: #161e32;
+            --border: #242c40;
+            --text: #f2f5ff;
+            --muted: #98a3bc;
+            --accent: #8b7cff;
+            --accent-light: #b4aaff;
+            --green: #48d6a0;
+            --red: #ff7185;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            min-height: 100vh;
+        }
+
+        
+        
+        .app {
+    min-height: 100vh;
+}
+
+.main {
+    min-width: 0;
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    padding: 32px 38px 45px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.topbar-left > div {
+    min-width: 0;
+}
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 9px;
+        }
+
+        .breadcrumb span {
+            color: var(--accent-light);
+        }
+
+        h1 {
+            font-size: clamp(25px, 3vw, 34px);
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-top: 9px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn, .secondary-btn, .primary-btn {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            background: var(--card);
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 650;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .icon-btn:hover, .secondary-btn:hover {
+            background: var(--card-hover);
+            border-color: #46506b;
+        }
+
+        .primary-btn {
+            border-color: transparent;
+            background: linear-gradient(120deg, #7969f4, #9b70f8);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            filter: brightness(1.12);
+        }
+
+        /* INTRO BANNER */
+
+        .welcome-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 24px;
+            margin-bottom: 23px;
+            border: 1px solid #302b59;
+            border-radius: 17px;
+            background:
+                radial-gradient(ellipse at 85% 20%, #32265a 0%, transparent 46%),
+                linear-gradient(115deg, #17152d, #121729);
+        }
+
+        .welcome-banner h2 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .welcome-banner p {
+            color: #b1b5d0;
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 570px;
+        }
+
+        .banner-icon {
+            width: 65px;
+            height: 65px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            font-size: 27px;
+            color: #c0b6ff;
+            background: #29234c;
+            border: 1px solid #443a78;
+            border-radius: 18px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 27px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 19px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #242043;
+            color: #b3a7ff;
+            font-size: 17px;
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            color: #70dcb5;
+            background: #16342e;
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            color: #f6c57e;
+            background: #362b20;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* SEARCH AND FILTERS */
+
+        .library-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .library-heading h2 {
+            font-size: 19px;
+        }
+
+        .library-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 11px;
+            margin-bottom: 22px;
+        }
+
+        .search-wrap {
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #77839e;
+        }
+
+        .search-input, .filter-select {
+            width: 100%;
+            height: 43px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            font-size: 12px;
+        }
+
+        .search-input {
+            padding: 0 14px 0 40px;
+        }
+
+        .filter-select {
+            width: 165px;
+            padding: 0 12px;
+        }
+
+        .search-input:focus, .filter-select:focus {
+            border-color: var(--accent);
+        }
+
+        .filter-select option {
+            background: var(--card);
+        }
+
+        /* NOTES GRID */
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .note-card {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--card);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .note-card:hover {
+            transform: translateY(-3px);
+            border-color: #48406f;
+            background: var(--card-hover);
+        }
+
+        .note-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .note-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 9px;
+            border-radius: 7px;
+            background: #272147;
+            color: #c2b8ff;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .note-type.topic {
+            background: #17332e;
+            color: #7be0b8;
+        }
+
+        .note-type.lesson {
+            background: #352a1e;
+            color: #f3c58c;
+        }
+
+        .note-type.page {
+            background: #1b3045;
+            color: #8ecbff;
+        }
+
+        .note-type.study {
+            background: #38223b;
+            color: #e7a9ef;
+        }
+
+        .note-id {
+            color: #77839e;
+            font-size: 10px;
+        }
+
+        .note-title {
+            font-size: 14px;
+            line-height: 1.55;
+            overflow-wrap: anywhere;
+            margin-bottom: 9px;
+        }
+
+        .note-document {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .note-document i {
+            color: #a99cff;
+        }
+
+        .note-preview {
+            color: #a8b1c7;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 86px;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+
+        .note-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            color: #8490a8;
+            font-size: 10px;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .note-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .note-actions button {
+            flex: 1;
+            padding: 9px 7px;
+            font-size: 11px;
+        }
+
+        .note-actions .open-note {
+            border-color: #51468a;
+            background: #292248;
+        }
+
+        /* LIBRARY CATEGORY TABS */
+        .library-tabs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 5px 2px 13px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+            scrollbar-width: thin;
+        }
+
+        .library-tab {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            padding: 11px 15px;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: .2s ease;
+        }
+
+        .library-tab:hover {
+            color: var(--text);
+            background: var(--card-hover);
+        }
+
+        .library-tab.active {
+            color: #fff;
+            background: rgba(139, 124, 255, .16);
+            border-color: rgba(139, 124, 255, .38);
+        }
+
+        .library-tab.active i { color: var(--accent-light); }
+
+        .tab-count {
+            display: inline-grid;
+            place-items: center;
+            min-width: 21px;
+            height: 21px;
+            padding: 0 5px;
+            border-radius: 7px;
+            background: rgba(255,255,255,.07);
+            color: #d5d0ff;
+            font-size: 10px;
+        }
+
+        .category-empty {
+            grid-column: 1 / -1;
+            padding: 48px 24px;
+            text-align: center;
+            background: var(--card);
+            border: 1px dashed #303950;
+            border-radius: 15px;
+        }
+
+        .category-empty .category-empty-icon {
+            display: grid;
+            place-items: center;
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            color: #c0b6ff;
+            background: #29234c;
+            font-size: 24px;
+        }
+
+        .category-empty h3 { font-size: 17px; margin-bottom: 9px; }
+        .category-empty p {
+            max-width: 470px;
+            margin: 0 auto 18px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* LOADING / EMPTY / ERROR */
+
+        .message-box {
+            grid-column: 1 / -1;
+            padding: 55px 20px;
+            text-align: center;
+            background: var(--card);
+            border: 1px dashed #303950;
+            border-radius: 15px;
+        }
+
+        .message-box i {
+            font-size: 32px;
+            color: #8d80ef;
+            margin-bottom: 17px;
+        }
+
+        .message-box h3 {
+            font-size: 16px;
+            margin-bottom: 9px;
+        }
+
+        .message-box p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 440px;
+            margin: 0 auto 18px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 27px;
+            height: 27px;
+            border: 3px solid #33334e;
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-message {
+            display: none;
+            padding: 12px 15px;
+            border-radius: 9px;
+            margin-bottom: 18px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .status-message.success {
+            display: block;
+            color: var(--green);
+            background: #102b24;
+            border: 1px solid #215440;
+        }
+
+        .status-message.error {
+            display: block;
+            color: #ff9caa;
+            background: #321923;
+            border: 1px solid #63303c;
+        }
+
+        .footer {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: #69758e;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        /* NOTE VIEW MODAL */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.78);
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: min(760px, 100%);
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            background: #101626;
+            border: 1px solid #343c55;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 21px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .modal-header p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        .modal-content {
+            padding: 22px;
+            overflow-y: auto;
+            color: #d5dbea;
+            font-size: 13px;
+            line-height: 1.95;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 15px 21px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* MOBILE */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .sidebar-overlay {
+            display: none;
+        }
+
+        @media (max-width: 1200px) {
+            .notes-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .main {
+                padding: 28px 25px;
+            }
+        }
+
+        @media (max-width: 850px) {
+            
+            
+
+            .main {
+                margin-left: 0;
+                padding: 23px 18px;
+            }
+
+           
+            
+        }
+        @media (max-width: 1000px) {
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 23px 18px;
+    }
+
+    .app {
+        width: 100%;
+    }
+}
+
+        @media (max-width: 600px) {
+            .topbar {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+            .topbar-left {
+        width: 100%;
+        gap: 9px;
+    }
+
+    .topbar-left h1 {
+        font-size: 25px;
+    }
+
+
+            .top-actions {
+                gap: 7px;
+            }
+
+            .top-actions .secondary-btn span {
+                display: none;
+            }
+
+            .welcome-banner {
+                padding: 19px;
+            }
+
+           
+            
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-number {
+                font-size: 21px;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .library-heading {
+                align-items: flex-start;
+            }
+
+            .modal-box {
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+    <!-- Common Sidebar -->
+    <div id="sidebarMount"></div>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <!-- Common Sidebar Toggle Button -->
+                <button
+                    type="button"
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open navigation menu"
+                    aria-controls="sidebar"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+
+                <div class="topbar-title">
+                    <div class="breadcrumb">
+                        Workspace / <span>My Library</span>
+                    </div>
+
+                    <h1>My Library</h1>
+
+                    <p class="subtitle">
+                        Your study materials, organised in one place.
+                        Find saved notes and continue learning where you left off.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="top-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="refreshBtn"
+                >
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Refresh</span>
+                </button>
+
+                <a href="notes.html" class="primary-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New Notes</span>
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- Keep the rest of your existing My Library content here -->
+        <section class="welcome-banner">
+            <div>
+                <h2><i class="fa-solid fa-book-open"></i> Your personal study library</h2>
+                <p>
+                    Keep your learning resources organised. Choose a category below to view its saved items.
+                </p>
+            </div>
+
+            <div class="banner-icon">
+                <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+        </section>
+
+        <div id="statusMessage" class="status-message"
+             role="status" aria-live="polite"></div>
+
+        <!-- STATS -->
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div>
+                    <div class="stat-number" id="totalNotes">—</div>
+                    <div class="stat-label">Total Saved Notes</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                    <div class="stat-number" id="totalDocuments">—</div>
+                    <div class="stat-label">Documents Covered</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div>
+                    <div class="stat-number" id="latestSave">—</div>
+                    <div class="stat-label">Latest Save</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIBRARY -->
+        <section>
+            <div class="library-heading">
+                <div>
+                    <h2 id="librarySectionTitle"><i class="fa-solid fa-folder-open"></i> All Library Items</h2>
+                    <p id="resultsText">Loading your library...</p>
+                </div>
+            </div>
+
+            <div class="library-tabs" id="libraryTabs" role="tablist" aria-label="Library categories">
+                <button class="library-tab active" type="button" role="tab" aria-selected="true" data-tab="all">
+                    <i class="fa-solid fa-layer-group"></i> All <span class="tab-count" id="allTabCount">0</span>
+                </button>
+                <button class="library-tab" type="button" role="tab" aria-selected="false" data-tab="notes">
+                    <i class="fa-solid fa-note-sticky"></i> Notes <span class="tab-count" id="notesTabCount">0</span>
+                </button>
+                <button class="library-tab" type="button" role="tab" aria-selected="false" data-tab="quizzes">
+                    <i class="fa-solid fa-circle-question"></i> Quizzes
+                </button>
+                <button class="library-tab" type="button" role="tab" aria-selected="false" data-tab="flashcards">
+                    <i class="fa-solid fa-layer-group"></i> Flashcards
+                </button>
+                <button class="library-tab" type="button" role="tab" aria-selected="false" data-tab="plans">
+                    <i class="fa-solid fa-calendar-check"></i> Study Plans
+                </button>
+                <button class="library-tab" type="button" role="tab" aria-selected="false" data-tab="revision">
+                    <i class="fa-solid fa-rotate"></i> Revision
+                </button>
+            </div>
+
+            <div class="toolbar" id="notesToolbar">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input
+                        type="search"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search notes, topics or documents..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <select id="typeFilter" class="filter-select"
+                        aria-label="Filter notes by type">
+                    <option value="all">All note types</option>
+                    <option value="page">Page Notes</option>
+                    <option value="topic">Topic Notes</option>
+                    <option value="lesson">Lesson Notes</option>
+                    <option value="study">Study Notes / Summary / Key Points</option>
+                </select>
+
+                <select id="sortFilter" class="filter-select"
+                        aria-label="Sort notes">
+                    <option value="newest">Recently updated</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="az">Title A – Z</option>
+                </select>
+            </div>
+
+            <div id="notesGrid" class="notes-grid">
+                <div class="message-box">
+                    <span class="spinner"></span>
+                    <p style="margin-top: 17px;">Loading your saved notes...</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            Smart Study AI · My Library · Your learning journey, organised.
+        </footer>
+    </main>
+</div>
+
+<!-- VIEW NOTE MODAL -->
+<div class="modal" id="noteModal"
+     role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+    <div class="modal-box">
+        <div class="modal-header">
+            <div>
+                <h2 id="modalTitle">Saved Note</h2>
+                <p id="modalMeta"></p>
+            </div>
+
+            <button class="icon-btn" id="closeModalBtn"
+                    aria-label="Close note">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="modal-content" id="modalContent"></div>
+
+        <div class="modal-footer">
+            <button class="secondary-btn" id="modalCloseFooter">
+                Close
+            </button>
+            <button class="primary-btn" id="modalCopyBtn">
+                <i class="fa-regular fa-copy"></i>
+                Copy Note
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/sidebar.js" defer></script>
+<script>
+"use strict";
+
+const API_BASE = "http://127.0.0.1:8000/api";
+const MY_LIBRARY_ENDPOINT = "/documents/my-library/";
+const SAVED_NOTES_ENDPOINT = "/documents/saved-notes/";
+
+let allNotes = [];
+let allLibraryItems = [];
+let currentModalNote = null;
+let statusTimer = null;
+let activeLibraryTab = "all";
+
+const $ = (id) => document.getElementById(id);
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+function getToken() {
+    return localStorage.getItem("access_token");
+}
+
+function showStatus(message, type = "success") {
+    const element = $("statusMessage");
+    element.textContent = message;
+    element.className = "status-message " + type;
+
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => {
+        element.className = "status-message";
+        element.textContent = "";
+    }, 5000);
+}
+
+async function apiRequest(endpoint, options = {}) {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("Your login session is missing. Please log in again.");
+    }
+
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+        ...(options.headers || {})
+    };
+
+    if (options.body && !headers["Content-Type"]) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    const response = await fetch(API_BASE + endpoint, {
+        ...options,
+        headers
+    });
+
+    if (response.status === 401) {
+        throw new Error("Your session may have expired. Please log in again.");
+    }
+
+    const responseText = await response.text();
+    let data = null;
+
+    if (responseText) {
+        try {
+            data = JSON.parse(responseText);
+        } catch {
+            data = responseText;
+        }
+    }
+
+    if (!response.ok) {
+        let message = "Unable to load your library.";
+
+        if (data && typeof data === "object") {
+            message =
+                data.detail ||
+                data.error ||
+                data.message ||
+                (data.non_field_errors || [])[0] ||
+                message;
+        }
+
+        throw new Error(message);
+    }
+
+    return data;
+}
+
+function formatDate(value, includeTime = false) {
+    if (!value) return "Not available";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "Not available";
+    }
+
+    const options = {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    };
+
+    if (includeTime) {
+        options.hour = "2-digit";
+        options.minute = "2-digit";
+    }
+
+    return date.toLocaleString("en-IN", options);
+}
+
+/*
+ * Normalise both the combined My Library API and the
+ * existing saved-notes API into a consistent item format.
+ */
+function normaliseItem(item, fallbackType = "notes") {
+    const type = item.item_type || fallbackType;
+
+    return {
+        ...item,
+        item_type: type,
+        id: String(item.id ?? ""),
+        document_id: item.document_id ?? item.document ?? null,
+        document_title: item.document_title || "Study Document",
+        title: item.title || defaultItemTitle(type),
+        content: item.content || item.notes || item.summary || "",
+        created_at: item.created_at || "",
+        updated_at: item.updated_at || item.created_at || ""
+    };
+}
+
+function defaultItemTitle(type) {
+    const titles = {
+        notes: "Untitled Note",
+        quizzes: "Saved Quiz",
+        revision: "Saved Revision",
+        flashcards: "Saved Flashcards",
+        plans: "Study Plan"
+    };
+
+    return titles[type] || "Library Item";
+}
+
+function getNoteType(note) {
+    const allowedTypes = ["page", "topic", "lesson", "study"];
+    return allowedTypes.includes(note.note_type)
+        ? note.note_type
+        : "study";
+}
+
+function getTypeLabel(note) {
+    const labels = {
+        page: "Page Notes",
+        topic: "Topic Notes",
+        lesson: "Lesson Notes",
+        study: "Study Notes"
+    };
+
+    return labels[getNoteType(note)] || "Study Notes";
+}
+
+function getTypeIcon(note) {
+    const icons = {
+        page: "fa-file-lines",
+        topic: "fa-lightbulb",
+        lesson: "fa-book-open",
+        study: "fa-graduation-cap"
+    };
+
+    return icons[getNoteType(note)] || "fa-file-lines";
+}
+
+function getItemLabel(item) {
+    const labels = {
+        notes: getTypeLabel(item),
+        quizzes: "Quiz",
+        revision: "Revision",
+        flashcards: "Flashcards",
+        plans: "Study Plan"
+    };
+
+    return labels[item.item_type] || "Library Item";
+}
+
+function getItemIcon(item) {
+    const icons = {
+        notes: getTypeIcon(item),
+        quizzes: "fa-circle-question",
+        revision: "fa-rotate",
+        flashcards: "fa-layer-group",
+        plans: "fa-calendar-check"
+    };
+
+    return icons[item.item_type] || "fa-file-lines";
+}
+
+function getItemDate(item) {
+    return item.updated_at || item.created_at || "";
+}
+
+function getItemPreview(item) {
+    if (item.item_type === "notes") {
+        return String(item.content || "").trim() ||
+            "No note content is available.";
+    }
+
+    if (
+        item.item_type === "quizzes" ||
+        item.item_type === "revision"
+    ) {
+        const total = Number(item.total_questions || 0);
+        const correct = Number(item.correct_answers || 0);
+        const wrong = Number(
+            item.wrong_answers ?? Math.max(total - correct, 0)
+        );
+        const score = Number(item.score || 0);
+        const accuracy = Number(item.accuracy ?? score);
+        const questions = Array.isArray(item.questions)
+            ? item.questions
+            : [];
+
+        return [
+            `Questions: ${total}`,
+            `Correct answers: ${correct}`,
+            `Wrong answers: ${wrong}`,
+            `Score: ${score}%`,
+            `Accuracy: ${accuracy}%`,
+            `Question details available: ${questions.length}`
+        ].join("\n");
+    }
+
+    if (item.item_type === "flashcards") {
+        const cards = Array.isArray(item.cards) ? item.cards : [];
+
+        return `${cards.length} flashcards saved.\n` +
+            `Pages: ${item.page_start ?? "—"}–${item.page_end ?? "—"}`;
+    }
+
+    if (item.item_type === "plans") {
+        const topics = Array.isArray(item.topics) ? item.topics : [];
+
+        return `Exam date: ${item.exam_date || "Not set"}\n` +
+            `Daily study time: ${item.daily_hours ?? "—"} hours\n` +
+            `Topics: ${topics.length}`;
+    }
+
+    return "Saved learning material.";
+}
+
+
+function getUniqueDocuments(items) {
+    return new Set(
+        items
+            .map(item => item.document_id)
+            .filter(value => value !== null && value !== undefined)
+            .map(String)
+    ).size;
+}
+
+function updateStatistics(items) {
+    const notes = items.filter(item => item.item_type === "notes");
+
+    $("totalNotes").textContent = notes.length;
+    $("totalDocuments").textContent = getUniqueDocuments(items);
+
+    const latest = [...items].sort((a, b) =>
+        new Date(getItemDate(b)).getTime() -
+        new Date(getItemDate(a)).getTime()
+    )[0];
+
+    $("latestSave").textContent = latest
+        ? formatDate(getItemDate(latest))
+        : "—";
+}
+
+function updateTabCounts() {
+    const counts = {
+        all: allLibraryItems.length,
+        notes: allLibraryItems.filter(i => i.item_type === "notes").length,
+        quizzes: allLibraryItems.filter(i => i.item_type === "quizzes").length,
+        revision: allLibraryItems.filter(
+        item => item.item_type === "revision"
+        ).length,
+        flashcards: allLibraryItems.filter(i => i.item_type === "flashcards").length,
+        plans: allLibraryItems.filter(i => i.item_type === "plans").length
+    };
+
+    const elementIds = {
+        all: "allTabCount",
+        notes: "notesTabCount"
+    };
+
+    Object.entries(elementIds).forEach(([type, id]) => {
+        if ($(id)) $(id).textContent = counts[type];
+    });
+
+    document.querySelectorAll(".library-tab[data-tab]").forEach(button => {
+        const type = button.dataset.tab;
+        const count = counts[type];
+
+        let badge = button.querySelector(".tab-count");
+
+        if (count !== undefined && !badge) {
+            badge = document.createElement("span");
+            badge.className = "tab-count";
+            button.appendChild(badge);
+        }
+
+        if (badge && count !== undefined) {
+            badge.textContent = count;
+        }
+    });
+}
+
+
+    
+    function setLibraryTab(tab) {
+    activeLibraryTab = tab;
+
+    document.querySelectorAll(".library-tab").forEach(button => {
+        const isActive = button.dataset.tab === tab;
+
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+    });
+
+    const category = {
+        all: {
+            title: "All Library Items",
+            icon: "fa-layer-group"
+        },
+        notes: {
+            title: "Saved Notes",
+            icon: "fa-note-sticky"
+        },
+        quizzes: {
+            title: "Saved Quizzes",
+            icon: "fa-circle-question"
+        },
+        flashcards: {
+            title: "Saved Flashcards",
+            icon: "fa-layer-group"
+        },
+        plans: {
+            title: "Saved Study Plans",
+            icon: "fa-calendar-check"
+        },
+        revision: {
+            title: "Saved Revision",
+            icon: "fa-rotate"
+        }
+    };
+
+    const selected = category[tab] || category.all;
+
+    $("librarySectionTitle").innerHTML =
+        `<i class="fa-solid ${selected.icon}"></i> ${escapeHTML(selected.title)}`;
+
+    // Keep the toolbar visible for every category
+    $("notesToolbar").style.display = "flex";
+
+    const searchInput = $("searchInput");
+
+    searchInput.placeholder = tab === "all"
+        ? "Search notes, quizzes, flashcards, plans or revision..."
+        : `Search ${selected.title.toLowerCase()}...`;
+
+    // Notes type filter is relevant only for All and Notes
+    const typeFilter = $("typeFilter");
+
+    typeFilter.style.display =
+        tab === "all" || tab === "notes" ? "" : "none";
+
+    // Display saved items belonging to the selected category
+    renderNotes();
+}
+
+async function loadLibrary() {
+    const grid = $("notesGrid");
+
+    $("refreshBtn").disabled = true;
+    $("refreshBtn").innerHTML =
+        '<i class="fa-solid fa-spinner fa-spin"></i> Refreshing';
+
+    grid.innerHTML = `
+        <div class="message-box">
+            <span class="spinner"></span>
+            <p style="margin-top:17px;">Loading your library...</p>
+        </div>`;
+
+    try {
+        let data;
+
+        try {
+            // Primary endpoint: combined Notes, Quizzes,
+            // Flashcards and Study Plans.
+            data = await apiRequest(MY_LIBRARY_ENDPOINT);
+
+            if (!data || !Array.isArray(data.items)) {
+                throw new Error(
+                    "The My Library API response must contain an items array."
+                );
+            }
+
+            allLibraryItems = data.items.map(item =>
+                normaliseItem(item)
+            );
+        } catch (primaryError) {
+            /*
+             * Fallback: if the combined endpoint has not been
+             * added yet, preserve the existing saved-notes page.
+             * Other categories require the combined endpoint.
+             */
+            console.warn(
+                "Combined My Library endpoint unavailable:",
+                primaryError
+            );
+
+            const notesData = await apiRequest(SAVED_NOTES_ENDPOINT);
+
+            let notesArray;
+
+            if (Array.isArray(notesData)) {
+                notesArray = notesData;
+            } else if (notesData && Array.isArray(notesData.results)) {
+                notesArray = notesData.results;
+            } else {
+                throw primaryError;
+            }
+
+            allLibraryItems = notesArray.map(item =>
+                normaliseItem(item, "notes")
+            );
+        }
+
+        allNotes = allLibraryItems.filter(
+            item => item.item_type === "notes"
+        );
+
+        updateStatistics(allLibraryItems);
+        updateTabCounts();
+        setLibraryTab(activeLibraryTab);
+
+    } catch (error) {
+        console.error("My Library loading error:", error);
+
+        allNotes = [];
+        allLibraryItems = [];
+
+        updateStatistics([]);
+        updateTabCounts();
+
+        if (error.message.includes("log in again")) {
+            grid.innerHTML = `
+                <div class="message-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <h3>Login required</h3>
+                    <p>${escapeHTML(error.message)}</p>
+                    <a href="login.html" class="primary-btn">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Go to Login
+                    </a>
+                </div>`;
+        } else {
+            grid.innerHTML = `
+                <div class="message-box">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h3>Could not load your library</h3>
+                    <p>${escapeHTML(error.message)}</p>
+                    <button class="primary-btn" id="retryBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Try Again
+                    </button>
+                </div>`;
+
+            $("retryBtn").addEventListener("click", loadLibrary);
+        }
+
+        $("resultsText").textContent = "Unable to load your library.";
+        showStatus(error.message, "error");
+
+    } finally {
+        $("refreshBtn").disabled = false;
+        $("refreshBtn").innerHTML =
+            '<i class="fa-solid fa-rotate"></i><span>Refresh</span>';
+    }
+}
+
+function getFilteredNotes() {
+    const search = $("searchInput").value.trim().toLowerCase();
+    const type = $("typeFilter").value;
+    const sort = $("sortFilter").value;
+
+    let filtered = allLibraryItems.filter(item => {
+        if (activeLibraryTab !== "all" &&
+            item.item_type !== activeLibraryTab) {
+            return false;
+        }
+
+        if (activeLibraryTab === "notes" ||
+            (activeLibraryTab === "all" && item.item_type === "notes")) {
+            if (type !== "all" && getNoteType(item) !== type) {
+                return false;
+            }
+        } else if (type !== "all" && activeLibraryTab === "all") {
+            // The note-type filter applies only to notes.
+            return false;
+        }
+
+        const searchableText = [
+            item.title,
+            item.topic,
+            item.document_title,
+            item.content,
+            item.item_type,
+            getItemLabel(item),
+            getItemPreview(item)
+        ].join(" ").toLowerCase();
+
+        return searchableText.includes(search);
+    });
+
+    filtered.sort((a, b) => {
+        if (sort === "az") {
+            return String(a.title || "").localeCompare(
+                String(b.title || "")
+            );
+        }
+
+        const dateA = new Date(getItemDate(a)).getTime() || 0;
+        const dateB = new Date(getItemDate(b)).getTime() || 0;
+
+        return sort === "oldest"
+            ? dateA - dateB
+            : dateB - dateA;
+    });
+
+    return filtered;
+}
+
+
+function renderNotes() {
+    const grid = $("notesGrid");
+    const items = getFilteredNotes();
+
+    $("resultsText").textContent =
+        `Showing ${items.length} of ${allLibraryItems.length} library items`;
+
+    if (allLibraryItems.length === 0) {
+        grid.innerHTML = `
+            <div class="message-box">
+                <i class="fa-solid fa-book-open"></i>
+                <h3>Your library is waiting for its first item</h3>
+                <p>
+                    Generate notes, quizzes, flashcards or a study plan.
+                    Saved items will appear here when the backend saves them.
+                </p>
+                <a href="notes.html" class="primary-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Create Notes
+                </a>
+            </div>`;
+        return;
+    }
+
+    if (items.length === 0) {
+        grid.innerHTML = `
+            <div class="message-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <h3>No matching items found</h3>
+                <p>Try another search word or change the filters.</p>
+                <button class="secondary-btn" id="clearFiltersBtn">
+                    Clear Filters
+                </button>
+            </div>`;
+
+        $("clearFiltersBtn").addEventListener("click", () => {
+            $("searchInput").value = "";
+            $("typeFilter").value = "all";
+            $("sortFilter").value = "newest";
+            renderNotes();
+        });
+
+        return;
+    }
+
+    grid.innerHTML = items.map(item => {
+        const type = item.item_type;
+        const label = getItemLabel(item);
+        const icon = getItemIcon(item);
+        const title = item.title || defaultItemTitle(type);
+        const documentTitle = item.document_title || "Study Document";
+        const preview = getItemPreview(item);
+        const itemDate = formatDate(getItemDate(item));
+
+        let meta = "";
+
+        // Notes
+        if (type === "notes") {
+            meta = `
+                <span>
+                    <i class="fa-solid fa-language"></i>
+                    ${escapeHTML(item.language || "Both")}
+                </span>`;
+        }
+
+        // Normal Quiz and Revision Quiz
+        else if (type === "quizzes" || type === "revision") {
+            const total = Number(item.total_questions || 0);
+            const correct = Number(item.correct_answers || 0);
+            const wrong = Number(
+                item.wrong_answers ?? Math.max(0, total - correct)
+            );
+            const score = Number(item.score || 0);
+            const accuracy = Number(
+                item.accuracy ?? (total ? (correct / total) * 100 : 0)
+            );
+
+            meta = `
+                <span>
+                    <i class="fa-solid fa-list-check"></i>
+                    ${total} questions
+                </span>
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    ${correct} correct
+                </span>
+                <span>
+                    <i class="fa-solid fa-xmark"></i>
+                    ${wrong} wrong
+                </span>
+                <span>
+                    <i class="fa-solid fa-chart-line"></i>
+                    ${accuracy.toFixed(1)}% accuracy
+                </span>
+                <span>
+                    <i class="fa-solid fa-star"></i>
+                    Score: ${score.toFixed(1)}%
+                </span>`;
+        }
+
+        // Flashcards
+        else if (type === "flashcards") {
+            const cards = Array.isArray(item.cards) ? item.cards : [];
+
+            meta = `
+                <span>
+                    <i class="fa-solid fa-layer-group"></i>
+                    ${cards.length} cards
+                </span>
+                <span>
+                    <i class="fa-solid fa-language"></i>
+                    ${escapeHTML(item.language || "Tamil")}
+                </span>`;
+        }
+
+        // Study Plans
+        else if (type === "plans") {
+            meta = `
+                <span>
+                    <i class="fa-solid fa-clock"></i>
+                    ${escapeHTML(item.daily_hours ?? "—")} hours/day
+                </span>
+                <span>
+                    <i class="fa-solid fa-calendar"></i>
+                    ${escapeHTML(item.days_available ?? "—")} days
+                </span>`;
+        }
+
+        const actions = type === "notes"
+            ? `
+                <button class="secondary-btn open-note"
+                        data-action="open"
+                        data-id="${escapeHTML(item.id)}">
+                    <i class="fa-regular fa-eye"></i> Open
+                </button>
+                <button class="secondary-btn"
+                        data-action="copy"
+                        data-id="${escapeHTML(item.id)}">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>`
+            : `
+                <button class="secondary-btn open-note"
+                        data-action="open"
+                        data-id="${escapeHTML(item.id)}">
+                    <i class="fa-regular fa-eye"></i> View Details
+                </button>
+                <button class="secondary-btn"
+                        data-action="copy"
+                        data-id="${escapeHTML(item.id)}">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>`;
+
+        return `
+            <article class="note-card">
+                <div class="note-top">
+                    <span class="note-type ${
+                        type === "notes" ? escapeHTML(getNoteType(item)) : ""
+                    }">
+                        <i class="fa-solid ${icon}"></i>
+                        ${escapeHTML(label)}
+                    </span>
+
+                    <span class="note-id">
+                        #${escapeHTML(item.id)}
+                    </span>
+                </div>
+
+                <h3 class="note-title">${escapeHTML(title)}</h3>
+
+                <div class="note-document">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>${escapeHTML(documentTitle)}</span>
+                </div>
+
+                <p class="note-preview">
+                    ${escapeHTML(
+                        preview.length > 260
+                            ? preview.slice(0, 260) + "..."
+                            : preview
+                    )}
+                </p>
+
+                <div class="note-meta">
+                    <span>
+                        <i class="fa-regular fa-calendar"></i>
+                        ${escapeHTML(itemDate)}
+                    </span>
+                    ${meta}
+                </div>
+
+                <div class="note-actions">
+                    ${actions}
+                </div>
+            </article>`;
+    }).join("");
+}
+
+function findNote(id) {
+    return allLibraryItems.find(item => String(item.id) === String(id));
+}
+
+function openNote(id) {
+    const item = findNote(id);
+
+    if (!item) {
+        showStatus("The selected item could not be found.", "error");
+        return;
+    }
+
+    currentModalNote = item;
+
+    $("modalTitle").textContent = item.title || "Saved Item";
+
+    $("modalMeta").textContent = [
+        getItemLabel(item),
+        item.document_title || "",
+        item.language || "",
+        formatDate(getItemDate(item), true)
+    ].filter(Boolean).join(" · ");
+
+    // Show complete saved data for each item type.
+    let content = item.content || "";
+
+    if (
+    item.item_type === "quizzes" ||
+    item.item_type === "revision"
+) {
+    const questions = Array.isArray(item.questions)
+        ? item.questions
+        : Array.isArray(item.questions_data)
+            ? item.questions_data
+            : [];
+
+    const answers = Array.isArray(item.answers)
+        ? item.answers
+        : [];
+
+    const wrong = Number(
+        item.wrong_answers ??
+        Math.max(
+            Number(item.total_questions || 0) -
+            Number(item.correct_answers || 0),
+            0
+        )
+    );
+
+    const lines = [
+        `Type: ${item.item_type === "revision" ? "Revision" : "Quiz"}`,
+        `Document: ${item.document_title || "Study Document"}`,
+        `Total questions: ${item.total_questions ?? questions.length}`,
+        `Correct answers: ${item.correct_answers ?? 0}`,
+        `Wrong answers: ${wrong}`,
+        `Score: ${item.score ?? 0}%`,
+        `Accuracy: ${item.accuracy ?? item.score ?? 0}%`,
+        `Date: ${formatDate(item.created_at, true)}`,
+        "",
+        "QUESTION DETAILS",
+        "================"
+    ];
+
+    if (questions.length === 0) {
+        lines.push(
+            "No question details were returned by the API."
+        );
+    } else {
+        questions.forEach((questionData, index) => {
+            const question = questionData.question ||
+                questionData.question_text ||
+                questionData.text ||
+                `Question ${index + 1}`;
+
+            const savedAnswer = answers[index] || {};
+
+            const selectedAnswer =
+                questionData.selected_answer ??
+                savedAnswer.selected_answer ??
+                "";
+
+            const correctAnswer =
+                questionData.correct_answer ??
+                questionData.answer ??
+                savedAnswer.correct_answer ??
+                "";
+
+            const isCorrect =
+                questionData.is_correct ??
+                savedAnswer.is_correct;
+
+            lines.push(
+                `${index + 1}. ${question}`,
+                `Your answer: ${selectedAnswer || "Not answered"}`,
+                `Correct answer: ${correctAnswer || "Not available"}`,
+                `Result: ${
+                    isCorrect === true
+                        ? "Correct"
+                        : isCorrect === false
+                            ? "Incorrect"
+                            : "Not submitted"
+                }`,
+                ""
+            );
+
+            if (questionData.explanation) {
+                lines.push(
+                    `Explanation: ${questionData.explanation}`,
+                    ""
+                );
+            }
+        });
+    }
+
+    content = lines.join("\n");
+
+    
+    } else if (item.item_type === "flashcards") {
+        const cards = Array.isArray(item.cards) ? item.cards : [];
+
+        content = cards.map((card, index) => {
+            const question = card.question || card.front || card.term || "";
+            const answer = card.answer || card.back || card.definition || "";
+
+            return `${index + 1}. ${question}\nAnswer: ${answer}`;
+        }).join("\n\n") || "No flashcards are available.";
+    } else if (item.item_type === "plans") {
+        const topics = Array.isArray(item.topics) ? item.topics : [];
+        const plan = Array.isArray(item.plan) ? item.plan : [];
+
+        content = [
+            `Exam date: ${item.exam_date || "Not set"}`,
+            `Daily study hours: ${item.daily_hours ?? "—"}`,
+            `Days available: ${item.days_available ?? "—"}`,
+            `Total study hours: ${item.total_study_hours ?? "—"}`,
+            "",
+            "Topics:",
+            ...topics.map(topic => `• ${topic}`),
+            "",
+            "Daily plan:",
+            ...plan.map((day, index) =>
+                `${index + 1}. ${
+                    typeof day === "string"
+                        ? day
+                        : JSON.stringify(day, null, 2)
+                }`
+            )
+        ].join("\n");
+    }
+
+    $("modalContent").textContent = content || "No content available.";
+    $("noteModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+    $("closeModalBtn").focus();
+}
+
+function closeModal() {
+    $("noteModal").classList.remove("show");
+    document.body.style.overflow = "";
+    currentModalNote = null;
+}
+
+async function copyNote(item) {
+    if (!item) return;
+
+    const content = `${item.title || "Saved Item"}\n\n${getItemPreview(item)}`;
+
+    try {
+        await navigator.clipboard.writeText(content);
+        showStatus("Item copied to clipboard successfully!", "success");
+    } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = content;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        const copied = document.execCommand("copy");
+        textarea.remove();
+
+        showStatus(
+            copied
+                ? "Item copied to clipboard successfully!"
+                : "Copy failed. Please select and copy the text manually.",
+            copied ? "success" : "error"
+        );
+    }
+}
+[
+    "libraryTabs",
+    "searchInput",
+    "typeFilter",
+    "sortFilter",
+    "notesGrid",
+    "refreshBtn",
+    "closeModalBtn",
+    "modalCloseFooter",
+    "modalCopyBtn",
+    "noteModal",
+    
+    
+    
+].forEach(id => {
+    if (!$(id)) {
+        console.error("Missing HTML element:", id);
+    }
+});
+
+// Category tabs.
+$("libraryTabs").addEventListener("click", event => {
+    const button = event.target.closest("button[data-tab]");
+    if (!button) return;
+
+    setLibraryTab(button.dataset.tab);
+});
+
+// Search, filter and sorting.
+$("searchInput").addEventListener("input", renderNotes);
+$("typeFilter").addEventListener("change", renderNotes);
+$("sortFilter").addEventListener("change", renderNotes);
+
+// Card actions.
+$("notesGrid").addEventListener("click", event => {
+    const button = event.target.closest("button[data-action]");
+    if (!button) return;
+
+    const item = findNote(button.dataset.id);
+    if (!item) return;
+
+    if (button.dataset.action === "open") {
+        openNote(button.dataset.id);
+    } else if (button.dataset.action === "copy") {
+        copyNote(item);
+    }
+});
+
+$("refreshBtn").addEventListener("click", loadLibrary);
+
+$("closeModalBtn").addEventListener("click", closeModal);
+$("modalCloseFooter").addEventListener("click", closeModal);
+
+$("modalCopyBtn").addEventListener("click", () => {
+    copyNote(currentModalNote);
+});
+
+$("noteModal").addEventListener("click", event => {
+    if (event.target === $("noteModal")) {
+        closeModal();
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        closeModal();
+        
+    }
+});
+
+
+
+// Load saved library items.
+document.addEventListener("DOMContentLoaded", loadLibrary);
+</script>
+
+
+</body>
+</html>

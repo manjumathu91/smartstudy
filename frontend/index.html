@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Smart Study AI transforms study PDFs into notes, summaries, quizzes, flashcards and personalized study plans.">
+
+    <meta name="theme-color" content="#0b1020">
+
+    <title>Smart Study AI | Learn Smarter</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Main CSS -->
+   
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo" aria-label="Smart Study AI home">
+                <span class="logo-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </span>
+                <span class="logo-text">
+                    Smart<span class="logo-highlight">Study</span>
+                    <small>AI LEARNING SPACE</small>
+                </span>
+            </a>
+
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="navMenu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#about" class="nav-link">About</a>
+
+                
+                
+<a href="register.html" class="btn btn-nav" id="getStartedBtn">
+    Get Started <i class="fa-solid fa-arrow-right"></i>
+</a>
+
+<a href="dashboard.html" class="btn btn-nav" id="dashboardBtn" style="display: none;">
+    Continue Learning <i class="fa-solid fa-arrow-right"></i>
+</a>
+
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- ================= HERO SECTION ================= -->
+        <section class="hero section" id="home">
+            <div class="container hero-grid">
+
+                <div class="hero-content reveal">
+
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        YOUR PERSONAL AI STUDY ASSISTANT
+                    </div>
+
+                    <h1>
+                        Turn your study materials into
+                        <span class="gradient-text">smart learning.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Upload your study PDFs and transform them into
+                        clear notes, smart quizzes, flashcards and
+                        personalized study plans — all in one place.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="upload.html" class="btn btn-primary">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            Upload Your PDF
+                        </a>
+
+                        <a href="#features" class="btn btn-secondary">
+                            Explore Features
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </a>
+                    </div>
+
+                    <div class="hero-trust">
+                        <div class="trust-icon">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <strong>Your documents, your learning</strong>
+                            <p>Study at your own pace with AI assistance.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Hero Preview Card -->
+                <div class="hero-visual reveal">
+
+                    <div class="visual-glow"></div>
+
+                    <div class="floating-chip chip-top">
+                        <span class="chip-icon purple">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </span>
+                        <div>
+                            <strong>AI Notes Ready</strong>
+                            <small>Structured learning content</small>
+                        </div>
+                    </div>
+
+                    <div class="study-preview">
+
+                        <div class="preview-header">
+                            <div>
+                                <span class="preview-overline">YOUR WORKSPACE</span>
+                                <h3>Study Dashboard</h3>
+                            </div>
+
+                            <span class="preview-avatar">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </span>
+                        </div>
+
+                        <div class="document-preview">
+                            <div class="document-icon">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+
+                            <div class="document-info">
+                                <strong>Study Material.pdf</strong>
+                                <small>PDF learning workspace</small>
+                            </div>
+
+                            <span class="document-status">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                        </div>
+
+                        <div class="preview-section-heading">
+                            <h4>Learning Tools</h4>
+                            <span>Explore</span>
+                        </div>
+
+                        <div class="learning-tools">
+
+                            <a href="notes.html" class="tool-card tool-purple">
+                                <span class="tool-icon">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                </span>
+                                <strong>AI Notes</strong>
+                                <small>Organize key ideas</small>
+                            </a>
+
+                            <a href="quiz.html" class="tool-card tool-blue">
+                                <span class="tool-icon">
+                                    <i class="fa-solid fa-brain"></i>
+                                </span>
+                                <strong>Smart Quiz</strong>
+                                <small>Practice questions</small>
+                            </a>
+
+                            <a href="flashcards.html" class="tool-card tool-pink">
+                                <span class="tool-icon">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                </span>
+                                <strong>Flashcards</strong>
+                                <small>Review concepts</small>
+                            </a>
+
+                            <a href="planner.html" class="tool-card tool-green">
+                                <span class="tool-icon">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </span>
+                                <strong>Study Plan</strong>
+                                <small>Plan your learning</small>
+                            </a>
+
+                        </div>
+
+                        <a href="dashboard.html" class="preview-footer">
+                            Open Learning Dashboard
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                    <div class="floating-chip chip-bottom">
+                        <span class="chip-icon green">
+                            <i class="fa-solid fa-book-open"></i>
+                        </span>
+                        <div>
+                            <strong>Learn at your pace</strong>
+                            <small>Your study journey starts here</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= FEATURE INTRO ================= -->
+        <section class="intro-strip">
+            <div class="container intro-strip-inner">
+                <div class="intro-item">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>PDF-Based Learning</span>
+                </div>
+
+                <div class="intro-item">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>AI-Powered Content</span>
+                </div>
+
+                <div class="intro-item">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Student-Friendly Tools</span>
+                </div>
+
+                <div class="intro-item">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span>Responsive Experience</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= FEATURES ================= -->
+        <section class="section features-section" id="features">
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <span class="section-eyebrow">POWERFUL LEARNING TOOLS</span>
+
+                    <h2>
+                        Everything you need to
+                        <span class="gradient-text">study smarter.</span>
+                    </h2>
+
+                    <p>
+                        Turn one study document into multiple ways to learn,
+                        practice and revise.
+                    </p>
+                </div>
+
+
+                <div class="features-grid">
+                   <!-- Feature 01: AI Study Chat -->
+<article class="feature-card reveal">
+    <div class="feature-icon purple">
+        <i class="fa-solid fa-comments"></i>
+    </div>
+
+    <span class="feature-number">01</span>
+
+    <h3>AI Study Chat</h3>
+
+    <p>
+        Learn difficult concepts with your personal AI tutor.
+        Ask questions in Tamil, English or Tanglish and explore
+        explanations, diagrams, sticky notes, visual learning
+        and practice questions.
+    </p>
+
+    
+    <a href="aistudychat.html" class="feature-link" id="aiStudyChatLink">
+    Start AI Learning
+    <i class="fa-solid fa-arrow-right"></i>
+</a>
+</article>
+                    <article class="feature-card reveal">
+                        <div class="feature-icon purple">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                        </div>
+
+                        <span class="feature-number">02</span>
+
+                        <h3>PDF Upload</h3>
+
+                        <p>
+                            Upload your study documents and prepare
+                            them for AI-powered learning.
+                        </p>
+
+                        <a href="upload.html" class="feature-link">
+                            Upload document
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+
+                    <article class="feature-card reveal">
+                        <div class="feature-icon blue">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <span class="feature-number">03</span>
+
+                        <h3>Smart Notes & Summaries</h3>
+
+                        <p>
+                            Convert document content into organized
+                            notes and concise summaries.
+                        </p>
+
+                        <a href="notes.html" class="feature-link">
+                            Explore notes
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+
+                    <article class="feature-card reveal">
+                        <div class="feature-icon pink">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+
+                        <span class="feature-number">04</span>
+
+                        <h3>AI Quiz Generator</h3>
+
+                        <p>
+                            Practice questions based on your study
+                            material and review your answers.
+                        </p>
+
+                        <a href="quiz.html" class="feature-link">
+                            Start a quiz
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+
+                    <article class="feature-card reveal">
+                        <div class="feature-icon orange">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+
+                        <span class="feature-number">05</span>
+
+                        <h3>Interactive Flashcards</h3>
+
+                        <p>
+                            Review important concepts through
+                            question-and-answer flashcards.
+                        </p>
+
+                        <a href="flashcards.html" class="feature-link">
+                            Review cards
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+
+                    <article class="feature-card reveal">
+                        <div class="feature-icon green">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+
+                        <span class="feature-number">06</span>
+
+                        <h3>Personalized Study Plan</h3>
+
+                        <p>
+                            Organize your study topics and available
+                            hours into a practical learning plan.
+                        </p>
+
+                        <a href="planners.html" class="feature-link">
+                            Plan your study
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+
+                    <article class="feature-card reveal">
+                        <div class="feature-icon cyan">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+
+                        <span class="feature-number">07</span>
+
+                        <h3>Downloadable Notes</h3>
+
+                        <p>
+                            Save generated notes as PDF files for
+                            offline revision and convenient study.
+                        </p>
+
+                        <a href="notes.html" class="feature-link">
+                            Explore notes
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+                    <!-- Feature 08: Smart Revision -->
+<article class="feature-card reveal">
+    <div class="feature-icon purple">
+        <i class="fa-solid fa-rotate"></i>
+    </div>
+
+    <span class="feature-number">08</span>
+
+    <h3>Smart Revision</h3>
+
+    <p>
+        Revise important concepts from your study materials.
+        Review key points, revisit difficult topics and
+        strengthen your TNPSC exam preparation.
+    </p>
+
+    <a href="login.html" class="feature-link" id="smartRevisionLink">
+        Login to Start
+        <i class="fa-solid fa-arrow-right"></i>
+    </a>
+</article>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+        <section class="section workflow-section" id="how-it-works">
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <span class="section-eyebrow">SIMPLE STUDY WORKFLOW</span>
+
+                    <h2>
+                        From PDF to
+                        <span class="gradient-text">better preparation.</span>
+                    </h2>
+
+                    <p>
+                        Start with your own learning material and
+                        turn it into useful study resources.
+                    </p>
+                </div>
+
+
+                <div class="workflow-grid">
+
+                    <article class="workflow-step reveal">
+                        <div class="workflow-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>1</span>
+                        </div>
+
+                        <h3>Upload</h3>
+
+                        <p>
+                            Choose a valid PDF document from your device.
+                        </p>
+                    </article>
+
+
+                    <article class="workflow-step reveal">
+                        <div class="workflow-icon">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>2</span>
+                        </div>
+
+                        <h3>Generate</h3>
+
+                        <p>
+                            Request notes, summaries, quizzes or flashcards.
+                        </p>
+                    </article>
+
+
+                    <article class="workflow-step reveal">
+                        <div class="workflow-icon">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                            <span>3</span>
+                        </div>
+
+                        <h3>Learn & Practice</h3>
+
+                        <p>
+                            Review your content and practice what you learn.
+                        </p>
+                    </article>
+
+
+                    <article class="workflow-step reveal">
+                        <div class="workflow-icon">
+                            <i class="fa-solid fa-download"></i>
+                            <span>4</span>
+                        </div>
+
+                        <h3>Save & Revise</h3>
+
+                        <p>
+                            Download your notes and continue revising.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+        <section class="section about-section" id="about">
+            <div class="container about-grid">
+
+                <div class="about-visual reveal">
+                    <div class="about-decoration decoration-one"></div>
+                    <div class="about-decoration decoration-two"></div>
+
+                    <div class="about-main-card">
+                        <div class="about-brain-icon">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+
+                        <span class="section-eyebrow">SMART STUDY AI</span>
+
+                        <h3>Your materials.<br>Your learning journey.</h3>
+
+                        <p>
+                            One workspace to organize study resources
+                            and make revision more structured.
+                        </p>
+
+                        <div class="about-tags">
+                            <span><i class="fa-solid fa-check"></i> Notes</span>
+                            <span><i class="fa-solid fa-check"></i> Quizzes</span>
+                            <span><i class="fa-solid fa-check"></i> Study Plans</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="about-content reveal">
+                    <span class="section-eyebrow">ABOUT THE PLATFORM</span>
+
+                    <h2>
+                        Make every study session
+                        <span class="gradient-text">more meaningful.</span>
+                    </h2>
+
+                    <p>
+                        Smart Study AI is designed to help students work
+                        with their own learning materials. Instead of
+                        switching between different tools, students can
+                        create and review learning resources in one place.
+                    </p>
+
+                    <div class="about-benefit">
+                        <span class="benefit-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <div>
+                            <h4>Learn from your documents</h4>
+                            <p>Keep your learning activities connected to your study materials.</p>
+                        </div>
+                    </div>
+
+                    <div class="about-benefit">
+                        <span class="benefit-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <div>
+                            <h4>Practice actively</h4>
+                            <p>Use quizzes and flashcards to check your understanding.</p>
+                        </div>
+                    </div>
+
+                    <div class="about-benefit">
+                        <span class="benefit-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <div>
+                            <h4>Study with a plan</h4>
+                            <p>Organize study time and prepare for revision.</p>
+                        </div>
+                    </div>
+
+                    <a href="upload.html" class="btn btn-primary about-button">
+                        Start Learning
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CTA ================= -->
+        <section class="cta-section">
+            <div class="container">
+
+                <div class="cta-card reveal">
+                    <div class="cta-glow"></div>
+
+                    <div class="cta-content">
+                        <span class="section-eyebrow">YOUR NEXT STUDY SESSION STARTS HERE</span>
+
+                        <h2>
+                            Ready to transform
+                            your study materials?
+                        </h2>
+
+                        <p>
+                            Upload a PDF and explore a more structured
+                            way to learn, practice and revise.
+                        </p>
+
+                        <a href="upload.html" class="btn btn-light">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            Upload Your First PDF
+                        </a>
+                    </div>
+
+                    <div class="cta-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">
+                            <i class="fa-solid fa-brain"></i>
+                        </span>
+
+                        <span class="logo-text">
+                            Smart<span class="logo-highlight">Study</span>
+                            <small>AI LEARNING SPACE</small>
+                        </span>
+                    </a>
+
+                    <p>
+                        Helping students turn study documents
+                        into structured learning resources.
+                    </p>
+                </div>
+
+
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <a href="index.html">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#about">About</a>
+                </div>
+
+
+                <div class="footer-column">
+                    <h4>Learning Tools</h4>
+                    <a href="upload.html">Upload PDF</a>
+                    <a href="notes.html">AI Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="flashcards.html">Flashcards</a>
+                    <a href="planner.html">Study Planner</a>
+                </div>
+
+
+                <div class="footer-column">
+                    <h4>Your Workspace</h4>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="upload.html">Get Started</a>
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear">2026</span> Smart Study AI.
+                    Built for smarter learning.
+                </p>
+
+                <a href="#home" class="back-to-top" aria-label="Back to top">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </a>
+            </div>
+
+        </div>
+    </footer>
+
+
+  
+    
+
+
+
+  <!-- Main JavaScript -->
+<script src="/static/js/script.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,2035 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b14">
+  <title>Smart Study AI | Study Workspace</title>
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+  <style>
+    :root {
+      --bg: #080b14;
+      --sidebar: #0d1220;
+      --panel: #101626;
+      --panel2: #151d30;
+      --border: #222c42;
+      --text: #f3f5ff;
+      --muted: #929bb6;
+      --primary: #8b7cff;
+      --pink: #ec4899;
+      --green: #4ade80;
+      --red: #fb7185;
+      --yellow: #facc15;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 0%, #49318c22, transparent 36%),
+        radial-gradient(ellipse at 95% 10%, #8b2b6520, transparent 30%),
+        var(--bg);
+      font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    a { color: inherit; }
+
+    .app { min-height: 100vh; }
+    .layout { min-height: 100vh; }
+
+    
+    .main-content {
+    width: calc(100% - 260px);
+    min-width: 0;
+    min-height: 100vh;
+    margin-left: 260px;
+    padding: 28px;
+    transition: margin-left 0.25s ease, width 0.25s ease;
+}
+
+    /* No top header. The shared sidebar is loaded separately. */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 1002;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .welcome {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .welcome h2 {
+      margin: 0;
+      font: 800 clamp(23px, 3vw, 32px) "Plus Jakarta Sans", sans-serif;
+      letter-spacing: -.8px;
+    }
+
+    .welcome p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 11px;
+      color: #c9c1ff;
+      background: #8b7cff15;
+      border: 1px solid #8b7cff35;
+      border-radius: 999px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 21px;
+      background: linear-gradient(145deg, #121a2b, #0f1523);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 15px 40px #00000016;
+    }
+
+    .panel + .panel { margin-top: 18px; }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 17px;
+    }
+
+    .panel-heading h3 {
+      margin: 0;
+      font: 700 15px "Plus Jakarta Sans", sans-serif;
+    }
+
+    .panel-heading p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #d9def1;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 11px 12px;
+      color: var(--text);
+      background: #0a101c;
+      border: 1px solid #2b3650;
+      border-radius: 11px;
+      outline: none;
+      font-size: 12px;
+    }
+
+    input[readonly] { color: #c9c1ff; }
+    select { color-scheme: dark; }
+    select option { background: #111827; color: white; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px #8b7cff18;
+    }
+
+    input::placeholder, textarea::placeholder { color: #737f9b; }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .helper {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .controls-bottom, .button-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 39px;
+      padding: 9px 13px;
+      color: #e5e9f8;
+      background: #1a2438;
+      border: 1px solid #303d58;
+      border-radius: 11px;
+      font-size: 11px;
+      font-weight: 700;
+      transition: .2s;
+      text-decoration: none;
+    }
+
+    .button:hover:not(:disabled) {
+      filter: brightness(1.17);
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      color: white;
+      background: linear-gradient(120deg, #7058ec, #a33ed0);
+      border-color: transparent;
+    }
+
+    .button.subtle { background: transparent; }
+
+    .button.danger {
+      color: #fecdd3;
+      background: #fb718510;
+      border-color: #fb718535;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 19px;
+    }
+
+    .mode-card {
+      min-width: 0;
+      padding: 14px 12px;
+      text-align: left;
+      color: var(--muted);
+      background: #0b111e;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      transition: .2s;
+    }
+
+    .mode-card:hover { border-color: #8b7cff75; }
+
+    .mode-card.active {
+      color: white;
+      background: linear-gradient(135deg, #8b7cff26, #ec489914);
+      border-color: #8b7cff95;
+      box-shadow: inset 0 0 0 1px #8b7cff15;
+    }
+
+    .mode-icon {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 22px;
+    }
+
+    .mode-card strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .mode-card small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .type-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      background: #8b7cff0d;
+      border: 1px solid #8b7cff25;
+      border-radius: 12px;
+    }
+
+    .type-notice strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .type-notice p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .workspace-grid {
+      display: grid;
+       grid-template-columns: repeat(2, minmax(0, 1fr));
+       align-items: stretch;
+      gap: 18px;
+      
+      margin-top: 18px;
+    }
+    .workspace-grid > .panel {
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+    .workspace-grid .panel + .panel { margin-top: 0; }
+
+    .result-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 13px;
+    }
+
+    .tag {
+      padding: 5px 9px;
+      color: #c9c1ff;
+      background: #8b7cff12;
+      border: 1px solid #8b7cff28;
+      border-radius: 999px;
+      font-size: 10px;
+    }
+
+    .result-content {
+      min-height: 285px;
+      max-height: 650px;
+      overflow: auto;
+      padding: 18px;
+      color: #e5e9f7;
+      background: #090f1b;
+      border: 1px solid #26314a;
+      border-radius: 13px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.85;
+      font-size: 13px;
+    }
+
+    .empty-state {
+      display: grid;
+      place-items: center;
+      min-height: 245px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state .big {
+      margin-bottom: 10px;
+      font-size: 35px;
+    }
+
+    .empty-state strong {
+      color: #e5e9f7;
+      font-size: 13px;
+    }
+
+    .empty-state p {
+      max-width: 300px;
+      margin: 7px auto 0;
+      font-size: 11px;
+    }
+
+    .status {
+      margin-top: 11px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .status:empty { display: none; }
+    .status.info { color: #c9c1ff; background: #8b7cff12; }
+    .status.success { color: #86efac; background: #22c55e12; }
+    .status.error { color: #fda4af; background: #fb718512; }
+
+    .progress-track {
+      height: 5px;
+      margin-top: 13px;
+      overflow: hidden;
+      background: #26314a;
+      border-radius: 99px;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #8b7cff, #ec4899);
+      transition: width .3s ease;
+    }
+
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 410px;
+    }
+
+    .chat-history {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 190px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 5px 1px 14px;
+    }
+
+    .chat-message {
+      max-width: 96%;
+      padding: 11px 12px;
+      border-radius: 13px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 12px;
+    }
+
+    .chat-message.ai {
+      align-self: flex-start;
+      color: #e4e8f5;
+      background: #182238;
+      border: 1px solid #2c3853;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      color: white;
+      background: #6548cf;
+    }
+
+    .chat-form {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .chat-form textarea { min-height: 75px; }
+
+    .footer {
+      margin-top: 25px;
+      padding: 15px 0 5px;
+      color: #727d99;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid #ffffff40;
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    /* Keep Ask AI Teacher form at the bottom */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.chat-history {
+  flex: 1;
+  min-height: 0;
+}
+
+.chat-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.chat-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chat-form button {
+  align-self: flex-start;
+}
+
+.ai-chat-redirect[hidden] {
+  display: none !important;
+}
+
+.ai-chat-redirect {
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid #c7d2fe;
+  border-radius: 12px;
+  background: #f5f7ff;
+}
+
+.ai-chat-redirect p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+
+
+.ai-chat-button {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  border: 1px solid #4f46e5 !important;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ai-chat-button:hover {
+  background: #3730a3 !important;
+  color: #ffffff !important;
+}
+
+
+
+/* Redirect message: readable dark text */
+.ai-chat-redirect,
+.ai-chat-redirect p,
+#aiChatRedirectMessage {
+  color: #1f2937 !important;
+  background-color: #f5f7ff;
+}
+
+/* Button: purple background with white text */
+#goToAIStudyChat,
+.ai-chat-redirect .ai-chat-button {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid #4f46e5 !important;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#goToAIStudyChat:hover {
+  background: #3730a3 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+
+
+
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1150px) {
+      .workspace-grid { grid-template-columns: 1fr; }
+      .chat-panel { min-height: 0; }
+      .chat-history { max-height: 300px; }
+    }
+
+    @media (min-width: 761px) and (max-width: 1000px) {
+       #sidebar.open ~ .menu-toggle,
+    #sidebar.open .menu-toggle {
+        display: none !important;
+    }
+     body:has(#sidebar.open) .menu-toggle {
+        display: none !important;
+    }
+      .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 25px 22px;
+      }
+      .menu-toggle {
+        z-index: 1002;
+    }
+
+      .menu-toggle { display: inline-flex; }
+      .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+
+    @media (max-width: 760px) {
+      .menu-toggle { display: inline-flex; }
+
+      .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 72px 16px 20px;
+      }
+
+      .welcome { flex-direction: column; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .panel { padding: 15px; }
+      .panel-heading { align-items: flex-start; }
+
+      .controls-bottom .button,
+      .button-row .button { flex: 1 1 auto; }
+
+      .result-content {
+        padding: 13px;
+        min-height: 240px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      body:has(#sidebar.open) .menu-toggle {
+        display: none !important;
+    }
+      .mode-card { padding: 12px 9px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <!-- Shared sidebar component -->
+    <div id="sidebarMount"></div>
+    
+    
+    <!-- Hamburger control only; no top header -->
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+    >☰</button>
+
+    <div class="layout">
+      <main class="main-content">
+
+        <section class="welcome">
+          <div>
+            <h2>Study Workspace <span style="color:#c9c1ff">✦</span></h2>
+            <p id="welcomeText">Select your document and start learning.</p>
+          </div>
+          <span class="badge" id="connectionBadge">Checking connection…</span>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <h3>01 · Choose your study material</h3>
+              <p>Select an uploaded document and its output language.</p>
+            </div>
+            <span class="badge">📚 Library</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="documentSelect">Uploaded document</label>
+              <select id="documentSelect">
+                <option value="">Loading documents…</option>
+              </select>
+              <p class="helper" id="documentInfo">Your uploaded documents will appear here.</p>
+            </div>
+
+            <div class="field">
+              <label for="documentTypeInfo">Document type</label>
+              <input id="documentTypeInfo" value="Select a document first" readonly>
+              <p class="helper">Automatically detected from the uploaded document.</p>
+            </div>
+
+            <div class="field">
+              <label for="languageSelect">Output language</label>
+              <select id="languageSelect">
+                <option value="Both">Tamil + English</option>
+                <option value="Tamil">Tamil</option>
+                <option value="English">English</option>
+              </select>
+              <p class="helper">Choose the language for your notes and answers.</p>
+            </div>
+
+            <div class="field">
+              <label for="documentSubjectInfo">Subject / category</label>
+              <input id="documentSubjectInfo" value="Not specified" readonly>
+              <p class="helper">Uses the metadata saved with the document, if available.</p>
+            </div>
+          </div>
+
+          <div class="controls-bottom">
+            <button class="button" id="refreshDocumentsBtn" type="button">↻ Refresh Library</button>
+            <a class="button" href="upload.html">＋ Upload Document</a>
+          </div>
+
+          <div class="status" id="documentStatus" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <h3>02 · Select your learning mode</h3>
+              <p id="modeDescription">Choose a mode to generate content from your selected document.</p>
+            </div>
+          </div>
+
+          <div class="type-notice">
+            <span>💡</span>
+            <div>
+              <strong id="typeNoticeTitle">Choose a document to begin</strong>
+              <p id="typeNoticeText">Textbooks and general documents can use different study modes.</p>
+            </div>
+          </div>
+
+          <div class="mode-grid" id="modeGrid" role="group" aria-label="Study mode">
+            <button class="mode-card active" data-mode="page" type="button">
+              <span class="mode-icon">📄</span>
+              <strong>Page-wise</strong>
+              <small>Understand one page</small>
+            </button>
+
+            <button class="mode-card" data-mode="topic" type="button">
+              <span class="mode-icon">🔎</span>
+              <strong>Topic-wise</strong>
+              <small>Explore a topic</small>
+            </button>
+
+            <button class="mode-card" data-mode="lesson" type="button">
+              <span class="mode-icon">📘</span>
+              <strong>Lesson-wise</strong>
+              <small>Analyse a lesson</small>
+            </button>
+
+            <button class="mode-card" data-mode="notes" type="button">
+              <span class="mode-icon">📝</span>
+              <strong>Study Notes</strong>
+              <small>Build notes in batches</small>
+            </button>
+
+            <button class="mode-card" data-mode="summary" type="button" hidden>
+              <span class="mode-icon">📚</span>
+              <strong>Document Summary</strong>
+              <small>Understand the whole PDF</small>
+            </button>
+
+            <button class="mode-card" data-mode="keypoints" type="button" hidden>
+              <span class="mode-icon">⭐</span>
+              <strong>Key Points</strong>
+              <small>Extract important points</small>
+            </button>
+          </div>
+
+          <div class="form-grid">
+            <div class="field" id="pageField">
+              <label for="pageNumber">PDF page number</label>
+              <input id="pageNumber" type="number" min="1" step="1" value="1">
+              <p class="helper">Enter the PDF page number to analyse.</p>
+            </div>
+
+            <div class="field" id="batchField" hidden>
+              <label>Batch processing</label>
+              <input value="3 readable pages per batch" disabled>
+              <p class="helper">Review the current batch before generating the next one.</p>
+            </div>
+
+            <div class="field" id="topicField" hidden>
+              <label for="topicInput">Topic name</label>
+              <input id="topicInput" placeholder="Example: Photosynthesis">
+              <p class="helper">Enter the topic you want to study.</p>
+            </div>
+
+            <div class="field" id="lessonField" hidden>
+              <label for="lessonInput">Lesson / chapter title</label>
+              <input id="lessonInput" placeholder="Enter the lesson or chapter title">
+              <p class="helper">Use a title from the selected document where possible.</p>
+            </div>
+
+            <div class="field full" id="instructionsField" hidden>
+              <label for="customInstructions">Additional instructions (optional)</label>
+              <textarea id="customInstructions" rows="3" maxlength="700"
+                placeholder="Example: Explain in simple Tamil and include important exam points."></textarea>
+            </div>
+          </div>
+
+          <div class="controls-bottom">
+            <button class="button primary" id="generateBtn" type="button">✦ Generate Page-wise Notes</button>
+            <button class="button" id="resetBtn" type="button">↺ Clear Workspace</button>
+          </div>
+
+          <div class="progress-track" id="progressTrack" hidden>
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <div class="status" id="contentStatus" role="status" aria-live="polite"></div>
+        </section>
+
+        <div class="workspace-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>03 · Your study content</h3>
+                <p>Generated content appears here.</p>
+              </div>
+              <span class="badge" id="modeBadge">Page-wise</span>
+            </div>
+
+            <div class="result-meta" id="resultMeta"></div>
+
+            <div class="result-content" id="resultContent">
+              <div class="empty-state">
+                <div>
+                  <div class="big">✧</div>
+                  <strong>Your learning space is ready</strong>
+                  <p>Select a document, choose a study mode and generate your first notes.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button class="button" id="copyBtn" type="button" disabled>⧉ Copy</button>
+              <button class="button" id="downloadBtn" type="button" disabled>↓ Download TXT</button>
+              <button class="button primary" id="saveNoteBtn" type="button" disabled>♡ Save Note</button>
+              <button class="button" id="nextBatchBtn" type="button" hidden>Next 3 pages →</button>
+            </div>
+
+            <div class="status" id="saveStatus" role="status" aria-live="polite"></div>
+          </section>
+
+          <section class="panel chat-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>04 · Ask AI Teacher</h3>
+                <p>Ask a question about your selected document.</p>
+              </div>
+              <span class="badge">✦ AI</span>
+            </div>
+
+            <div class="chat-history" id="chatHistory" aria-live="polite">
+              <div class="chat-message ai">
+                Vanakkam! 👋 Select a document and ask a question.
+                I will help explain it in your chosen language.
+              </div>
+              <!-- Redirect message and button appear inside chat history -->
+         <div class="ai-chat-redirect" id="aiChatRedirect" hidden>
+         <p id="aiChatRedirectMessage"></p>
+
+    <button class="button ai-chat-button"
+      id="goToAIStudyChat" type="button">
+      💬 Go to AI Study Chat
+    </button>
+  </div>
+ </div>
+
+<form class="chat-form" id="chatForm">
+  <textarea id="chatQuestion" maxlength="1000"
+    placeholder="Ask a question about your document…" required></textarea>
+
+  <button class="button primary" id="askBtn" type="submit">
+    ✦ Ask Teacher
+  </button>
+</form>
+ <div class="status" id="chatStatus" role="status" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <footer class="footer">Smart Study AI · Learn clearly, revise confidently.</footer>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/js/sidebar.js" defer></script>
+
+  <script>
+  "use strict";
+
+  const API_BASE = "http://127.0.0.1:8000/api";
+  const $ = id => document.getElementById(id);
+  const accessToken = () => localStorage.getItem("access_token");
+
+  let documents = [];
+  let activeMode = "page";
+  let lastGeneratedText = "";
+  let lastGeneratedData = null;
+  let currentSavedAnalysisId = null;
+  let nextPageOffset = null;
+  let hasNextBatch = false;
+  let currentRequestController = null;
+
+  const documentSelect = $("documentSelect");
+  const languageSelect = $("languageSelect");
+  const resultContent = $("resultContent");
+  const resultMeta = $("resultMeta");
+  const contentStatus = $("contentStatus");
+  const saveStatus = $("saveStatus");
+  const chatStatus = $("chatStatus");
+  const documentStatus = $("documentStatus");
+
+  const modeConfig = {
+    page: {
+      label: "Page-wise",
+      pageVisible: true,
+      batchVisible: false,
+      topicVisible: false,
+      lessonVisible: false,
+      instructionsVisible: false
+    },
+    topic: {
+      label: "Topic-wise",
+      pageVisible: false,
+      batchVisible: false,
+      topicVisible: true,
+      lessonVisible: false,
+      instructionsVisible: true
+    },
+    lesson: {
+      label: "Lesson-wise",
+      pageVisible: false,
+      batchVisible: false,
+      topicVisible: false,
+      lessonVisible: true,
+      instructionsVisible: true
+    },
+    notes: {
+      label: "Study Notes",
+      pageVisible: false,
+      batchVisible: true,
+      topicVisible: false,
+      lessonVisible: false,
+      instructionsVisible: true
+    },
+    summary: {
+      label: "Document Summary",
+      pageVisible: false,
+      batchVisible: false,
+      topicVisible: false,
+      lessonVisible: false,
+      instructionsVisible: true
+    },
+    keypoints: {
+      label: "Key Points",
+      pageVisible: false,
+      batchVisible: false,
+      topicVisible: false,
+      lessonVisible: false,
+      instructionsVisible: true
+    }
+  };
+
+  /* API requests */
+
+  async function apiRequest(path, options = {}) {
+    const token = accessToken();
+
+    if (!token) {
+      window.location.href = "login.html";
+      throw new Error("Login required. Please sign in again.");
+    }
+
+    const headers = new Headers(options.headers || {});
+    headers.set("Authorization", `Bearer ${token}`);
+
+    if (
+      options.body &&
+      !(options.body instanceof FormData) &&
+      !headers.has("Content-Type")
+    ) {
+      headers.set("Content-Type", "application/json");
+    }
+
+    const response = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      headers
+    });
+
+    if (response.status === 401) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("user_id");
+      window.location.href = "login.html";
+      throw new Error("Your session expired. Please log in again.");
+    }
+
+    const raw = await response.text();
+    let data = {};
+
+    if (raw) {
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        data = { detail: raw };
+      }
+    }
+
+    if (!response.ok) {
+      let message = data.detail || data.error || data.message ||
+        `Request failed (${response.status})`;
+
+      if (typeof message !== "string") {
+        message = JSON.stringify(message);
+      }
+
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  function showStatus(element, message, type = "info") {
+    if (!element) return;
+    element.textContent = message || "";
+    element.className = message ? `status ${type}` : "status";
+  }
+
+  function hideStatus(element) {
+    if (!element) return;
+    element.textContent = "";
+    element.className = "status";
+  }
+
+  function setBusy(button, busy, busyLabel, originalLabel) {
+    if (!button) return;
+    button.disabled = busy;
+    button.innerHTML = busy
+      ? `<span class="spinner"></span> ${busyLabel}`
+      : originalLabel;
+  }
+
+  function getResponseText(data) {
+    if (typeof data === "string") return data;
+
+    return data?.content ??
+      data?.summary ??
+      data?.answer ??
+      data?.response ??
+      data?.notes ??
+      data?.result ??
+      "";
+  }
+
+  function selectedDocumentId() {
+    return documentSelect.value || "";
+  }
+
+  function getSelectedDocument() {
+    return documents.find(doc =>
+      String(doc.id) === String(selectedDocumentId())
+    ) || null;
+  }
+
+  function getSelectedDocumentTitle() {
+    const doc = getSelectedDocument();
+    return doc?.title || doc?.name || "Selected Document";
+  }
+
+  function getDocumentType(doc) {
+    const type = String(doc?.document_type || "general").toLowerCase();
+    return type === "textbook" ? "textbook" : "general";
+  }
+
+  /* Document library */
+
+  async function loadDocuments() {
+    const previousId = selectedDocumentId();
+
+    documentSelect.innerHTML =
+      '<option value="">Loading documents…</option>';
+
+    showStatus(documentStatus, "Loading your document library…", "info");
+    $("connectionBadge").textContent = "Connecting…";
+
+    try {
+      const data = await apiRequest("/documents/");
+
+      documents = Array.isArray(data)
+        ? data
+        : (data.results || data.documents || data.data || []);
+
+      documentSelect.innerHTML = "";
+
+      if (!documents.length) {
+        documentSelect.innerHTML =
+          '<option value="">No documents uploaded yet</option>';
+
+        updateDocumentInfo();
+
+        showStatus(
+          documentStatus,
+          "No documents found. Upload a PDF first, then return here.",
+          "info"
+        );
+
+        $("connectionBadge").textContent = "● Connected";
+        updateAvailableModes();
+        return;
+      }
+
+      documents.forEach(doc => {
+        const option = document.createElement("option");
+        option.value = doc.id;
+
+        const typeLabel = getDocumentType(doc) === "textbook"
+          ? "Textbook"
+          : "General PDF";
+
+        option.textContent =
+          `${doc.title || doc.name || `Document ${doc.id}`} · ${typeLabel}`;
+
+        documentSelect.appendChild(option);
+      });
+
+      if (documents.some(doc => String(doc.id) === previousId)) {
+        documentSelect.value = previousId;
+      }
+
+      updateDocumentInfo();
+      updateAvailableModes();
+
+      hideStatus(documentStatus);
+      $("connectionBadge").textContent = "● Connected";
+
+    } catch (error) {
+      documentSelect.innerHTML =
+        '<option value="">Could not load documents</option>';
+
+      $("connectionBadge").textContent = "API unavailable";
+      showStatus(documentStatus, error.message, "error");
+    }
+  }
+
+  function updateDocumentInfo() {
+    const doc = getSelectedDocument();
+
+    if (!doc) {
+      $("documentInfo").textContent = "Select an uploaded document.";
+      $("documentTypeInfo").value = "Select a document first";
+      $("documentSubjectInfo").value = "Not specified";
+      $("welcomeText").textContent =
+        "Select your document and start learning.";
+      return;
+    }
+
+    const details = [];
+
+    if (doc.subject) details.push(`Subject: ${doc.subject}`);
+    if (doc.class_level) details.push(`Class: ${doc.class_level}`);
+
+    if (doc.uploaded_at) {
+      details.push(
+        `Uploaded: ${new Date(doc.uploaded_at).toLocaleDateString()}`
+      );
+    }
+
+    $("documentInfo").textContent =
+      details.join(" · ") || "Document selected and ready to study.";
+
+    const type = getDocumentType(doc);
+
+    $("documentTypeInfo").value = type === "textbook"
+      ? "Textbook / Study Book"
+      : "General PDF / Document";
+
+    $("documentSubjectInfo").value = doc.subject || "Not specified";
+
+    $("welcomeText").textContent =
+      `Currently studying: ${doc.title || doc.name || "Selected document"}`;
+  }
+
+  function updateAvailableModes() {
+    const doc = getSelectedDocument();
+    const isTextbook = doc && getDocumentType(doc) === "textbook";
+
+    $("modeGrid").querySelector('[data-mode="lesson"]').hidden = !isTextbook;
+    $("modeGrid").querySelector('[data-mode="notes"]').hidden = !isTextbook;
+    $("modeGrid").querySelector('[data-mode="summary"]').hidden = isTextbook;
+    $("modeGrid").querySelector('[data-mode="keypoints"]').hidden = isTextbook;
+
+    if (!doc) {
+      $("typeNoticeTitle").textContent = "Choose a document to begin";
+      $("typeNoticeText").textContent =
+        "Textbooks and general documents can use different study modes.";
+      return;
+    }
+
+    if (isTextbook) {
+      $("typeNoticeTitle").textContent = "Textbook / Study Book selected";
+      $("typeNoticeText").textContent =
+        "Use Page-wise, Topic-wise, Lesson-wise or Study Notes for chapter-based learning.";
+
+      if (!["page", "topic", "lesson", "notes"].includes(activeMode)) {
+        setMode("page");
+      }
+    } else {
+      $("typeNoticeTitle").textContent = "General PDF / Document selected";
+      $("typeNoticeText").textContent =
+        "Use Page-wise, Topic-wise, Document Summary or Key Points for notifications and general documents.";
+
+      if (!["page", "topic", "summary", "keypoints"].includes(activeMode)) {
+        setMode("page");
+      }
+    }
+  }
+
+  /* Study mode UI */
+
+  function setMode(mode) {
+    const doc = getSelectedDocument();
+    const isTextbook = doc && getDocumentType(doc) === "textbook";
+
+    if (!modeConfig[mode]) return;
+
+    if (doc) {
+      if (isTextbook && ["summary", "keypoints"].includes(mode)) {
+        showStatus(
+          contentStatus,
+          "Choose a textbook study mode: Page-wise, Topic-wise, Lesson-wise or Study Notes.",
+          "info"
+        );
+        return;
+      }
+
+      if (!isTextbook && ["lesson", "notes"].includes(mode)) {
+        showStatus(
+          contentStatus,
+          "For general documents, choose Page-wise, Topic-wise, Document Summary or Key Points.",
+          "info"
+        );
+        return;
+      }
+    }
+
+    activeMode = mode;
+    const config = modeConfig[mode];
+
+    document.querySelectorAll(".mode-card").forEach(button => {
+      button.classList.toggle("active", button.dataset.mode === mode);
+    });
+
+    $("pageField").hidden = !config.pageVisible;
+    $("batchField").hidden = !config.batchVisible;
+    $("topicField").hidden = !config.topicVisible;
+    $("lessonField").hidden = !config.lessonVisible;
+    $("instructionsField").hidden = !config.instructionsVisible;
+
+    $("modeBadge").textContent = config.label;
+    $("generateBtn").textContent = `✦ Generate ${config.label}`;
+    $("modeDescription").textContent =
+      `Selected mode: ${config.label}. Output language: ${languageSelect.value}.`;
+
+    const placeholders = {
+      topic: "Example: Photosynthesis",
+      lesson: "Enter the exact lesson title",
+      notes: "Explain simply and include important exam points.",
+      summary: "Summarise the document clearly and organise the main ideas.",
+      keypoints: "List important facts, dates, names and key points."
+    };
+
+    if (mode === "topic") {
+      $("topicInput").placeholder = placeholders.topic;
+    }
+
+    if (mode === "lesson") {
+      $("lessonInput").placeholder = placeholders.lesson;
+    }
+
+    if (["notes", "summary", "keypoints"].includes(mode)) {
+      $("customInstructions").placeholder = placeholders[mode];
+    }
+
+    resetResult();
+    hideStatus(contentStatus);
+    hideStatus(saveStatus);
+  }
+
+  document.querySelectorAll(".mode-card").forEach(button => {
+    button.addEventListener("click", () => setMode(button.dataset.mode));
+  });
+
+  /* Result display */
+
+  function showEmptyResult() {
+    resultContent.innerHTML = `
+      <div class="empty-state">
+        <div>
+          <div class="big">✧</div>
+          <strong>Your learning space is ready</strong>
+          <p>Select a document, choose a study mode and generate your first notes.</p>
+        </div>
+      </div>`;
+  }
+
+  function resetResult() {
+    if (currentRequestController) {
+      currentRequestController.abort();
+      currentRequestController = null;
+    }
+
+    lastGeneratedText = "";
+    lastGeneratedData = null;
+    currentSavedAnalysisId = null;
+    nextPageOffset = null;
+    hasNextBatch = false;
+
+    showEmptyResult();
+    resultMeta.innerHTML = "";
+
+    $("copyBtn").disabled = true;
+    $("downloadBtn").disabled = true;
+    $("saveNoteBtn").disabled = true;
+    $("nextBatchBtn").hidden = true;
+    $("progressTrack").hidden = true;
+    $("progressBar").style.width = "0%";
+
+    hideStatus(saveStatus);
+  }
+
+  function addMetaTag(text) {
+    if (!text) return;
+
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.textContent = text;
+
+    resultMeta.appendChild(span);
+  }
+
+  function displayGeneratedContent(data, append = false) {
+    const text = getResponseText(data);
+
+    if (!String(text).trim()) {
+      throw new Error(
+        "The API returned an empty response. Check the backend analysis endpoint."
+      );
+    }
+
+    lastGeneratedText = append && lastGeneratedText
+      ? `${lastGeneratedText}\n\n${text}`
+      : text;
+
+    lastGeneratedData = data;
+    resultContent.textContent = lastGeneratedText;
+
+    $("copyBtn").disabled = false;
+    $("downloadBtn").disabled = false;
+    $("saveNoteBtn").disabled = false;
+
+    if (!append) resultMeta.innerHTML = "";
+
+    addMetaTag(modeConfig[activeMode].label);
+    addMetaTag(languageSelect.options[languageSelect.selectedIndex].text);
+
+    if (data.page_number) addMetaTag(`Page ${data.page_number}`);
+
+    if (data.page_start && data.page_end) {
+      addMetaTag(`Pages ${data.page_start}–${data.page_end}`);
+    }
+
+    if (data.total_pages) addMetaTag(`${data.total_pages} total pages`);
+
+    if (data.saved_analysis_id) {
+      currentSavedAnalysisId = data.saved_analysis_id;
+    }
+
+    hasNextBatch = Boolean(data.has_next);
+    nextPageOffset = data.next_page_offset ?? null;
+
+    $("nextBatchBtn").hidden =
+      !(activeMode === "notes" && hasNextBatch);
+
+    resultContent.scrollTop = 0;
+  }
+
+  /* Restore saved page-wise analysis after refresh */
+
+  async function restorePageAnalysis() {
+    const documentId = selectedDocumentId();
+    if (!documentId) return;
+
+    const pageNumber = Number($("pageNumber").value);
+    if (!Number.isInteger(pageNumber) || pageNumber < 1) return;
+
+    try {
+      const data = await apiRequest("/documents/analyses/");
+
+      const analyses = Array.isArray(data)
+        ? data
+        : (data.results || data.analyses || data.data || []);
+
+      const matchingAnalysis = analyses
+        .filter(item =>
+          String(item.document) === String(documentId) &&
+          item.analysis_type === "page_notes" &&
+          new RegExp(`^Page ${pageNumber} Notes -`).test(item.title || "")
+        )
+        .sort((a, b) =>
+          new Date(b.updated_at || b.created_at || 0) -
+          new Date(a.updated_at || a.created_at || 0)
+        )[0];
+
+      if (!matchingAnalysis) return;
+
+      const content = matchingAnalysis.notes || matchingAnalysis.summary || "";
+      if (!content.trim()) return;
+
+      displayGeneratedContent({
+        document_id: matchingAnalysis.document,
+        document_title: matchingAnalysis.document_title,
+        content,
+        page_number: pageNumber,
+        saved_analysis_id: matchingAnalysis.id
+      });
+
+      showStatus(contentStatus, "✓ Restored saved page analysis.", "success");
+
+    } catch (error) {
+      console.warn(
+        "Saved page analysis could not be restored:",
+        error.message
+      );
+    }
+  }
+
+  /* Generate study content */
+
+  async function generateContent(options = {}) {
+    const { nextBatch = false } = options;
+
+    if (!selectedDocumentId()) {
+      showStatus(contentStatus, "Please select an uploaded document first.", "error");
+      return;
+    }
+
+    const documentId = Number(selectedDocumentId());
+    const language = languageSelect.value;
+    const customInstructions = $("customInstructions").value.trim();
+
+    hideStatus(contentStatus);
+
+    const button = $("generateBtn");
+    const originalLabel = button.textContent;
+
+    setBusy(button, true, "Generating…", originalLabel);
+
+    $("progressTrack").hidden = false;
+    $("progressBar").style.width = "25%";
+
+    currentRequestController = new AbortController();
+
+    try {
+      let data;
+
+      if (activeMode === "page" || activeMode === "notes") {
+        const payload = {
+          document_id: documentId,
+          language,
+          content_type: "notes"
+        };
+
+        if (activeMode === "page") {
+          const pageNumber = Number($("pageNumber").value);
+
+          if (!Number.isInteger(pageNumber) || pageNumber < 1) {
+            throw new Error("Enter a valid PDF page number greater than zero.");
+          }
+
+          payload.page_number = pageNumber;
+
+        } else {
+          payload.page_offset = nextBatch && nextPageOffset !== null
+            ? nextPageOffset
+            : 0;
+
+          if (customInstructions) payload.instructions = customInstructions;
+        }
+
+        data = await apiRequest("/learning/study-content/", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          signal: currentRequestController.signal
+        });
+
+      } else if (activeMode === "topic") {
+        const topic = $("topicInput").value.trim();
+
+        if (!topic) throw new Error("Enter a topic name first.");
+
+        const question = [
+          `Analyse the topic "${topic}" using the selected document.`,
+          "Use relevant content from the document and mention page references when available.",
+          "Explain clearly in the requested language.",
+          "Include a definition, key concepts, examples, important points and a short revision summary.",
+          customInstructions ? `Additional instructions: ${customInstructions}` : ""
+        ].filter(Boolean).join("\n");
+
+        data = await apiRequest("/learning/ask/", {
+          method: "POST",
+          body: JSON.stringify({ document_id: documentId, question, language }),
+          signal: currentRequestController.signal
+        });
+
+      } else if (activeMode === "lesson") {
+        const lessonTitle = $("lessonInput").value.trim();
+
+        if (!lessonTitle) {
+          throw new Error("Enter the lesson or chapter title first.");
+        }
+
+        data = await apiRequest("/learning/lesson-summary/", {
+          method: "POST",
+          body: JSON.stringify({
+            document_id: documentId,
+            lesson_title: lessonTitle,
+            language,
+            instructions: customInstructions
+          }),
+          signal: currentRequestController.signal
+        });
+
+      } else if (activeMode === "summary" || activeMode === "keypoints") {
+        const isSummary = activeMode === "summary";
+
+        const question = isSummary
+          ? [
+              `Create a clear document summary of "${getSelectedDocumentTitle()}".`,
+              "Use the selected document as the source.",
+              "Explain the purpose, main sections, central ideas and conclusion.",
+              "Organise the response with headings and concise paragraphs.",
+              "Mention page references when the available source data supports them.",
+              "Do not invent information that is not present in the document.",
+              `Write the answer in ${language === "Both" ? "Tamil and English" : language}.`,
+              customInstructions ? `Additional instructions: ${customInstructions}` : ""
+            ].filter(Boolean).join("\n")
+          : [
+              `Extract the key points from "${getSelectedDocumentTitle()}".`,
+              "Use the selected document as the source.",
+              "Organise important facts, dates, names, definitions, requirements and action items into clear bullet points when present.",
+              "Do not invent details or present unsupported claims as facts.",
+              "Mention page references when the available source data supports them.",
+              `Write the answer in ${language === "Both" ? "Tamil and English" : language}.`,
+              customInstructions ? `Additional instructions: ${customInstructions}` : ""
+            ].filter(Boolean).join("\n");
+
+        data = await apiRequest("/learning/ask/", {
+          method: "POST",
+          body: JSON.stringify({ document_id: documentId, question, language }),
+          signal: currentRequestController.signal
+        });
+      }
+
+      $("progressBar").style.width = "85%";
+      displayGeneratedContent(data, nextBatch);
+
+      if (!nextBatch) {
+        try {
+          await autoSaveToMyLibrary();
+
+          showStatus(saveStatus, "✓ Generated content saved successfully.", "success");
+
+        } catch (saveError) {
+          console.error("Auto-save failed:", saveError);
+
+          showStatus(
+            saveStatus,
+            `Content generated, but saving failed: ${saveError.message}`,
+            "error"
+          );
+        }
+      }
+
+      $("progressBar").style.width = "100%";
+
+      const userId = localStorage.getItem("user_id");
+
+      if (userId && !nextBatch) {
+        const key = `notes_created_count_${userId}`;
+        const currentCount = Number(localStorage.getItem(key) || 0);
+        localStorage.setItem(key, currentCount + 1);
+      }
+
+      showStatus(
+        contentStatus,
+        nextBatch
+          ? "✓ Next batch generated. Review it before continuing."
+          : "✓ Study content generated successfully.",
+        "success"
+      );
+
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      showStatus(contentStatus, error.message, "error");
+
+    } finally {
+      currentRequestController = null;
+      setBusy(button, false, "Generating…", originalLabel);
+
+      window.setTimeout(() => {
+        $("progressTrack").hidden = true;
+        $("progressBar").style.width = "0%";
+      }, 700);
+    }
+  }
+
+  $("generateBtn").addEventListener("click", event => {
+    event.preventDefault();
+    generateContent();
+  });
+
+  $("nextBatchBtn").addEventListener("click", event => {
+    event.preventDefault();
+    generateContent({ nextBatch: true });
+  });
+
+  $("resetBtn").addEventListener("click", () => {
+    resetResult();
+    hideStatus(contentStatus);
+
+    $("chatQuestion").value = "";
+    $("topicInput").value = "";
+    $("lessonInput").value = "";
+    $("customInstructions").value = "";
+    $("pageNumber").value = "1";
+
+    showStatus(contentStatus, "Workspace cleared.", "info");
+  });
+
+  /* Copy and download */
+
+  $("copyBtn").addEventListener("click", async () => {
+    if (!lastGeneratedText.trim()) return;
+
+    try {
+      await navigator.clipboard.writeText(lastGeneratedText);
+      showStatus(saveStatus, "✓ Content copied to clipboard.", "success");
+
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = lastGeneratedText;
+
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      const copied = document.execCommand("copy");
+      textarea.remove();
+
+      showStatus(
+        saveStatus,
+        copied ? "✓ Content copied." : "Could not copy automatically.",
+        copied ? "success" : "error"
+      );
+    }
+  });
+
+  $("downloadBtn").addEventListener("click", () => {
+    if (!lastGeneratedText.trim()) return;
+
+    const blob = new Blob([lastGeneratedText], {
+      type: "text/plain;charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    const safeTitle = getSelectedDocumentTitle()
+      .replace(/[<>:"/\\|?*]+/g, "_")
+      .slice(0, 80);
+
+    link.href = url;
+    link.download = `${safeTitle || "study-notes"}-${activeMode}.txt`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+  });
+
+  /* Save note */
+
+  async function saveCurrentNote() {
+    if (!lastGeneratedText.trim()) {
+      showStatus(saveStatus, "Generate content before saving.", "error");
+      return;
+    }
+
+    const documentId = selectedDocumentId();
+
+    if (!documentId) {
+      showStatus(saveStatus, "Please select a document.", "error");
+      return;
+    }
+
+    const pageNumber = Number($("pageNumber").value);
+
+    const topic = activeMode === "topic"
+      ? $("topicInput").value.trim()
+      : activeMode === "lesson"
+        ? $("lessonInput").value.trim()
+        : "";
+
+    const typeLabels = {
+      page: "Page Notes",
+      topic: "Topic Notes",
+      lesson: "Lesson Notes",
+      notes: "Study Notes",
+      summary: "Document Summary",
+      keypoints: "Key Points"
+    };
+
+    let title =
+      `${getSelectedDocumentTitle()} - ${typeLabels[activeMode]}`;
+
+    if (activeMode === "page" && Number.isInteger(pageNumber) && pageNumber > 0) {
+      title = `${getSelectedDocumentTitle()} - Page ${pageNumber} Notes`;
+    } else if (activeMode === "topic" && topic) {
+      title = `${getSelectedDocumentTitle()} - Topic: ${topic}`;
+    } else if (activeMode === "lesson" && topic) {
+      title = `${getSelectedDocumentTitle()} - Lesson: ${topic}`;
+    }
+
+    const payload = {
+      document_id: Number(documentId),
+      title,
+      note_type: activeMode,
+      content: lastGeneratedText,
+      topic,
+      language: languageSelect.value
+    };
+
+    if (activeMode === "page" && Number.isInteger(pageNumber) && pageNumber > 0) {
+      payload.page_number = pageNumber;
+    }
+
+    const button = $("saveNoteBtn");
+    const originalLabel = button.textContent;
+
+    setBusy(button, true, "Saving…", originalLabel);
+    showStatus(saveStatus, "Saving note to your account…", "info");
+
+    try {
+      const data = await apiRequest("/documents/saved-notes/", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+
+      showStatus(
+        saveStatus,
+        `✓ Saved successfully: ${data.title || title}`,
+        "success"
+      );
+
+    } catch (error) {
+      showStatus(saveStatus, error.message, "error");
+
+    } finally {
+      setBusy(button, false, "Saving…", originalLabel);
+    }
+  }
+
+  $("saveNoteBtn").addEventListener("click", saveCurrentNote);
+
+  /* Automatically save generated content */
+
+  async function autoSaveToMyLibrary() {
+    if (!lastGeneratedText.trim()) {
+      throw new Error("No generated content available to save.");
+    }
+
+    const documentId = selectedDocumentId();
+
+    if (!documentId) throw new Error("Please select a document.");
+
+    const pageNumber = Number($("pageNumber").value);
+
+    const topic = activeMode === "topic"
+      ? $("topicInput").value.trim()
+      : activeMode === "lesson"
+        ? $("lessonInput").value.trim()
+        : "";
+
+    const noteTypeMap = {
+      page: "page",
+      notes: "study",
+      topic: "topic",
+      lesson: "lesson",
+      summary: "study",
+      keypoints: "study"
+    };
+
+    const typeLabels = {
+      page: "Page Notes",
+      notes: "Study Notes",
+      topic: "Topic Notes",
+      lesson: "Lesson Notes",
+      summary: "Document Summary",
+      keypoints: "Key Points"
+    };
+
+    let title =
+      `${getSelectedDocumentTitle()} - ${typeLabels[activeMode] || "Study Notes"}`;
+
+    if (activeMode === "page" && Number.isInteger(pageNumber) && pageNumber > 0) {
+      title = `${getSelectedDocumentTitle()} - Page ${pageNumber} Notes`;
+    } else if (activeMode === "topic" && topic) {
+      title = `${getSelectedDocumentTitle()} - Topic: ${topic}`;
+    } else if (activeMode === "lesson" && topic) {
+      title = `${getSelectedDocumentTitle()} - Lesson: ${topic}`;
+    }
+
+    const payload = {
+      document_id: Number(documentId),
+      title,
+      note_type: noteTypeMap[activeMode] || "study",
+      content: lastGeneratedText,
+      topic,
+      language: languageSelect.value
+    };
+
+    if (activeMode === "page" && Number.isInteger(pageNumber) && pageNumber > 0) {
+      payload.page_number = pageNumber;
+    }
+
+    return await apiRequest("/documents/saved-notes/", {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  }
+  
+
+
+  
+function updateAIChatRedirect(data) {
+  const chatHistory = document.getElementById("chatHistory");
+  const redirectBox = document.getElementById("aiChatRedirect");
+  const redirectMessage = document.getElementById("aiChatRedirectMessage");
+
+  if (!chatHistory || !redirectBox || !redirectMessage) return;
+
+  if (data && data.suggest_ai_study_chat === true) {
+    redirectMessage.textContent = data.answer ||
+      "For general study help, continue in AI Study Chat.";
+
+    redirectBox.hidden = false;
+
+    // Redirect box-ai chat history-oda kadaisikku move pannum
+    // so it appears below the latest question.
+    chatHistory.appendChild(redirectBox);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  } else {
+    redirectBox.hidden = true;
+  }
+}
+
+  
+  /* Ask AI Teacher */
+
+  function addChatMessage(text, role = "ai") {
+    const message = document.createElement("div");
+    message.className = `chat-message ${role}`;
+    message.textContent = text;
+
+    $("chatHistory").appendChild(message);
+    $("chatHistory").scrollTop = $("chatHistory").scrollHeight;
+  }
+
+  async function askAI(event) {
+    event.preventDefault();
+
+    const question = $("chatQuestion").value.trim();
+
+    if (!question) {
+      showStatus(chatStatus, "Enter your question first.", "error");
+      return;
+    }
+
+    if (question.length > 1000) {
+      showStatus(chatStatus, "Please keep your question under 1000 characters.", "error");
+      return;
+    }
+
+    if (!selectedDocumentId()) {
+      showStatus(chatStatus, "Select a document before asking a question.", "error");
+      return;
+    }
+
+    addChatMessage(question, "user");
+    $("chatQuestion").value = "";
+
+    const button = $("askBtn");
+    const originalLabel = button.textContent;
+
+    setBusy(button, true, "Thinking…", originalLabel);
+    showStatus(chatStatus, "AI Teacher is preparing your answer…", "info");
+
+    try {
+      const data = await apiRequest("/learning/ask/", {
+        method: "POST",
+        body: JSON.stringify({
+          document_id: Number(selectedDocumentId()),
+          question,
+          language: languageSelect.value
+        })
+      });
+      updateAIChatRedirect(data);
+      
+const answer = getResponseText(data);
+
+if (!String(answer).trim()) {
+  throw new Error("The AI endpoint returned an empty answer.");
+}
+
+
+
+
+if (
+  data.suggest_ai_study_chat === true ||
+  data.message_type === "pdf_content_not_found"
+) {
+  updateAIChatRedirect(data);
+  showStatus(chatStatus, "PDF information not found.", "info");
+  return;
+}
+
+updateAIChatRedirect(null);
+addChatMessage(answer, "ai");
+
+
+      
+
+      if (Array.isArray(data.sources) && data.sources.length) {
+        const sourceText = data.sources.map(source => {
+          const page = source.page_number
+            ? `Page ${source.page_number}`
+            : "Source";
+
+          return `• ${page}`;
+        }).join("\n");
+
+        addChatMessage(`References:\n${sourceText}`, "ai");
+      }
+
+      showStatus(chatStatus, "✓ Answer received.", "success");
+
+    } catch (error) {
+      showStatus(chatStatus, error.message, "error");
+      addChatMessage(
+        `I couldn't answer that right now. ${error.message}`,
+        "ai"
+      );
+
+    } finally {
+      setBusy(button, false, "Thinking…", originalLabel);
+    }
+  }
+  
+$("goToAIStudyChat")?.addEventListener("click", () => {
+  window.location.href = "aistudychat.html";
+});
+
+
+  $("chatForm").addEventListener("submit", askAI);
+
+  /* Document changes */
+
+  documentSelect.addEventListener("change", () => {
+    updateDocumentInfo();
+    updateAvailableModes();
+    resetResult();
+
+    $("chatHistory").innerHTML = "";
+
+    addChatMessage(
+      "Document changed. Ask a new question about the selected material.",
+      "ai"
+    );
+
+    hideStatus(contentStatus);
+    hideStatus(chatStatus);
+  });
+
+  languageSelect.addEventListener("change", () => {
+    $("modeDescription").textContent =
+      `Selected mode: ${modeConfig[activeMode].label}. Output language: ${languageSelect.value}.`;
+  });
+
+  $("refreshDocumentsBtn").addEventListener("click", loadDocuments);
+
+  /*
+    Logout is intentionally not handled here.
+    The common sidebar should handle its own Logout button.
+    This avoids an error when logoutBtn is not in this page's HTML.
+  */
+
+  /* Initialise page */
+
+  async function initialise() {
+    if (!accessToken()) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const profile = await apiRequest("/auth/profile/");
+      const firstName = profile.first_name || profile.username || "";
+
+      if (firstName) {
+        $("welcomeText").textContent =
+          `Welcome, ${firstName}! Select your document and start learning.`;
+      }
+
+    } catch (error) {
+      console.warn("Profile could not be loaded:", error.message);
+    }
+
+    await loadDocuments();
+
+    if (selectedDocumentId() && activeMode === "page") {
+      await restorePageAnalysis();
+    }
+  }
+
+  initialise();
+  </script>
+
+  <script src="assets/js/study-time-tracker.js"></script>
+</body>
+</html>
