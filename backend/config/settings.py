@@ -20,7 +20,10 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR.parent / "frontend"
-FRONTEND_BASE_URL = "http://127.0.0.1:8000"
+FRONTEND_BASE_URL = os.getenv(
+    "FRONTEND_BASE_URL",
+    "https://smartstudy-1-pio5.onrender.com"
+)
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -39,7 +42,7 @@ ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
         "DJANGO_ALLOWED_HOSTS",
-        "localhost,127.0.0.1,testserver"
+        "localhost,127.0.0.1,testserver,smartstudy-fa86.onrender.com"
     ).split(",")
     if host.strip()
 ]
@@ -197,6 +200,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5500",
     "http://localhost:5500",
+    "https://smartstudy-1-pio5.onrender.com",
 ]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
