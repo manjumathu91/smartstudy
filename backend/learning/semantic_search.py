@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from django.conf import settings
 from qdrant_client import QdrantClient, models as qdrant_models
-from sentence_transformers import SentenceTransformer
+
 
 from documents.models import Document, DocumentPage
 
@@ -11,8 +11,11 @@ COLLECTION_NAME = "pdf_pages"
 VECTOR_SIZE = 384
 
 
+
 @lru_cache(maxsize=1)
 def get_embedding_model():
+    from sentence_transformers import SentenceTransformer
+
     return SentenceTransformer(
         "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     )
