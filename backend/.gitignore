@@ -23,6 +23,9 @@ backend/venv/
 *.sqlite3-*
 *.sqlite3.backup
 
+# Collected static files
+backend/staticfiles/
+
 # Uploaded documents
 backend/media/
 
