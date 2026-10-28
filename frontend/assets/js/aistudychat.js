@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // =====================================================
     // 1. DOM ELEMENTS
     // =====================================================
-    const API_BASE_URL = "/api/learning/";
+    const API_BASE_URL = "https://smartstudy-fa86.onrender.com/api/learning/";
     const chatForm = document.getElementById("chatForm");
     const questionInput = document.getElementById("questionInput");
     const sendBtn = document.getElementById("sendBtn");

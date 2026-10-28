@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", async function () {
-    const API_BASE_URL = "http://127.0.0.1:8000/api";
+    const API_BASE_URL = "https://smartstudy-fa86.onrender.com/api";
     const mount = document.getElementById("sidebarMount");
 
     if (!mount) {

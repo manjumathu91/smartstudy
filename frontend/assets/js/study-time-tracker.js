@@ -1,7 +1,7 @@
 (() => {
     "use strict";
 
-    const API_BASE = "http://127.0.0.1:8000/api";
+    const API_BASE = "https://smartstudy-fa86.onrender.com/api";
     const token = localStorage.getItem("access_token");
     const userId = localStorage.getItem("user_id");
 
